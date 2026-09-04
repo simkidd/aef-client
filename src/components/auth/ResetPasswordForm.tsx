@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Lock,
   KeyRound,
@@ -14,38 +14,38 @@ import {
   Mail,
   ArrowLeft,
   Loader2,
-} from 'lucide-react';
-import { useMutation } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+} from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Field,
   FieldLabel,
   FieldDescription,
   FieldGroup,
   FieldSet,
-} from '@/components/ui/field';
-import { authApi } from '@/lib/api/auth.api';
-import { toast } from '@/components/ui/toast';
+} from "@/components/ui/field";
+import { authApi } from "@/lib/api/auth.api";
+import { toast } from "@/components/ui/toast";
 
 // Co-located Form Schema
 export const resetPasswordSchema = z
   .object({
-    email: z.string().email('Please enter a valid email address'),
-    otp: z.string().length(6, 'OTP must be exactly 6 digits'),
-    newPassword: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z.string().min(6, 'Confirm password is required'),
+    email: z.string().email("Please enter a valid email address"),
+    otp: z.string().length(6, "OTP must be exactly 6 digits"),
+    newPassword: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(6, "Confirm password is required"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
   });
 
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const initialEmail = searchParams.get('email') || '';
+  const initialEmail = searchParams.get("email") || "";
 
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -58,15 +58,15 @@ export function ResetPasswordForm() {
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       email: initialEmail,
-      otp: '',
-      newPassword: '',
-      confirmPassword: '',
+      otp: "",
+      newPassword: "",
+      confirmPassword: "",
     },
   });
 
   useEffect(() => {
     if (initialEmail) {
-      setValue('email', initialEmail, { shouldValidate: true });
+      setValue("email", initialEmail, { shouldValidate: true });
     }
   }, [initialEmail, setValue]);
 
@@ -76,7 +76,7 @@ export function ResetPasswordForm() {
       await authApi.verifyOtp({
         email: data.email,
         otp: data.otp.trim(),
-        purpose: 'PASSWORD_RESET',
+        purpose: "PASSWORD_RESET",
       });
 
       // Update password
@@ -93,22 +93,23 @@ export function ResetPasswordForm() {
       const msg =
         res.data?.message ||
         res.message ||
-        'Password successfully updated. You can now log in.';
+        "Password successfully updated. You can now log in.";
       setSuccess(msg);
       toast.add({
-        title: 'Password updated',
-        description: 'Your password has been successfully reset. You can now log in.',
-        type: 'success',
+        title: "Password updated",
+        description:
+          "Your password has been successfully reset. You can now log in.",
+        type: "success",
       });
     },
     onError: (err: any) => {
       toast.add({
-        title: 'Reset failed',
+        title: "Reset failed",
         description:
           err.response?.data?.message ||
           err.message ||
-          'Password reset failed. Please check your verification code.',
-        type: 'error',
+          "Password reset failed. Please check your verification code.",
+        type: "error",
       });
     },
   });
@@ -136,9 +137,12 @@ export function ResetPasswordForm() {
             <CheckCircle2 className="h-5 w-5" />
           </div>
           <div className="space-y-1">
-            <p className="text-sm font-semibold text-foreground font-heading">Password Reset Complete</p>
+            <p className="text-sm font-semibold text-foreground font-heading">
+              Password Reset Complete
+            </p>
             <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed">
-              Your password has been updated. You can now sign in with your new credentials.
+              Your password has been updated. You can now sign in with your new
+              credentials.
             </p>
           </div>
           <div className="pt-1">
@@ -152,11 +156,13 @@ export function ResetPasswordForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
-
           <FieldSet>
-            <FieldGroup className="space-y-2.5">
+            <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email" className="text-xs font-semibold text-foreground">
+                <FieldLabel
+                  htmlFor="email"
+                  className="text-xs font-semibold text-foreground"
+                >
                   Email Address
                 </FieldLabel>
                 <div className="relative w-full mt-1">
@@ -166,14 +172,21 @@ export function ResetPasswordForm() {
                     type="email"
                     placeholder="name@adelefoundation.org"
                     className="pl-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
-                    {...register('email')}
+                    {...register("email")}
                   />
                 </div>
-                {errors.email && <p className="text-[10px] text-destructive mt-0.5 font-medium">{errors.email.message}</p>}
+                {errors.email && (
+                  <p className="text-[10px] text-destructive mt-0.5 font-medium">
+                    {errors.email.message}
+                  </p>
+                )}
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="otp" className="text-xs font-semibold text-foreground">
+                <FieldLabel
+                  htmlFor="otp"
+                  className="text-xs font-semibold text-foreground"
+                >
                   6-Digit Verification Code
                 </FieldLabel>
                 <div className="relative w-full mt-1">
@@ -184,11 +197,13 @@ export function ResetPasswordForm() {
                     placeholder="123456"
                     className="pl-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm tracking-widest font-mono text-base focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
                     maxLength={6}
-                    {...register('otp')}
+                    {...register("otp")}
                   />
                 </div>
                 {errors.otp ? (
-                  <p className="text-[10px] text-destructive mt-0.5 font-medium">{errors.otp.message}</p>
+                  <p className="text-[10px] text-destructive mt-0.5 font-medium">
+                    {errors.otp.message}
+                  </p>
                 ) : (
                   <FieldDescription className="text-muted-foreground text-[10px] mt-0.5">
                     Valid for 10 minutes
@@ -198,7 +213,10 @@ export function ResetPasswordForm() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <Field>
-                  <FieldLabel htmlFor="newPassword" className="text-xs font-semibold text-foreground">
+                  <FieldLabel
+                    htmlFor="newPassword"
+                    className="text-xs font-semibold text-foreground"
+                  >
                     New Password
                   </FieldLabel>
                   <div className="relative w-full mt-1">
@@ -208,16 +226,21 @@ export function ResetPasswordForm() {
                       type="password"
                       placeholder="••••••••"
                       className="pl-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
-                      {...register('newPassword')}
+                      {...register("newPassword")}
                     />
                   </div>
                   {errors.newPassword && (
-                    <p className="text-[10px] text-destructive mt-0.5 font-medium">{errors.newPassword.message}</p>
+                    <p className="text-[10px] text-destructive mt-0.5 font-medium">
+                      {errors.newPassword.message}
+                    </p>
                   )}
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="confirmPassword" className="text-xs font-semibold text-foreground">
+                  <FieldLabel
+                    htmlFor="confirmPassword"
+                    className="text-xs font-semibold text-foreground"
+                  >
                     Confirm Password
                   </FieldLabel>
                   <div className="relative w-full mt-1">
@@ -227,11 +250,13 @@ export function ResetPasswordForm() {
                       type="password"
                       placeholder="••••••••"
                       className="pl-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
-                      {...register('confirmPassword')}
+                      {...register("confirmPassword")}
                     />
                   </div>
                   {errors.confirmPassword && (
-                    <p className="text-[10px] text-destructive mt-0.5 font-medium">{errors.confirmPassword.message}</p>
+                    <p className="text-[10px] text-destructive mt-0.5 font-medium">
+                      {errors.confirmPassword.message}
+                    </p>
                   )}
                 </Field>
               </div>

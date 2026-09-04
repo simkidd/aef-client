@@ -7,8 +7,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Sign In — Adele Empowerment Foundation",
-  description:
-    "Sign in to Adele Empowerment Foundation.",
+  description: "Sign in to Adele Empowerment Foundation.",
 };
 
 export default function AuthLayout({
@@ -19,7 +18,7 @@ export default function AuthLayout({
   return (
     <div className="h-screen w-full flex flex-col lg:flex-row bg-slate-50/70 dark:bg-slate-950 text-foreground selection:bg-emerald-600/20 selection:text-emerald-800 dark:selection:text-emerald-300 overflow-x-hidden overflow-y-auto lg:overflow-hidden">
       {/* 1. Left Editorial Mission & Community Showcase Carousel (Desktop) */}
-      <div className="hidden lg:flex lg:w-1/2 xl:w-5/12 h-full relative bg-slate-950 text-white overflow-hidden border-r border-border shrink-0">
+      <div className="hidden lg:flex lg:w-1/2 xl:w-6/12 h-full relative bg-slate-950 text-white overflow-hidden border-r border-border shrink-0">
         <AuthCarousel />
       </div>
 
@@ -28,7 +27,11 @@ export default function AuthLayout({
         {/* Top Control Bar: Mobile Branding + Theme Toggle */}
         <div className="w-full flex items-center justify-between lg:justify-end mb-4">
           <div className="lg:hidden flex items-center gap-2">
-            <Link href="/" title="Return to Foundation Home" className="inline-flex items-center gap-2 group">
+            <Link
+              href="/"
+              title="Return to Foundation Home"
+              className="inline-flex items-center gap-2 group"
+            >
               <Logo className="h-9 w-auto group-hover:scale-105 transition-transform" />
             </Link>
             <div className="text-left">

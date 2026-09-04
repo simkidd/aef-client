@@ -116,7 +116,7 @@ export function AuthCarousel() {
       ))}
 
       {/* 2. Editorial Gradient Overlays for Readability & Blended Depth */}
-      <div className="absolute inset-0 z-1 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/35 pointer-events-none" />
+      <div className="absolute inset-0 z-1 bg-linear-to-t from-slate-950 via-slate-950/70 to-slate-950/35 pointer-events-none" />
       <div className="absolute inset-0 z-1 bg-[#064E3B]/40 mix-blend-multiply pointer-events-none" />
       <div className="absolute -top-32 -left-32 z-1 w-96 h-96 rounded-full bg-emerald-500/20 blur-[130px] pointer-events-none" />
 
@@ -149,7 +149,7 @@ export function AuthCarousel() {
       </div>
 
       {/* 4. Bottom Storytelling (Anchored at the bottom) */}
-      <div className="relative z-10 mt-auto pt-10 space-y-4 max-w-xl">
+      <div className="relative z-10 mt-auto pt-10 space-y-4 max-w-2xl">
         {/* Minimal High-Impact Headline (Only the headline animates on slide change) */}
         <div
           key={slide.id}
