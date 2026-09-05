@@ -118,7 +118,7 @@ export function AuthCarousel() {
       {/* 2. Editorial Gradient Overlays for Readability & Blended Depth */}
       <div className="absolute inset-0 z-1 bg-linear-to-t from-slate-950 via-slate-950/70 to-slate-950/35 pointer-events-none" />
       <div className="absolute inset-0 z-1 bg-[#064E3B]/40 mix-blend-multiply pointer-events-none" />
-      <div className="absolute -top-32 -left-32 z-1 w-96 h-96 rounded-full bg-emerald-500/20 blur-[130px] pointer-events-none" />
+      <div className="absolute -top-32 -left-32 z-1 w-96 h-96 rounded-full bg-primary/20 blur-[130px] pointer-events-none" />
 
       {/* 3. Top Foundation Identity */}
       <div className="relative z-10">
@@ -141,7 +141,7 @@ export function AuthCarousel() {
             <span className="text-sm font-extrabold tracking-tight text-white block drop-shadow-xs">
               ADELE EMPOWERMENT FOUNDATION
             </span>
-            <span className="text-[11px] font-medium text-emerald-300 tracking-wide block drop-shadow-xs">
+            <span className="text-[11px] font-medium text-primary tracking-wide block drop-shadow-xs">
               Skills Training & Community Development
             </span>
           </div>
@@ -161,7 +161,7 @@ export function AuthCarousel() {
         </div>
 
         {/* Subtle Track Indicator & Clickable Pagination (Stationary) */}
-        <div className="pt-2 border-t border-white/15 flex items-center justify-between text-[11px] font-medium text-emerald-300/80">
+        <div className="pt-2 border-t border-white/15 flex items-center justify-between text-[11px] font-medium text-primary/80">
           <span>{slide.tag}</span>
 
           {/* Clickable Pagination Indicators */}

@@ -11,17 +11,18 @@ interface MetricCardProps {
     value: string;
     isPositive?: boolean;
   };
-  color?: "teal" | "blue" | "amber" | "emerald" | "purple" | "slate";
+  color?: "primary" | "emerald" | "blue" | "amber" | "purple" | "slate";
   onClick?: () => void;
 }
 
-const colorMap = {
-  teal: "bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/50 dark:text-teal-300 dark:border-teal-800",
+const colorMap: Record<NonNullable<MetricCardProps["color"]>, string> = {
+  primary:
+    "bg-primary/10 text-primary border border-primary/20 dark:bg-primary/15 dark:border-primary/30",
+  emerald:
+    "bg-primary/10 text-primary border border-primary/20 dark:bg-primary/15 dark:border-primary/30",
   blue: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800",
   amber:
     "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800",
-  emerald:
-    "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800",
   purple:
     "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/50 dark:text-purple-300 dark:border-purple-800",
   slate:
@@ -34,7 +35,7 @@ export function MetricCard({
   subtitle,
   icon: Icon,
   trend,
-  color = "teal",
+  color = "primary",
   onClick,
 }: MetricCardProps) {
   return (
@@ -61,7 +62,7 @@ export function MetricCard({
             <span
               className={`text-xs font-semibold ${
                 trend.isPositive
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-primary dark:text-primary"
                   : "text-rose-600 dark:text-rose-400"
               }`}
             >

@@ -371,7 +371,7 @@ export function AddCentreModal({
             <Button
               type="submit"
               disabled={createCentreMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+              className="text-xs font-semibold gap-2"
             >
               {createCentreMutation.isPending ? (
                 <>

@@ -52,7 +52,7 @@ export function CohortsFilters({
   onReset,
 }: CohortsFiltersProps) {
   const hasActiveFilters = Boolean(
-    search || statusFilter || centreFilter || programFilter
+    search || statusFilter || centreFilter || programFilter,
   );
 
   const handleReset = () => {

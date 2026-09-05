@@ -58,7 +58,7 @@ export default function PublicVerifyCertificatePage() {
         {/* Back Link */}
         <Link
           href="/auth/login"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-teal-700"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-primary"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Adele Foundation Portal
@@ -94,7 +94,7 @@ export default function PublicVerifyCertificatePage() {
             </CardFooter>
           </Card>
         ) : (
-          <Card className="border-emerald-200 shadow-xl overflow-hidden">
+          <Card className="border-primary/20 shadow-xl overflow-hidden">
             {/* Header Banner */}
             <div className="bg-linear-to-r from-emerald-900 to-slate-900 text-white p-6 sm:p-8">
               <div className="flex items-center justify-between">
@@ -108,12 +108,12 @@ export default function PublicVerifyCertificatePage() {
                       className="h-8 w-8 object-contain"
                     />
                   </div>
-                  <div className="flex items-center gap-2 text-emerald-300 text-xs font-semibold uppercase tracking-wider">
-                    <ShieldCheck className="h-5 w-5 text-emerald-400" />
+                  <div className="flex items-center gap-2 text-primary text-xs font-semibold uppercase tracking-wider">
+                    <ShieldCheck className="h-5 w-5 text-primary" />
                     Official Verified Credential
                   </div>
                 </div>
-                <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-300 border border-emerald-500/30">
+                <span className="rounded-full bg-primary/20 px-3 py-1 text-xs font-bold text-primary border border-primary/20">
                   Status: {data.status}
                 </span>
               </div>
@@ -156,13 +156,13 @@ export default function PublicVerifyCertificatePage() {
                 </div>
                 <div className="p-3 rounded-lg border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900">
                   <span className="text-slate-500">Attendance Rate</span>
-                  <p className="font-bold text-emerald-700 mt-0.5">
+                  <p className="font-bold text-primary mt-0.5">
                     {data.overallAttendanceRate}%
                   </p>
                 </div>
                 <div className="p-3 rounded-lg border border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900">
                   <span className="text-slate-500">Assessment Grade</span>
-                  <p className="font-bold text-teal-700 mt-0.5">
+                  <p className="font-bold text-primary mt-0.5">
                     {data.grade || "Pass"}
                   </p>
                 </div>

@@ -57,7 +57,7 @@ export function SkillDetailsSheet({
             {/* Header */}
             <SheetHeader className="p-0 text-left border-b border-border pb-4">
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                   {skill.code}
                 </span>
                 <StatusBadge
@@ -77,7 +77,7 @@ export function SkillDetailsSheet({
             <div className="grid grid-cols-2 gap-3">
               <div className="p-3 rounded-lg border border-border bg-muted/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground block flex items-center gap-1">
-                  <Clock className="h-3 w-3 text-teal-600" />
+                  <Clock className="h-3 w-3 text-primary" />
                   Curriculum Duration
                 </span>
                 <span className="text-base font-bold text-foreground mt-0.5 block">
@@ -86,10 +86,10 @@ export function SkillDetailsSheet({
               </div>
               <div className="p-3 rounded-lg border border-border bg-muted/30">
                 <span className="text-[10px] uppercase font-bold text-muted-foreground block flex items-center gap-1">
-                  <Award className="h-3 w-3 text-teal-600" />
+                  <Award className="h-3 w-3 text-primary" />
                   Certification Type
                 </span>
-                <span className="text-xs font-bold text-teal-700 dark:text-teal-400 mt-1 block truncate">
+                <span className="text-xs font-bold text-primary dark:text-primary mt-1 block truncate">
                   {skill.certificationType || "National Certification"}
                 </span>
               </div>
@@ -98,7 +98,7 @@ export function SkillDetailsSheet({
             {/* Discipline Summary & Competencies */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <BookOpen className="h-3.5 w-3.5 text-teal-600" />
+                <BookOpen className="h-3.5 w-3.5 text-primary" />
                 Syllabus & Trade Competencies
               </h4>
               <p className="text-xs text-muted-foreground leading-relaxed bg-muted/20 p-3.5 rounded-lg border border-border">
@@ -109,7 +109,7 @@ export function SkillDetailsSheet({
             {/* Curriculum Integration Information */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Layers className="h-3.5 w-3.5 text-teal-600" />
+                <Layers className="h-3.5 w-3.5 text-primary" />
                 Curriculum Integration
               </h4>
               <div className="p-3.5 rounded-lg border border-border bg-muted/20 text-xs space-y-2 text-muted-foreground">
@@ -151,7 +151,7 @@ export function SkillDetailsSheet({
                 onClose();
                 onOpenEdit(skill);
               }}
-              className="flex-1 bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-1.5"
+              className="flex-1 font-semibold text-xs gap-1.5"
             >
               <Edit2 className="h-3.5 w-3.5" />
               Edit Skill Area

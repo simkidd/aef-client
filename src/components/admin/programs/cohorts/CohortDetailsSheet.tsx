@@ -85,7 +85,7 @@ export function CohortDetailsSheet({
             {/* Header */}
             <SheetHeader className="p-0 text-left border-b border-border pb-4">
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                   {fullCohort.cohortCode}
                 </span>
                 <StatusBadge status={fullCohort.status} size="sm" />
@@ -95,7 +95,7 @@ export function CohortDetailsSheet({
               </SheetTitle>
               <SheetDescription className="text-xs text-muted-foreground flex items-center gap-1.5 flex-wrap">
                 <span className="flex items-center gap-1 text-foreground font-medium">
-                  <MapPin className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+                  <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
                   {fullCohort.centreId?.name || "Training Facility"}
                 </span>
                 <span>•</span>
@@ -109,7 +109,7 @@ export function CohortDetailsSheet({
             <div className="p-4 rounded-lg border border-border bg-muted/20 space-y-3">
               <div className="flex justify-between items-center text-xs font-semibold">
                 <span className="text-muted-foreground flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5 text-teal-600" />
+                  <Users className="h-3.5 w-3.5 text-primary" />
                   Cohort Capacity Allocation
                 </span>
                 <span className="text-foreground">
@@ -130,7 +130,7 @@ export function CohortDetailsSheet({
                   <span className="text-[10px] text-muted-foreground block">
                     Available Slots
                   </span>
-                  <span className="font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="font-bold text-primary dark:text-primary">
                     {metrics.availableSlots}
                   </span>
                 </div>
@@ -148,7 +148,7 @@ export function CohortDetailsSheet({
             {/* Timetable Schedule & Disciplines */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-teal-600" />
+                <Clock className="h-3.5 w-3.5 text-primary" />
                 Timetable & Practical Sessions
               </h4>
               <div className="space-y-2">
@@ -165,7 +165,7 @@ export function CohortDetailsSheet({
                             cfg.skillName ||
                             "Discipline Track"}
                         </span>
-                        <span className="font-mono text-[11px] font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                        <span className="font-mono text-[11px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                           {cfg.startTime || "09:00"} – {cfg.endTime || "12:00"}
                         </span>
                       </div>
@@ -189,7 +189,7 @@ export function CohortDetailsSheet({
             {/* Timeline info */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5 text-teal-600" />
+                <Calendar className="h-3.5 w-3.5 text-primary" />
                 Cohort Period
               </h4>
               <div className="p-3 rounded-lg border border-border bg-muted/20 text-xs flex items-center justify-between">
@@ -216,7 +216,7 @@ export function CohortDetailsSheet({
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                  <UserCheck className="h-3.5 w-3.5 text-teal-600" />
+                  <UserCheck className="h-3.5 w-3.5 text-primary" />
                   Enrolled Beneficiaries ({enrollments.length})
                 </h4>
               </div>
@@ -265,7 +265,7 @@ export function CohortDetailsSheet({
                 onClose();
                 onOpenEdit(fullCohort);
               }}
-              className="flex-1 bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-1.5"
+              className="flex-1 font-semibold text-xs gap-1.5"
             >
               <Edit2 className="h-3.5 w-3.5" />
               Edit Cohort

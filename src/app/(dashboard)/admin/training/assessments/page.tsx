@@ -150,7 +150,7 @@ export default function AssessmentsGradebookPage() {
                         </span>
                       </TableCell>
                       <TableCell className="text-xs">
-                        <span className="font-semibold text-teal-800 dark:text-teal-300 block">
+                        <span className="font-semibold text-primary dark:text-primary block">
                           {ass.skillAreaId?.name}
                         </span>
                         <span className="text-[10px] text-slate-500">
@@ -159,7 +159,7 @@ export default function AssessmentsGradebookPage() {
                       </TableCell>
                       <TableCell className="text-xs font-mono">
                         Max: <strong>{ass.maxScore}</strong> • Pass:{" "}
-                        <strong className="text-teal-700">
+                        <strong className="text-primary">
                           {ass.passingScore}
                         </strong>
                       </TableCell>
@@ -170,7 +170,7 @@ export default function AssessmentsGradebookPage() {
                         <Button
                           size="sm"
                           onClick={() => handleOpenGradeModal(ass)}
-                          className="bg-teal-700 hover:bg-teal-800 text-xs h-7 gap-1"
+                          className="text-xs h-7 gap-1"
                         >
                           <Award className="h-3 w-3" /> Enter Grades
                         </Button>
@@ -231,7 +231,7 @@ export default function AssessmentsGradebookPage() {
                       <TableCell className="text-xs font-mono">
                         {res.percentage}%
                       </TableCell>
-                      <TableCell className="text-xs font-semibold text-teal-700">
+                      <TableCell className="text-xs font-semibold text-primary">
                         {res.grade}
                       </TableCell>
                       <TableCell>
@@ -312,7 +312,6 @@ export default function AssessmentsGradebookPage() {
               <Button
                 onClick={handleConfirmGrades}
                 disabled={enterGradesMutation.isPending}
-                className="bg-teal-700 hover:bg-teal-800"
               >
                 {enterGradesMutation.isPending
                   ? "Saving..."

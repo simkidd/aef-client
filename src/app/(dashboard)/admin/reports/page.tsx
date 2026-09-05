@@ -68,14 +68,14 @@ export default function ReportsAndImpactPage() {
             value={overviewKpis?.totalBeneficiaries || 42}
             subtitle="Registered in foundation database"
             icon={Users}
-            color="teal"
+            color="primary"
           />
           <MetricCard
             title="Active Trainees"
             value={overviewKpis?.activeTrainees || 39}
             subtitle="Undergoing practical sessions"
             icon={Building}
-            color="emerald"
+            color="primary"
           />
           <MetricCard
             title="Graduates Certified"
@@ -120,10 +120,10 @@ export default function ReportsAndImpactPage() {
                     <TableCell className="text-xs font-semibold">
                       {c.capacity} Seats
                     </TableCell>
-                    <TableCell className="text-xs font-bold text-teal-700">
+                    <TableCell className="text-xs font-bold text-primary">
                       {c.activeTrainees}
                     </TableCell>
-                    <TableCell className="text-xs text-emerald-700">
+                    <TableCell className="text-xs text-primary">
                       {c.graduated || 0}
                     </TableCell>
                     <TableCell className="text-xs">
@@ -169,7 +169,7 @@ export default function ReportsAndImpactPage() {
                   <span className="font-semibold text-slate-800 dark:text-slate-200">
                     {g._id || "Unspecified"}
                   </span>
-                  <span className="font-bold text-teal-700">
+                  <span className="font-bold text-primary">
                     {g.count} Beneficiaries
                   </span>
                 </div>
@@ -193,7 +193,7 @@ export default function ReportsAndImpactPage() {
                   <span className="font-semibold text-slate-800 dark:text-slate-200">
                     {e._id || "Other"}
                   </span>
-                  <span className="font-bold text-teal-700">
+                  <span className="font-bold text-primary">
                     {e.count} Trainees
                   </span>
                 </div>

@@ -50,14 +50,14 @@ export function PortalHeader() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo & Brand */}
           <Link href="/portal" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-700 text-white font-bold text-base shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground font-bold text-base shadow-sm">
               A
             </div>
             <div>
               <span className="text-sm font-bold text-slate-900 tracking-tight dark:text-slate-100">
                 ADELE FOUNDATION
               </span>
-              <span className="block text-[10px] font-semibold text-teal-700 tracking-wide dark:text-teal-400">
+              <span className="block text-[10px] font-semibold text-primary tracking-wide">
                 Beneficiary Portal
               </span>
             </div>
@@ -74,11 +74,11 @@ export function PortalHeader() {
                   href={item.href}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-teal-50 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300'
+                      ? 'bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100'
                   }`}
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-teal-700 dark:text-teal-400' : 'text-slate-400'}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-primary dark:text-primary' : 'text-slate-400'}`} />
                   {item.label}
                 </Link>
               );
@@ -92,15 +92,15 @@ export function PortalHeader() {
                 variant="outline"
                 size="sm"
                 onClick={() => router.push('/admin')}
-                className="gap-1.5 text-xs text-teal-800 border-teal-200 hidden sm:flex"
+                className="gap-1.5 text-xs text-primary border-primary/20 hidden sm:flex"
               >
-                <ShieldAlert className="h-3.5 w-3.5 text-teal-700" />
+                <ShieldAlert className="h-3.5 w-3.5 text-primary" />
                 Staff Operations
               </Button>
             )}
 
             <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
-              <div className="h-8 w-8 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-xs">
+              <div className="h-8 w-8 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-xs">
                 {user?.firstName?.[0] || 'B'}
               </div>
               <Button variant="ghost" size="icon" onClick={handleLogout} title="Sign Out">
@@ -121,7 +121,7 @@ export function PortalHeader() {
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center py-1 px-2 text-[10px] font-semibold transition-all ${
-                isActive ? 'text-teal-700 dark:text-teal-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+                isActive ? 'text-primary dark:text-primary font-bold' : 'text-slate-500 dark:text-slate-400'
               }`}
             >
               <Icon className="h-4 w-4 mb-0.5" />

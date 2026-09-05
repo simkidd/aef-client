@@ -284,7 +284,7 @@ export function EditSkillModal({
             <Button
               type="submit"
               disabled={updateMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-2"
+              className="font-semibold text-xs gap-2"
             >
               {updateMutation.isPending ? (
                 <>

@@ -140,7 +140,7 @@ export default function PortalProgramsPage() {
               >
                 <CardHeader className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                    <span className="text-[10px] font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                       {prog.organizerType}
                     </span>
                     <StatusBadge status={prog.status} size="sm" />
@@ -200,7 +200,7 @@ export default function PortalProgramsPage() {
                 <CardFooter className="pt-0">
                   <Button
                     onClick={() => handleOpenApply(prog)}
-                    className="w-full bg-teal-700 hover:bg-teal-800 font-semibold"
+                    className="w-full font-semibold"
                   >
                     Apply for this Program
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -223,7 +223,7 @@ export default function PortalProgramsPage() {
 
             {applySuccess ? (
               <div className="py-6 text-center space-y-3">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/15 text-primary">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
@@ -235,7 +235,7 @@ export default function PortalProgramsPage() {
                 </p>
                 <Button
                   onClick={() => setIsApplyModalOpen(false)}
-                  className="mt-4 bg-teal-700 hover:bg-teal-800"
+                  className="mt-4"
                 >
                   View My Applications
                 </Button>
@@ -326,7 +326,6 @@ export default function PortalProgramsPage() {
                   <Button
                     type="submit"
                     disabled={applyMutation.isPending}
-                    className="bg-teal-700 hover:bg-teal-800"
                   >
                     {applyMutation.isPending
                       ? "Submitting..."

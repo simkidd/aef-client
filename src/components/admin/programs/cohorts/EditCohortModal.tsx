@@ -163,7 +163,7 @@ export function EditCohortModal({
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-0 flex-1 flex flex-col overflow-hidden"
+          className="space-y-0 flex-1 flex flex-col"
         >
           <ScrollArea className="h-[380px] sm:h-[420px] py-2">
             <FieldGroup className="px-4 py-2">
@@ -265,7 +265,9 @@ export function EditCohortModal({
                         <SelectTrigger className="text-xs">
                           <SelectValue placeholder="Select centre">
                             {(() => {
-                              const c = centres.find((ctr) => ctr._id === field.value);
+                              const c = centres.find(
+                                (ctr) => ctr._id === field.value,
+                              );
                               return c ? `${c.name} (${c.state})` : undefined;
                             })()}
                           </SelectValue>
@@ -344,7 +346,10 @@ export function EditCohortModal({
                         >
                           <SelectTrigger className="text-xs">
                             <SelectValue placeholder="Select skill">
-                              {skillAreas.find((s) => s._id === field.value)?.name}
+                              {
+                                skillAreas.find((s) => s._id === field.value)
+                                  ?.name
+                              }
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
@@ -392,28 +397,23 @@ export function EditCohortModal({
                   control={control}
                   name="status"
                   render={({ field }) => (
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="text-xs">
                         <SelectValue placeholder="Select status">
                           {field.value === "upcoming"
                             ? "Upcoming"
                             : field.value === "in_progress"
-                            ? "In Progress"
-                            : field.value === "completed"
-                            ? "Completed"
-                            : field.value === "cancelled"
-                            ? "Cancelled"
-                            : undefined}
+                              ? "In Progress"
+                              : field.value === "completed"
+                                ? "Completed"
+                                : field.value === "cancelled"
+                                  ? "Cancelled"
+                                  : undefined}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="upcoming">Upcoming</SelectItem>
-                        <SelectItem value="in_progress">
-                          In Progress
-                        </SelectItem>
+                        <SelectItem value="in_progress">In Progress</SelectItem>
                         <SelectItem value="completed">Completed</SelectItem>
                         <SelectItem value="cancelled">Cancelled</SelectItem>
                       </SelectContent>
@@ -436,7 +436,7 @@ export function EditCohortModal({
             <Button
               type="submit"
               disabled={updateMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-2"
+              className="font-semibold text-xs gap-2"
             >
               {updateMutation.isPending ? (
                 <>

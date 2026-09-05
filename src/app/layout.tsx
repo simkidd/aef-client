@@ -37,7 +37,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(sans.variable, heading.variable, "font-sans")}
     >
-      <body className="antialiased selection:bg-teal-100 selection:text-teal-900 dark:selection:bg-teal-900 dark:selection:text-teal-100">
+      <body className="antialiased selection:bg-primary/15 selection:text-primary dark:selection:bg-emerald-900 dark:selection:text-primary">
         <NextTopLoader
           color="var(--primary)"
           initialPosition={0.08}

@@ -50,16 +50,16 @@ const variantStyles = {
   },
   info: {
     iconBg:
-      "bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-300 border-teal-200 dark:border-teal-800",
+      "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary border-primary/20 dark:border-primary/20",
     confirmBtn:
-      "bg-teal-700 hover:bg-teal-800 text-white focus-visible:ring-teal-600",
+      "bg-primary hover:bg-primary/90 text-primary-foreground focus-visible:ring-ring",
     defaultIcon: Info,
   },
   success: {
     iconBg:
-      "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900",
+      "bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary border-primary/20 dark:border-primary/20",
     confirmBtn:
-      "bg-emerald-600 hover:bg-emerald-700 text-white focus-visible:ring-emerald-500",
+      "bg-primary hover:bg-primary text-white focus-visible:ring-emerald-500",
     defaultIcon: CheckCircle2,
   },
 };

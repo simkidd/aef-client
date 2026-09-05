@@ -104,7 +104,7 @@ export default function TrainingCalendarPage() {
           </div>
           <Button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-teal-700 hover:bg-teal-800 text-xs font-semibold gap-2"
+            className="text-xs font-semibold gap-2"
           >
             <Plus className="h-4 w-4" />
             Add Calendar Exception
@@ -141,7 +141,7 @@ export default function TrainingCalendarPage() {
                     </TableCell>
                     <TableCell className="text-xs">
                       {evt.centreId?.name || (
-                        <span className="font-semibold text-teal-800 dark:text-teal-300">
+                        <span className="font-semibold text-primary dark:text-primary">
                           Global (All Centres)
                         </span>
                       )}
@@ -153,7 +153,7 @@ export default function TrainingCalendarPage() {
                         : ""}
                     </TableCell>
                     <TableCell>
-                      <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                      <span className="text-xs text-primary font-semibold flex items-center gap-1">
                         <CheckCircle2 className="h-3.5 w-3.5" /> No Absence
                         Penalty
                       </span>
@@ -297,7 +297,6 @@ export default function TrainingCalendarPage() {
                 <Button
                   type="submit"
                   disabled={createEventMutation.isPending}
-                  className="bg-teal-700 hover:bg-teal-800"
                 >
                   {createEventMutation.isPending
                     ? "Saving..."

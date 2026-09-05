@@ -31,12 +31,10 @@ export function SkillsRegistryView() {
       s.code.toLowerCase().includes(search.toLowerCase()) ||
       s.description?.toLowerCase().includes(search.toLowerCase());
 
-    const matchesCategory =
-      !categoryFilter || s.category === categoryFilter;
+    const matchesCategory = !categoryFilter || s.category === categoryFilter;
 
     const matchesStatus =
-      !statusFilter ||
-      (statusFilter === "active" ? s.isActive : !s.isActive);
+      !statusFilter || (statusFilter === "active" ? s.isActive : !s.isActive);
 
     return matchesSearch && matchesCategory && matchesStatus;
   });
@@ -69,7 +67,7 @@ export function SkillsRegistryView() {
         </div>
         <Button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+          className="text-xs font-semibold gap-2"
         >
           <Plus className="h-4 w-4" />
           Add Skill Area
@@ -87,7 +85,7 @@ export function SkillsRegistryView() {
       />
 
       {/* Skills Table Card */}
-      <Card className="overflow-hidden border-border">
+      <Card className="overflow-hidden border-border py-0">
         <SkillsTable
           skills={filteredSkills}
           isLoading={isLoading}

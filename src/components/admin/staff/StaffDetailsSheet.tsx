@@ -82,7 +82,7 @@ export function StaffDetailsSheet({
                   Department
                 </span>
                 <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                  <Building2 className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+                  <Building2 className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">
                     {staff.departmentId?.name || "Central Org"}
                   </span>
@@ -93,7 +93,7 @@ export function StaffDetailsSheet({
                   Assigned Centre
                 </span>
                 <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+                  <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">
                     {staff.assignedCentreId?.name || "Headquarters"}
                   </span>
@@ -186,7 +186,7 @@ export function StaffDetailsSheet({
                   <span className="font-semibold text-foreground flex items-center gap-2">
                     {staff.hasSystemAccount ? (
                       <>
-                        <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                        <ShieldCheck className="h-4 w-4 text-primary" />
                         <span>System Login Active</span>
                       </>
                     ) : (
@@ -197,7 +197,7 @@ export function StaffDetailsSheet({
                     )}
                   </span>
                   {staff.hasSystemAccount ? (
-                    <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300">
+                    <span className="text-[11px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
                       Active
                     </span>
                   ) : (
@@ -215,7 +215,7 @@ export function StaffDetailsSheet({
                         onClose();
                         onOpenProvision(staff);
                       }}
-                      className="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+                      className="w-full text-xs font-semibold gap-2"
                     >
                       <Key className="h-3.5 w-3.5" /> Provision Login Account
                     </Button>

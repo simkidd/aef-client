@@ -98,7 +98,7 @@ export default function RolesPermissionsMatrixPage() {
                 onClick={() => handleSelectRole(role)}
                 className={`w-full text-left p-3 rounded-xl border transition-all text-xs ${
                   selectedRole?._id === role._id
-                    ? "border-teal-600 bg-teal-50/80 text-teal-900 font-bold dark:bg-teal-950 dark:text-teal-200"
+                    ? "border-primary/20 bg-primary/10 text-primary font-bold dark:bg-primary/15 dark:text-primary"
                     : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
                 }`}
               >
@@ -111,7 +111,7 @@ export default function RolesPermissionsMatrixPage() {
                 <p className="text-[11px] text-slate-500 mt-1 font-normal line-clamp-2">
                   {role.description}
                 </p>
-                <p className="text-[10px] text-teal-700 font-semibold mt-2">
+                <p className="text-[10px] text-primary font-semibold mt-2">
                   {role.permissions?.length || 0} permissions assigned
                 </p>
               </button>
@@ -136,7 +136,7 @@ export default function RolesPermissionsMatrixPage() {
                   <Button
                     onClick={handleSaveRole}
                     disabled={updateRoleMutation.isPending}
-                    className="bg-teal-700 hover:bg-teal-800 text-xs font-semibold"
+                    className="text-xs font-semibold"
                   >
                     {updateRoleMutation.isPending
                       ? "Saving..."
@@ -156,7 +156,7 @@ export default function RolesPermissionsMatrixPage() {
                         key={perm.code}
                         className={`flex items-start gap-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
                           isChecked
-                            ? "border-teal-300 bg-teal-50/50 text-teal-900 dark:bg-teal-950/40 dark:border-teal-800 dark:text-teal-200"
+                            ? "border-primary/20 bg-primary/10 text-primary dark:bg-primary/15 dark:border-primary/20 dark:text-primary"
                             : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
                         }`}
                       >
@@ -164,7 +164,7 @@ export default function RolesPermissionsMatrixPage() {
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => handleTogglePerm(perm.code)}
-                          className="h-4 w-4 rounded text-teal-600 mt-0.5"
+                          className="h-4 w-4 rounded text-primary mt-0.5"
                         />
                         <div>
                           <span className="font-bold block">{perm.name}</span>

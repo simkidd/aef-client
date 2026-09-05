@@ -45,12 +45,12 @@ export function ProgramCard({
   const appCount = program.stats?.applications || 0;
 
   return (
-    <Card className="flex flex-col justify-between hover:border-teal-600/40 transition-colors py-0 gap-0">
+    <Card className="flex flex-col justify-between hover:border-primary/20 transition-colors py-0 gap-0">
       <div>
         <CardHeader className="p-5 pb-3">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+              <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                 {program.code}
               </span>
               <StatusBadge status={program.status} size="sm" />
@@ -84,7 +84,7 @@ export function ProgramCard({
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => onOpenEdit(program)}
-                  className="cursor-pointer gap-2 text-teal-700 dark:text-teal-400"
+                  className="cursor-pointer gap-2 text-primary dark:text-primary"
                 >
                   <Edit2 className="h-3.5 w-3.5" />
                   Edit Program
@@ -112,7 +112,7 @@ export function ProgramCard({
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[11px] font-semibold text-foreground flex items-center gap-1.5">
-                <Layers className="h-3.5 w-3.5 text-teal-600" />
+                <Layers className="h-3.5 w-3.5 text-primary" />
                 Integrated Skill Disciplines ({skillCount})
               </span>
             </div>

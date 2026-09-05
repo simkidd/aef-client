@@ -48,7 +48,7 @@ export function CentreCard({
         {/* Header */}
         <CardHeader className="bg-slate-50/60 dark:bg-slate-900/40 border-b border-slate-100 dark:border-slate-800 p-5">
           <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:border-teal-800 dark:text-teal-300">
+            <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
               {centre.centreCode}
             </span>
 
@@ -84,7 +84,7 @@ export function CentreCard({
             {centre.name}
           </CardTitle>
           <CardDescription className="text-xs flex items-center gap-1.5 text-muted-foreground truncate">
-            <MapPin className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+            <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
             <span className="truncate">
               {centre.address}, {centre.state}
             </span>
@@ -105,17 +105,17 @@ export function CentreCard({
             </div>
             <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-900 dark:border-slate-800 text-center space-y-0.5">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold flex items-center justify-center gap-1">
-                <DoorOpen className="h-3 w-3 text-teal-500" /> Rooms
+                <DoorOpen className="h-3 w-3 text-primary" /> Rooms
               </span>
-              <p className="text-sm font-bold text-teal-700 dark:text-teal-400">
+              <p className="text-sm font-bold text-primary dark:text-primary">
                 {centre.stats?.rooms ?? 0}
               </p>
             </div>
             <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-900 dark:border-slate-800 text-center space-y-0.5">
               <span className="text-[10px] text-muted-foreground uppercase font-semibold flex items-center justify-center gap-1">
-                <Fingerprint className="h-3 w-3 text-emerald-500" /> Scanners
+                <Fingerprint className="h-3 w-3 text-primary" /> Scanners
               </span>
-              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+              <p className="text-sm font-bold text-primary dark:text-primary">
                 {centre.stats?.devices ?? 0}
               </p>
             </div>
@@ -143,7 +143,7 @@ export function CentreCard({
               typeof centre.centreManagerId === "object" && (
                 <div className="flex items-center justify-between pt-1">
                   <span className="flex items-center gap-1.5">
-                    <UserCheck className="h-3 w-3 text-teal-600" /> Manager
+                    <UserCheck className="h-3 w-3 text-primary" /> Manager
                   </span>
                   <span className="font-semibold text-foreground">
                     {centre.centreManagerId.firstName}{" "}
@@ -158,7 +158,7 @@ export function CentreCard({
       {/* Card Footer */}
       <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/30 flex items-center justify-between text-xs text-muted-foreground">
         <span className="text-[11px] flex items-center gap-1.5 font-medium text-slate-600 dark:text-slate-400">
-          <GraduationCap className="h-3.5 w-3.5 text-teal-600" />
+          <GraduationCap className="h-3.5 w-3.5 text-primary" />
           {centre.stats?.activeCohorts ?? 0} active cohort
           {(centre.stats?.activeCohorts ?? 0) !== 1 ? "s" : ""}
         </span>

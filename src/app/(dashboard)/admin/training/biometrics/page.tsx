@@ -69,7 +69,7 @@ export default function BiometricsManagementPage() {
           </div>
           <Button
             onClick={() => setIsSimulatorOpen(true)}
-            className="bg-teal-700 hover:bg-teal-800 text-xs font-semibold gap-2"
+            className="text-xs font-semibold gap-2"
           >
             <Fingerprint className="h-4 w-4" />
             Launch Scanner Simulator
@@ -85,7 +85,7 @@ export default function BiometricsManagementPage() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center dark:bg-teal-950 dark:text-teal-300">
+                  <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center dark:bg-primary/15 dark:text-primary">
                     <Radio className="h-5 w-5 animate-pulse" />
                   </div>
                   <div>
@@ -113,7 +113,7 @@ export default function BiometricsManagementPage() {
                   <span className="text-[10px] uppercase font-bold text-slate-400">
                     Templates Registered
                   </span>
-                  <p className="font-semibold text-teal-700">
+                  <p className="font-semibold text-primary">
                     {dev.registeredTemplatesCount} Fingerprints
                   </p>
                 </div>
@@ -173,7 +173,7 @@ export default function BiometricsManagementPage() {
                       </TableCell>
                       <TableCell>
                         {evt.isMatched ? (
-                          <span className="text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                          <span className="text-xs font-semibold text-primary flex items-center gap-1">
                             <CheckCircle2 className="h-3.5 w-3.5" />{" "}
                             {evt.beneficiaryId?.firstName}{" "}
                             {evt.beneficiaryId?.lastName}
@@ -187,7 +187,7 @@ export default function BiometricsManagementPage() {
                       </TableCell>
                       <TableCell>
                         {evt.isMatched ? (
-                          <span className="text-xs text-teal-700 font-semibold">
+                          <span className="text-xs text-primary font-semibold">
                             Attendance Updated
                           </span>
                         ) : (

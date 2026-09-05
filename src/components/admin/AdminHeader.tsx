@@ -19,8 +19,8 @@ export function AdminHeader() {
           {/* Mobile drawer trigger */}
           <SidebarTrigger className="md:hidden h-9 w-9 text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900 rounded-lg" />
 
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 dark:bg-primary/15 dark:text-primary dark:border-primary/20">
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
             Central Engine Live
           </span>
           <span className="text-xs text-slate-300 dark:text-slate-700 hidden sm:inline">
@@ -39,7 +39,7 @@ export function AdminHeader() {
           <Button
             size="sm"
             onClick={() => setIsSimulatorOpen(true)}
-            className="gap-2 bg-linear-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white shadow-xs text-xs font-semibold"
+            className="gap-2 bg-linear-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white shadow-xs text-xs font-semibold"
           >
             <Fingerprint className="h-4 w-4" />
             <span className="hidden sm:inline">Biometric Simulator</span>

@@ -88,7 +88,7 @@ export default function MyTrainingJourneyPage() {
               <span className="text-[11px] font-semibold text-slate-500 uppercase">
                 Overall Attendance Rate
               </span>
-              <p className="text-2xl font-bold text-teal-700 mt-1">
+              <p className="text-2xl font-bold text-primary mt-1">
                 {stats?.attendanceRate || active.overallAttendanceRate || 94.2}%
               </p>
               <Progress
@@ -105,7 +105,7 @@ export default function MyTrainingJourneyPage() {
               <p className="text-2xl font-bold text-slate-900 mt-1 dark:text-slate-100">
                 {stats?.present || 12} Sessions
               </p>
-              <p className="text-[10px] text-emerald-600 mt-1">
+              <p className="text-[10px] text-primary mt-1">
                 Present on-time
               </p>
             </Card>
@@ -124,7 +124,7 @@ export default function MyTrainingJourneyPage() {
               <span className="text-[11px] font-semibold text-slate-500 uppercase">
                 Biometric Status
               </span>
-              <p className="text-base font-bold text-emerald-700 mt-2 flex items-center gap-1">
+              <p className="text-base font-bold text-primary mt-2 flex items-center gap-1">
                 <CheckCircle2 className="h-4 w-4" /> Registered
               </p>
               <p className="text-[10px] font-mono text-slate-400 mt-0.5 truncate">
@@ -137,7 +137,7 @@ export default function MyTrainingJourneyPage() {
 
         {/* Current Active Program Card */}
         {active ? (
-          <Card className="border-teal-200 dark:border-teal-900">
+          <Card className="border-primary/20 dark:border-primary/20">
             <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -180,7 +180,7 @@ export default function MyTrainingJourneyPage() {
                   <span className="text-slate-400 block text-[10px] uppercase font-semibold">
                     Certification Eligibility
                   </span>
-                  <p className="font-semibold text-emerald-700">
+                  <p className="font-semibold text-primary">
                     On Track (&gt;80% Attendance)
                   </p>
                 </div>

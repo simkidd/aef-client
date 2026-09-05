@@ -86,14 +86,14 @@ export function StaffTable({
                     <div className="flex items-center gap-3">
                       <Avatar
                         size="sm"
-                        className="bg-teal-50 text-teal-700 border border-teal-200 dark:bg-teal-950 dark:border-teal-800 dark:text-teal-300 font-bold text-xs"
+                        className="bg-primary/10 text-primary border border-primary/20 font-bold text-xs"
                       >
-                        <AvatarFallback className="bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200">
+                        <AvatarFallback className="bg-primary/10 text-primary">
                           {getInitials(st.firstName, st.lastName)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
-                        <span className="font-semibold text-xs text-foreground group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors block truncate">
+                        <span className="font-semibold text-xs text-foreground group-hover:text-primary dark:group-hover:text-primary transition-colors block truncate">
                           {st.firstName} {st.lastName}
                         </span>
                         <span className="font-mono text-[11px] text-muted-foreground block truncate">
@@ -152,9 +152,9 @@ export function StaffTable({
                         {!st.hasSystemAccount && (
                           <DropdownMenuItem
                             onClick={() => onOpenProvision(st)}
-                            className="text-[13px] cursor-pointer text-teal-700 dark:text-teal-400 font-medium focus:text-teal-800 dark:focus:text-teal-300"
+                            className="text-[13px] cursor-pointer text-primary dark:text-primary font-medium focus:text-primary dark:focus:text-primary"
                           >
-                            <Key className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+                            <Key className="h-3.5 w-3.5 text-primary dark:text-primary" />
                             <span>Provision Login</span>
                           </DropdownMenuItem>
                         )}

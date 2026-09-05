@@ -286,7 +286,7 @@ export default function DailyAttendanceSheetPage() {
         >
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <div className="flex items-center gap-2 text-teal-800 dark:text-teal-300">
+              <div className="flex items-center gap-2 text-primary dark:text-primary">
                 <ShieldAlert className="h-6 w-6" />
                 <DialogTitle>Manual Attendance Correction & Audit</DialogTitle>
               </div>
@@ -356,7 +356,6 @@ export default function DailyAttendanceSheetPage() {
               <Button
                 onClick={handleConfirmCorrection}
                 disabled={!correctionReason.trim() || correctMutation.isPending}
-                className="bg-teal-700 hover:bg-teal-800 text-white"
               >
                 {correctMutation.isPending
                   ? "Saving..."

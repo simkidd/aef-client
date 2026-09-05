@@ -109,7 +109,7 @@ export function BiometricSimulatorModal({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15 text-primary dark:bg-primary/15 dark:text-primary">
               <Fingerprint className="h-5 w-5" />
             </div>
             <div>
@@ -216,12 +216,12 @@ export function BiometricSimulatorModal({
                   onClick={() => setScanType("IN")}
                   className={`flex items-center justify-center gap-2 rounded-lg border p-2.5 text-xs font-semibold transition-all ${
                     scanType === "IN"
-                      ? "border-teal-600 bg-teal-50 text-teal-900 dark:bg-teal-950 dark:text-teal-200"
+                      ? "border-primary/20 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary"
                       : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
                   }`}
                 >
                   <Radio
-                    className={`h-4 w-4 ${scanType === "IN" ? "text-teal-600" : "text-slate-400"}`}
+                    className={`h-4 w-4 ${scanType === "IN" ? "text-primary" : "text-slate-400"}`}
                   />
                   Morning Clock-IN
                 </button>
@@ -230,12 +230,12 @@ export function BiometricSimulatorModal({
                   onClick={() => setScanType("OUT")}
                   className={`flex items-center justify-center gap-2 rounded-lg border p-2.5 text-xs font-semibold transition-all ${
                     scanType === "OUT"
-                      ? "border-teal-600 bg-teal-50 text-teal-900 dark:bg-teal-950 dark:text-teal-200"
+                      ? "border-primary/20 bg-primary/10 text-primary dark:bg-primary/15 dark:text-primary"
                       : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
                   }`}
                 >
                   <Radio
-                    className={`h-4 w-4 ${scanType === "OUT" ? "text-teal-600" : "text-slate-400"}`}
+                    className={`h-4 w-4 ${scanType === "OUT" ? "text-primary" : "text-slate-400"}`}
                   />
                   Afternoon Clock-OUT
                 </button>
@@ -249,7 +249,7 @@ export function BiometricSimulatorModal({
               className={`rounded-xl border p-4 text-xs ${
                 scanResult.success
                   ? scanResult.data?.isMatched
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200"
+                    ? "border-primary/20 bg-primary/10 text-primary dark:border-primary/20 dark:bg-primary/15 dark:text-primary"
                     : "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200"
                   : "border-rose-200 bg-rose-50 text-rose-900 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-200"
               }`}
@@ -257,7 +257,7 @@ export function BiometricSimulatorModal({
               <div className="flex items-start gap-2.5">
                 {scanResult.success ? (
                   scanResult.data?.isMatched ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   ) : (
                     <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
                   )
@@ -287,7 +287,7 @@ export function BiometricSimulatorModal({
           <Button
             onClick={handleSimulateScan}
             disabled={isScanning}
-            className="gap-2 bg-teal-700 hover:bg-teal-800"
+            className="gap-2"
           >
             {isScanning ? (
               <RefreshCw className="h-4 w-4 animate-spin" />

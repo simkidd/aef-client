@@ -60,19 +60,13 @@ export function SkillsTable({
   return (
     <Table>
       <TableHeader>
-        <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[300px] text-xs font-semibold">
-            Skill Code & Discipline
-          </TableHead>
-          <TableHead className="text-xs font-semibold">Category</TableHead>
-          <TableHead className="text-xs font-semibold">Duration</TableHead>
-          <TableHead className="text-xs font-semibold">
-            Certification Standard
-          </TableHead>
-          <TableHead className="text-xs font-semibold">Status</TableHead>
-          <TableHead className="w-[60px] text-right text-xs font-semibold">
-            Actions
-          </TableHead>
+        <TableRow>
+          <TableHead className="w-[300px]">Skill Code & Discipline</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead>Duration</TableHead>
+          <TableHead>Certification Standard</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="w-[60px] text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -83,7 +77,7 @@ export function SkillsTable({
                 <span className="font-bold text-xs text-foreground">
                   {skill.name}
                 </span>
-                <span className="font-mono text-[10px] text-teal-700 dark:text-teal-400 font-medium">
+                <span className="font-mono text-[10px] text-primary dark:text-primary font-medium">
                   {skill.code}
                 </span>
               </div>
@@ -103,7 +97,7 @@ export function SkillsTable({
             </TableCell>
 
             <TableCell className="text-xs">
-              <span className="text-teal-700 dark:text-teal-300 font-semibold bg-teal-50 dark:bg-teal-950/80 px-2 py-0.5 rounded border border-teal-200 dark:border-teal-800 text-[11px]">
+              <span className="text-primary dark:text-primary font-semibold bg-primary/10 dark:bg-primary/15 px-2 py-0.5 rounded border border-primary/20 dark:border-primary/20 text-[11px]">
                 {skill.certificationType || "National Certification"}
               </span>
             </TableCell>
@@ -139,7 +133,7 @@ export function SkillsTable({
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => onOpenEdit(skill)}
-                    className="cursor-pointer gap-2 text-teal-700 dark:text-teal-400"
+                    className="cursor-pointer gap-2 text-primary dark:text-primary"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
                     Edit Skill

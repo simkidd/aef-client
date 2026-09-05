@@ -434,7 +434,7 @@ export function AddCohortModal({
             <Button
               type="submit"
               disabled={createMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-2"
+              className="font-semibold text-xs gap-2"
             >
               {createMutation.isPending ? (
                 <>

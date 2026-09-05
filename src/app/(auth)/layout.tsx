@@ -16,7 +16,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen w-full flex flex-col lg:flex-row bg-slate-50/70 dark:bg-slate-950 text-foreground selection:bg-emerald-600/20 selection:text-emerald-800 dark:selection:text-emerald-300 overflow-x-hidden overflow-y-auto lg:overflow-hidden">
+    <div className="h-screen w-full flex flex-col lg:flex-row bg-slate-50/70 dark:bg-slate-950 text-foreground selection:bg-primary/20 selection:text-primary dark:selection:text-primary overflow-x-hidden overflow-y-auto lg:overflow-hidden">
       {/* 1. Left Editorial Mission & Community Showcase Carousel (Desktop) */}
       <div className="hidden lg:flex lg:w-1/2 xl:w-6/12 h-full relative bg-slate-950 text-white overflow-hidden border-r border-border shrink-0">
         <AuthCarousel />

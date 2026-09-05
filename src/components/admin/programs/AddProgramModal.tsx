@@ -329,7 +329,7 @@ export function AddProgramModal({
                         onClick={() => toggleSkill(skill._id)}
                         className={`flex items-center gap-2.5 p-2 rounded-md cursor-pointer text-xs transition-colors border select-none ${
                           isChecked
-                            ? "bg-teal-50/70 border-teal-300 text-teal-900 dark:bg-teal-950/60 dark:border-teal-800 dark:text-teal-200 font-medium"
+                            ? "bg-primary/10 border-primary/20 text-primary dark:bg-primary/15 dark:border-primary/20 dark:text-primary font-medium"
                             : "bg-background border-border text-foreground hover:bg-muted/60"
                         }`}
                       >
@@ -490,7 +490,7 @@ export function AddProgramModal({
             <Button
               type="submit"
               disabled={createMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-2"
+              className="font-semibold text-xs gap-2"
             >
               {createMutation.isPending ? (
                 <>

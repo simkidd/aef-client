@@ -148,7 +148,7 @@ export function EditCentreModal({
       <DialogContent className="sm:max-w-xl flex flex-col gap-0 overflow-hidden">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:border-teal-800 dark:text-teal-300">
+            <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
               {centre.centreCode}
             </span>
           </div>
@@ -358,7 +358,7 @@ export function EditCentreModal({
             <Button
               type="submit"
               disabled={updateCentreMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+              className="text-xs font-semibold gap-2"
             >
               {updateCentreMutation.isPending ? (
                 <>

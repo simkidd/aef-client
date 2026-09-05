@@ -50,7 +50,7 @@ export default function MyApplicationsPage() {
             </p>
           </div>
           <Link href="/portal/programs">
-            <Button size="sm" className="bg-teal-700 hover:bg-teal-800">
+            <Button size="sm">
               Apply to More Programs
             </Button>
           </Link>
@@ -90,9 +90,9 @@ export default function MyApplicationsPage() {
                 <CardContent className="p-5 space-y-4 text-xs">
                   {/* Instructions for Selected Candidates */}
                   {app.status === "Selected" && (
-                    <div className="rounded-xl border border-teal-200 bg-teal-50/50 p-4 text-teal-900 dark:border-teal-900 dark:bg-teal-950/30 dark:text-teal-200">
+                    <div className="rounded-xl border border-primary/20 bg-primary/10 p-4 text-primary dark:border-primary/20 dark:bg-primary/15 dark:text-primary">
                       <div className="flex items-start gap-3">
-                        <Fingerprint className="h-5 w-5 text-teal-700 shrink-0 mt-0.5" />
+                        <Fingerprint className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                         <div>
                           <p className="font-bold text-sm">
                             Next Step: Physical Verification & Biometric Scan
@@ -160,7 +160,7 @@ export default function MyApplicationsPage() {
                             key={idx}
                             className="flex items-center gap-2.5 text-[11px]"
                           >
-                            <span className="h-1.5 w-1.5 rounded-full bg-teal-600" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                             <span className="font-semibold text-slate-800 dark:text-slate-200">
                               {hist.status}
                             </span>

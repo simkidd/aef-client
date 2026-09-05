@@ -69,7 +69,7 @@ export function ProgramDetailsSheet({
             {/* Header */}
             <SheetHeader className="p-0 text-left border-b border-border pb-4">
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                   {fullProgram.code}
                 </span>
                 <StatusBadge status={fullProgram.status} size="sm" />
@@ -86,7 +86,7 @@ export function ProgramDetailsSheet({
             {/* Description */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Briefcase className="h-3.5 w-3.5 text-teal-600" />
+                <Briefcase className="h-3.5 w-3.5 text-primary" />
                 Program Overview
               </h4>
               <p className="text-xs text-muted-foreground leading-relaxed bg-muted/20 p-3 rounded-lg border border-border">
@@ -97,7 +97,7 @@ export function ProgramDetailsSheet({
             {/* Program Logistics & Settings */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5 text-teal-600" />
+                <Calendar className="h-3.5 w-3.5 text-primary" />
                 Timelines & Configuration
               </h4>
               <div className="grid grid-cols-2 gap-3 p-3 rounded-lg border border-border bg-muted/20 text-xs">
@@ -156,7 +156,7 @@ export function ProgramDetailsSheet({
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                  <Layers className="h-3.5 w-3.5 text-teal-600" />
+                  <Layers className="h-3.5 w-3.5 text-primary" />
                   Integrated Skill Disciplines (
                   {fullProgram.skillAreaIds?.length || 0})
                 </h4>
@@ -175,7 +175,7 @@ export function ProgramDetailsSheet({
                           <span className="font-bold text-xs text-foreground">
                             {skill.name || "Discipline Track"}
                           </span>
-                          <span className="font-mono text-[10px] text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-950 px-1.5 py-0.5 rounded border border-teal-200 dark:border-teal-800 text-nowrap">
+                          <span className="font-mono text-[10px] text-primary dark:text-primary bg-primary/10 dark:bg-primary/15 px-1.5 py-0.5 rounded border border-primary/20 dark:border-primary/20 text-nowrap">
                             {skill.code}
                           </span>
                         </div>
@@ -205,7 +205,7 @@ export function ProgramDetailsSheet({
             {cohorts.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                  <GraduationCap className="h-3.5 w-3.5 text-teal-600" />
+                  <GraduationCap className="h-3.5 w-3.5 text-primary" />
                   Active Cohorts ({cohorts.length})
                 </h4>
                 <div className="space-y-2">
@@ -249,7 +249,7 @@ export function ProgramDetailsSheet({
                 onClose();
                 onOpenEdit(fullProgram);
               }}
-              className="flex-1 bg-teal-700 hover:bg-teal-800 text-white font-semibold text-xs gap-1.5"
+              className="flex-1 font-semibold text-xs gap-1.5"
             >
               <Edit2 className="h-3.5 w-3.5" />
               Edit Program

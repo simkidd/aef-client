@@ -76,10 +76,10 @@ export default function BeneficiaryDashboard() {
     <>
       <div className="space-y-6">
         {/* Welcome Header */}
-        <div className="rounded-2xl bg-linear-to-r from-teal-900 via-slate-900 to-teal-950 p-6 sm:p-8 text-white shadow-md">
+        <div className="rounded-2xl bg-linear-to-r from-emerald-900 via-slate-900 to-emerald-950 p-6 sm:p-8 text-white shadow-md">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/20 text-teal-300 border border-teal-500/30 mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/20 mb-3">
                 <Sparkles className="h-3.5 w-3.5" />
                 Adele Beneficiary Portal
               </span>
@@ -97,7 +97,7 @@ export default function BeneficiaryDashboard() {
 
             <div className="flex gap-2">
               <Link href="/portal/programs">
-                <Button className="bg-teal-600 hover:bg-teal-500 text-white font-semibold">
+                <Button className="font-semibold">
                   Browse Programs
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -109,12 +109,12 @@ export default function BeneficiaryDashboard() {
         {/* State 1: Active Trainee Live Training Card */}
         {isEnrolledActive && activeEnrollment && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="lg:col-span-2 border-teal-200 shadow-md dark:border-teal-900">
+            <Card className="lg:col-span-2 border-primary/20 shadow-md dark:border-primary/20">
               <CardHeader className="pb-3 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
-                    <CardTitle className="text-base text-teal-900 dark:text-teal-200">
+                    <span className="h-2.5 w-2.5 rounded-full bg-primary animate-ping" />
+                    <CardTitle className="text-base text-primary dark:text-primary">
                       Ongoing Primary Training Cohort
                     </CardTitle>
                   </div>
@@ -136,7 +136,7 @@ export default function BeneficiaryDashboard() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                   <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
                     <span className="text-slate-500 flex items-center gap-1">
-                      <Building className="h-3.5 w-3.5 text-teal-600" />{" "}
+                      <Building className="h-3.5 w-3.5 text-primary" />{" "}
                       Training Centre
                     </span>
                     <p className="font-semibold text-slate-900 mt-1 dark:text-slate-100 truncate">
@@ -145,16 +145,16 @@ export default function BeneficiaryDashboard() {
                   </div>
                   <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
                     <span className="text-slate-500 flex items-center gap-1">
-                      <Fingerprint className="h-3.5 w-3.5 text-teal-600" />{" "}
+                      <Fingerprint className="h-3.5 w-3.5 text-primary" />{" "}
                       Biometric Identity
                     </span>
-                    <p className="font-semibold text-emerald-700 mt-1">
+                    <p className="font-semibold text-primary mt-1">
                       Verified & Active
                     </p>
                   </div>
                   <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
                     <span className="text-slate-500 flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5 text-teal-600" /> Daily
+                      <Clock className="h-3.5 w-3.5 text-primary" /> Daily
                       Schedule
                     </span>
                     <p className="font-semibold text-slate-900 mt-1 dark:text-slate-100">
@@ -169,7 +169,7 @@ export default function BeneficiaryDashboard() {
                     <span className="text-slate-700 dark:text-slate-300">
                       Overall Attendance Progress
                     </span>
-                    <span className="text-teal-700 font-bold dark:text-teal-400">
+                    <span className="text-primary font-bold dark:text-primary">
                       {activeEnrollment.overallAttendanceRate || 94.2}%
                     </span>
                   </div>
@@ -188,7 +188,7 @@ export default function BeneficiaryDashboard() {
                   </Button>
                 </Link>
                 <Link href="/portal/timetable">
-                  <Button size="sm" className="bg-teal-700 hover:bg-teal-800">
+                  <Button size="sm">
                     View Weekly Timetable
                   </Button>
                 </Link>
@@ -205,7 +205,7 @@ export default function BeneficiaryDashboard() {
                 </CardHeader>
                 <CardContent className="space-y-3 text-xs">
                   <div className="flex items-start gap-2.5">
-                    <MapPin className="h-4 w-4 text-teal-600 shrink-0 mt-0.5" />
+                    <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-slate-900 dark:text-slate-100">
                         {activeEnrollment.centreId?.name}
@@ -215,7 +215,7 @@ export default function BeneficiaryDashboard() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-emerald-700 bg-emerald-50 p-2.5 rounded-lg border border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300">
+                  <div className="flex items-center gap-2 text-primary bg-primary/10 p-2.5 rounded-lg border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
                     <ShieldCheck className="h-4 w-4 shrink-0" />
                     <span>
                       Fingerprint Scanner assigned to you at reception
@@ -306,7 +306,7 @@ export default function BeneficiaryDashboard() {
             </h2>
             <Link
               href="/portal/applications"
-              className="text-xs font-semibold text-teal-700 hover:underline"
+              className="text-xs font-semibold text-primary hover:underline"
             >
               View All ({applications?.length || 0})
             </Link>

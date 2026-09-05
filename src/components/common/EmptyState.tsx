@@ -23,7 +23,7 @@ export function EmptyState({
     <div
       className={`flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50/50 p-12 text-center dark:border-slate-800 dark:bg-slate-900/30 ${className}`}
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-700 dark:bg-teal-950/50 dark:text-teal-400">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
         <Icon className="h-7 w-7" />
       </div>
       <h3 className="mt-4 text-base font-semibold text-slate-900 dark:text-slate-100">{title}</h3>

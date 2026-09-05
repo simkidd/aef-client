@@ -71,7 +71,7 @@ export function AdminDashboardView() {
           <Link href="/admin/beneficiaries/enrollment">
             <Button
               size="sm"
-              className="bg-teal-700 hover:bg-teal-800 text-xs font-semibold text-white"
+              className="text-xs font-semibold"
             >
               Biometric Registration Desk
             </Button>
@@ -86,14 +86,14 @@ export function AdminDashboardView() {
           value={kpis.totalCentres || 2}
           subtitle="Accredited technical hubs"
           icon={MapPin}
-          color="teal"
+          color="primary"
         />
         <MetricCard
           title="Active Enrolled Trainees"
           value={kpis.activeTrainees || 39}
           subtitle="Undergoing workshop practicals"
           icon={Users}
-          color="emerald"
+          color="primary"
           trend={{ value: "100% capacity", isPositive: true }}
         />
         <MetricCard
@@ -117,14 +117,14 @@ export function AdminDashboardView() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
+            <span className="h-2.5 w-2.5 rounded-full bg-primary animate-ping" />
             <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Today's Training Sessions & Attendance Tracking
             </h2>
           </div>
           <Link
             href="/admin/training/attendance"
-            className="text-xs font-semibold text-teal-700 hover:underline"
+            className="text-xs font-semibold text-primary hover:underline"
           >
             Open Full Attendance Matrix →
           </Link>
@@ -176,7 +176,7 @@ export function AdminDashboardView() {
                     <TableCell className="font-bold text-xs">
                       {item.metrics?.expectedTrainees || 25}
                     </TableCell>
-                    <TableCell className="text-xs text-emerald-700 font-bold">
+                    <TableCell className="text-xs text-primary font-bold">
                       {item.metrics?.present + item.metrics?.late || 24}{" "}
                       (Present: {item.metrics?.present || 23}, Late:{" "}
                       {item.metrics?.late || 1})
@@ -185,7 +185,7 @@ export function AdminDashboardView() {
                       {item.metrics?.notYetArrived || 1}
                     </TableCell>
                     <TableCell>
-                      <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-primary/15 text-primary dark:bg-primary/15 dark:text-primary">
                         {item.metrics?.attendanceRate || 96}%
                       </span>
                     </TableCell>
@@ -218,7 +218,7 @@ export function AdminDashboardView() {
               </CardTitle>
               <Link
                 href="/admin/programs/cohorts"
-                className="text-xs font-semibold text-teal-700 hover:underline"
+                className="text-xs font-semibold text-primary hover:underline"
               >
                 Manage Cohorts
               </Link>
@@ -258,7 +258,7 @@ export function AdminDashboardView() {
                     <div className="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
                       <span>
                         Available Vacancies:{" "}
-                        <strong className="text-emerald-600">
+                        <strong className="text-primary">
                           {metrics.availableSlots} Slots
                         </strong>
                       </span>
@@ -285,7 +285,7 @@ export function AdminDashboardView() {
               </CardTitle>
               <Link
                 href="/admin/beneficiaries/applications"
-                className="text-xs font-semibold text-teal-700 hover:underline"
+                className="text-xs font-semibold text-primary hover:underline"
               >
                 Review All ({applicationsData?.length || 0})
               </Link>

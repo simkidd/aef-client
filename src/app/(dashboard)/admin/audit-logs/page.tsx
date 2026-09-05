@@ -97,7 +97,7 @@ export default function AuditTrailExplorerPage() {
                       </span>
                     </TableCell>
                     <TableCell>
-                      <span className="font-mono text-[11px] font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+                      <span className="font-mono text-[11px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                         {log.action}
                       </span>
                     </TableCell>
@@ -115,7 +115,7 @@ export default function AuditTrailExplorerPage() {
                     <TableCell>
                       <button
                         onClick={() => setSelectedLog(log)}
-                        className="text-xs text-teal-700 font-semibold hover:underline flex items-center gap-1"
+                        className="text-xs text-primary font-semibold hover:underline flex items-center gap-1"
                       >
                         <Eye className="h-3.5 w-3.5" /> Diff State
                       </button>
@@ -152,7 +152,7 @@ export default function AuditTrailExplorerPage() {
                 <span className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
                   State Mutation Diff
                 </span>
-                <pre className="p-3 rounded-lg bg-slate-900 text-teal-400 text-[11px] overflow-x-auto max-h-60">
+                <pre className="p-3 rounded-lg bg-slate-900 text-primary text-[11px] overflow-x-auto max-h-60">
                   {JSON.stringify(
                     {
                       beforeState: selectedLog?.beforeState || null,

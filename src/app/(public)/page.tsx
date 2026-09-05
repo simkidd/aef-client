@@ -37,7 +37,7 @@ export default function HomePage() {
       desc: "Full-stack web development, mobile apps, database architecture, and cloud deployment foundations.",
       duration: "6 Months",
       color:
-        "from-emerald-500/10 to-teal-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+        "from-emerald-500/10 to-emerald-500/10 text-primary dark:text-primary border-primary/20",
     },
     {
       title: "Solar & Renewable Energy",
@@ -129,8 +129,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
             {/* Announcement Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 mb-6 shadow-xs">
-              <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/20 px-3.5 py-1 text-xs font-semibold text-primary dark:text-primary mb-6 shadow-xs">
+              <Sparkles className="h-3.5 w-3.5 text-primary dark:text-primary" />
               <span>Cohort 2026 Admissions Now Open</span>
             </div>
 
@@ -168,7 +168,7 @@ export default function HomePage() {
                   size="lg"
                   className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-6"
                 >
-                  <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                  <ShieldCheck className="h-4 w-4 text-primary" />
                   <span>Verify a Certificate</span>
                 </Button>
               </Link>
@@ -177,15 +177,15 @@ export default function HomePage() {
             {/* Trust metrics pill */}
             <div className="mt-10 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <CheckCircle2 className="h-4 w-4 text-primary" />
                 No Tuition Fees Required
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <CheckCircle2 className="h-4 w-4 text-primary" />
                 Certified by Adele Foundation
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <CheckCircle2 className="h-4 w-4 text-primary" />
                 12 Accredited Regional Centres
               </span>
             </div>
@@ -331,9 +331,9 @@ export default function HomePage() {
       {/* 5. Certificate Verification Spotlight */}
       <section className="py-16 md:py-20 border-t border-border/60 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-emerald-500/20 bg-linear-to-br from-emerald-500/5 via-teal-500/5 to-transparent p-8 md:p-12 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="rounded-3xl border border-primary/20 bg-linear-to-br from-emerald-500/5 via-emerald-500/5 to-transparent p-8 md:p-12 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-xl space-y-3 text-center lg:text-left">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-bold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary dark:text-primary text-xs font-bold">
                 <ShieldCheck className="h-4 w-4" />
                 <span>Instant Employer Verification</span>
               </div>

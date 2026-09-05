@@ -88,7 +88,7 @@ export default function PortalTimetablePage() {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-800 font-bold dark:bg-teal-950 dark:text-teal-300 shrink-0">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold dark:bg-primary/15 dark:text-primary shrink-0">
                           <Clock className="h-5 w-5" />
                         </div>
                         <div>
@@ -127,7 +127,7 @@ export default function PortalTimetablePage() {
                       {sess.isCancelled ? (
                         <StatusBadge status="Cancelled" size="sm" />
                       ) : (
-                        <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300">
+                        <span className="text-xs font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
                           Scheduled
                         </span>
                       )}

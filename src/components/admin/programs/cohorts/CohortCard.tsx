@@ -59,12 +59,12 @@ export function CohortCard({
   );
 
   return (
-    <Card className="flex flex-col justify-between hover:border-teal-600/40 transition-colors py-0 gap-0">
+    <Card className="flex flex-col justify-between hover:border-primary/20 transition-colors py-0 gap-0">
       <div>
         <CardHeader className="p-5 pb-3">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300">
+              <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary">
                 {cohort.cohortCode}
               </span>
               <StatusBadge status={cohort.status} size="sm" />
@@ -93,7 +93,7 @@ export function CohortCard({
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => onOpenEdit(cohort)}
-                  className="cursor-pointer gap-2 text-teal-700 dark:text-teal-400"
+                  className="cursor-pointer gap-2 text-primary dark:text-primary"
                 >
                   <Edit2 className="h-3.5 w-3.5" />
                   Edit Cohort
@@ -107,7 +107,7 @@ export function CohortCard({
           </CardTitle>
           <CardDescription className="text-xs text-muted-foreground flex items-center gap-1.5 flex-wrap">
             <span className="flex items-center gap-1 text-foreground font-medium">
-              <MapPin className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+              <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
               {cohort.centreId?.name || "Unassigned Centre"}
             </span>
             <span>•</span>
@@ -121,7 +121,7 @@ export function CohortCard({
           {/* Duration info */}
           <div className="flex items-center justify-between text-muted-foreground p-2 rounded bg-muted/40 text-[11px]">
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-teal-600" />
+              <Calendar className="h-3.5 w-3.5 text-primary" />
               Timeline:
             </span>
             <span className="font-semibold text-foreground">
@@ -158,7 +158,7 @@ export function CohortCard({
                         Room: {cfg.assignedRoomId?.name || "Practical Lab"}
                       </span>
                     </div>
-                    <span className="font-mono text-[10px] font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300 shrink-0">
+                    <span className="font-mono text-[10px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:text-primary shrink-0">
                       {cfg.startTime || "09:00"} – {cfg.endTime || "12:00"}
                     </span>
                   </div>
@@ -185,7 +185,7 @@ export function CohortCard({
             <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-0.5">
               <span>
                 Available Slots:{" "}
-                <strong className="text-emerald-700 dark:text-emerald-400 font-bold">
+                <strong className="text-primary dark:text-primary font-bold">
                   {metrics.availableSlots}
                 </strong>
               </span>

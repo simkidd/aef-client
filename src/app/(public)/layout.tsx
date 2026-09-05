@@ -55,7 +55,7 @@ export default function PublicLayout({
                 href="/verify/ADELE-2026"
                 className="transition-colors hover:text-foreground flex items-center gap-1"
               >
-                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <ShieldCheck className="h-4 w-4 text-primary dark:text-primary" />
                 Verify Certificate
               </Link>
             </nav>
@@ -144,7 +144,7 @@ export default function PublicLayout({
                 </li>
                 <li>
                   <Link href="/verify/SAMPLE" className="hover:text-foreground transition-colors flex items-center gap-1">
-                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                    <ShieldCheck className="h-3.5 w-3.5 text-primary" />
                     Public Certificate Verification
                   </Link>
                 </li>

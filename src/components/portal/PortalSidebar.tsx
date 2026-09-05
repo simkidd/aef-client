@@ -85,7 +85,7 @@ export function PortalSidebar() {
             <span className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-none truncate font-heading">
               ADELE FOUNDATION
             </span>
-            <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mt-1">
+            <span className="text-[11px] font-medium text-primary dark:text-primary mt-1">
               Beneficiary Portal
             </span>
           </div>
@@ -112,12 +112,16 @@ export function PortalSidebar() {
                       tooltip={item.label}
                       className={
                         isActive
-                          ? "bg-teal-50 text-teal-900 font-semibold dark:bg-teal-950/60 dark:text-teal-200"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900"
+                          ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
                       }
                     >
                       <Icon
-                        className={`h-4 w-4 shrink-0 ${isActive ? "text-teal-700 dark:text-teal-400" : "text-slate-500"}`}
+                        className={`h-4 w-4 shrink-0 transition-colors ${
+                          isActive
+                            ? "text-primary dark:text-primary"
+                            : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
+                        }`}
                       />
                       <span className="truncate">{item.label}</span>
                     </SidebarMenuButton>
@@ -148,12 +152,16 @@ export function PortalSidebar() {
                       tooltip={item.label}
                       className={
                         isActive
-                          ? "bg-teal-50 text-teal-900 font-semibold dark:bg-teal-950/60 dark:text-teal-200"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900"
+                          ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
                       }
                     >
                       <Icon
-                        className={`h-4 w-4 shrink-0 ${isActive ? "text-teal-700 dark:text-teal-400" : "text-slate-500"}`}
+                        className={`h-4 w-4 shrink-0 transition-colors ${
+                          isActive
+                            ? "text-primary dark:text-primary"
+                            : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
+                        }`}
                       />
                       <span className="truncate">{item.label}</span>
                     </SidebarMenuButton>
@@ -172,7 +180,7 @@ export function PortalSidebar() {
                   tooltip="Certificate Verification"
                   className="text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900"
                 >
-                  <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <ShieldCheck className="h-4 w-4 text-primary dark:text-primary shrink-0" />
                   <span className="truncate">Public Verification</span>
                   <ExternalLink className="ml-auto h-3 w-3 text-slate-400" />
                 </SidebarMenuButton>
@@ -184,7 +192,7 @@ export function PortalSidebar() {
         {/* Staff Switch if user is staff */}
         {user?.isStaff && (
           <SidebarGroup className="mt-auto">
-            <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 px-3">
+            <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-primary px-3">
               Staff Portal
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -192,9 +200,9 @@ export function PortalSidebar() {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     onClick={() => router.push("/admin")}
-                    className="text-teal-800 bg-teal-50/80 hover:bg-teal-100 dark:bg-teal-950/40 dark:text-teal-300 dark:hover:bg-teal-950"
+                    className="text-primary bg-primary/10 hover:bg-primary/15 dark:bg-primary/15 dark:text-primary dark:hover:bg-emerald-950"
                   >
-                    <ShieldAlert className="h-4 w-4 text-teal-700 dark:text-teal-400 shrink-0" />
+                    <ShieldAlert className="h-4 w-4 text-primary dark:text-primary shrink-0" />
                     <span className="truncate font-semibold">
                       Staff Operations
                     </span>
@@ -210,7 +218,7 @@ export function PortalSidebar() {
       <SidebarFooter className="p-3 border-t border-slate-100 dark:border-slate-900">
         <div className="flex items-center justify-between gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="h-9 w-9 rounded-xl bg-linear-to-tr from-teal-700 to-teal-500 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+            <div className="h-9 w-9 rounded-xl bg-linear-to-tr from-emerald-700 to-emerald-500 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
               {user?.firstName?.[0] || "B"}
             </div>
             <div className="flex flex-col min-w-0">

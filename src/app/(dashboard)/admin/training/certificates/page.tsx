@@ -102,7 +102,7 @@ export default function CertificatesRegistryPage() {
           </div>
           <Button
             onClick={() => setIsIssueModalOpen(true)}
-            className="bg-teal-700 hover:bg-teal-800 text-xs font-semibold gap-2"
+            className="text-xs font-semibold gap-2"
           >
             <Plus className="h-4 w-4" />
             Issue Certificate
@@ -131,7 +131,7 @@ export default function CertificatesRegistryPage() {
                         {cert.beneficiaryId?.firstName}{" "}
                         {cert.beneficiaryId?.lastName}
                       </span>
-                      <span className="font-mono text-[10px] text-teal-700 dark:text-teal-400 font-bold">
+                      <span className="font-mono text-[10px] text-primary dark:text-primary font-bold">
                         {cert.certificateNumber}
                       </span>
                     </TableCell>
@@ -147,7 +147,7 @@ export default function CertificatesRegistryPage() {
                       {cert.centreId?.name}
                     </TableCell>
                     <TableCell className="text-xs font-semibold">
-                      <span className="text-emerald-700">
+                      <span className="text-primary">
                         {cert.overallAttendanceRate}%
                       </span>{" "}
                       • {cert.grade || "Pass"}
@@ -168,7 +168,7 @@ export default function CertificatesRegistryPage() {
                             "_blank",
                           )
                         }
-                        className="text-xs font-semibold h-7 gap-1 text-teal-800"
+                        className="text-xs font-semibold h-7 gap-1 text-primary"
                       >
                         <ExternalLink className="h-3 w-3" /> Verify Public URL
                       </Button>
@@ -261,7 +261,6 @@ export default function CertificatesRegistryPage() {
                   disabled={
                     !selectedEnrollmentId || issueCertMutation.isPending
                   }
-                  className="bg-teal-700 hover:bg-teal-800"
                 >
                   {issueCertMutation.isPending
                     ? "Generating..."

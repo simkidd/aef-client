@@ -407,7 +407,7 @@ export function AddStaffModal({
             <Button
               type="submit"
               disabled={createStaffMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white gap-2"
+              className="gap-2"
             >
               {createStaffMutation.isPending ? (
                 <>

@@ -80,7 +80,7 @@ export function CentresManagementView() {
         </div>
         <Button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+          className="text-xs font-semibold gap-2"
         >
           <Plus className="h-4 w-4" />
           Add Training Centre
@@ -90,7 +90,7 @@ export function CentresManagementView() {
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="p-4 flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300">
+          <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
@@ -104,7 +104,7 @@ export function CentresManagementView() {
         </Card>
 
         <Card className="p-4 flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+          <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
             <Users className="h-5 w-5" />
           </div>
           <div>

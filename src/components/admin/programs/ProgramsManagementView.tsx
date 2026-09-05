@@ -69,7 +69,7 @@ export function ProgramsManagementView() {
         </div>
         <Button
           onClick={() => setIsAddModalOpen(true)}
-          className="bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-2"
+          className="text-xs font-semibold gap-2"
         >
           <Plus className="h-4 w-4" />
           Create Program

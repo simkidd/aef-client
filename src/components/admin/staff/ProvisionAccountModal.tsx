@@ -175,7 +175,7 @@ export function ProvisionAccountModal({
             <Button
               type="submit"
               disabled={provisionAccountMutation.isPending}
-              className="bg-teal-700 hover:bg-teal-800 text-white gap-2"
+              className="gap-2"
             >
               {provisionAccountMutation.isPending ? (
                 <>

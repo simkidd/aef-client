@@ -71,7 +71,7 @@ export function CentreDetailsSheet({
             {/* Header */}
             <SheetHeader className="p-0 text-left border-b pb-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:border-teal-800 dark:text-teal-300">
+                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
                   {currentCentre.centreCode}
                 </span>
                 <StatusBadge status={currentCentre.status} size="sm" />
@@ -80,7 +80,7 @@ export function CentreDetailsSheet({
                 {currentCentre.name}
               </SheetTitle>
               <SheetDescription className="text-xs text-muted-foreground flex items-center gap-1.5 pt-0.5">
-                <MapPin className="h-3.5 w-3.5 text-teal-600 shrink-0" />
+                <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
                 <span>
                   {currentCentre.address}, {currentCentre.lga},{" "}
                   {currentCentre.state} State
@@ -103,7 +103,7 @@ export function CentreDetailsSheet({
                 <span className="text-[10px] text-muted-foreground uppercase font-semibold block">
                   Rooms
                 </span>
-                <span className="text-sm font-bold text-teal-700 dark:text-teal-400 block">
+                <span className="text-sm font-bold text-primary dark:text-primary block">
                   {rooms.length || currentCentre.stats?.rooms || 0}
                 </span>
                 <span className="text-[9px] text-muted-foreground">Labs</span>
@@ -112,7 +112,7 @@ export function CentreDetailsSheet({
                 <span className="text-[10px] text-muted-foreground uppercase font-semibold block">
                   Scanners
                 </span>
-                <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 block">
+                <span className="text-sm font-bold text-primary dark:text-primary block">
                   {devices.length || currentCentre.stats?.devices || 0}
                 </span>
                 <span className="text-[9px] text-muted-foreground">Online</span>
@@ -154,7 +154,7 @@ export function CentreDetailsSheet({
                   typeof currentCentre.centreManagerId === "object" && (
                     <div className="flex items-center justify-between p-3">
                       <span className="text-muted-foreground flex items-center gap-2">
-                        <UserCheck className="h-3.5 w-3.5 text-teal-600" />{" "}
+                        <UserCheck className="h-3.5 w-3.5 text-primary" />{" "}
                         Centre Manager
                       </span>
                       <div className="text-right">
@@ -175,7 +175,7 @@ export function CentreDetailsSheet({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-foreground tracking-wider uppercase flex items-center gap-1.5">
-                  <DoorOpen className="h-3.5 w-3.5 text-teal-600" /> Rooms &
+                  <DoorOpen className="h-3.5 w-3.5 text-primary" /> Rooms &
                   Laboratories ({rooms.length})
                 </h4>
               </div>
@@ -229,7 +229,7 @@ export function CentreDetailsSheet({
             {/* Biometric Scanners */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold text-foreground tracking-wider uppercase flex items-center gap-1.5">
-                <Fingerprint className="h-3.5 w-3.5 text-emerald-600" />
+                <Fingerprint className="h-3.5 w-3.5 text-primary" />
                 Biometric Terminals ({devices.length})
               </h4>
               {devices.length > 0 ? (
@@ -247,7 +247,7 @@ export function CentreDetailsSheet({
                           Serial: {device.serialNumber || device.macAddress || "N/A"}
                         </span>
                       </div>
-                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
                         <CheckCircle2 className="h-3 w-3" /> Online
                       </span>
                     </div>
@@ -263,7 +263,7 @@ export function CentreDetailsSheet({
             {/* Active Training Cohorts */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold text-foreground tracking-wider uppercase flex items-center gap-1.5">
-                <GraduationCap className="h-3.5 w-3.5 text-teal-600" />
+                <GraduationCap className="h-3.5 w-3.5 text-primary" />
                 Active Cohorts ({cohorts.length})
               </h4>
               {cohorts.length > 0 ? (
@@ -309,7 +309,7 @@ export function CentreDetailsSheet({
                 onClose();
                 onOpenEdit(currentCentre);
               }}
-              className="flex-1 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold gap-1.5"
+              className="flex-1 text-xs font-semibold gap-1.5"
             >
               <Edit2 className="h-3.5 w-3.5" /> Edit Centre
             </Button>

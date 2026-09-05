@@ -66,7 +66,7 @@ export default function TimetableManagementPage() {
                       <span className="font-bold text-xs text-slate-900 dark:text-slate-100 block">
                         {formatDate(sess.sessionDate)}
                       </span>
-                      <span className="font-mono text-[11px] text-teal-700 dark:text-teal-400 font-semibold">
+                      <span className="font-mono text-[11px] text-primary dark:text-primary font-semibold">
                         {sess.startTime} – {sess.endTime}
                       </span>
                     </TableCell>

@@ -56,15 +56,15 @@ export default function PortalCertificatesPage() {
             {certificates.map((cert) => (
               <Card
                 key={cert._id}
-                className="border-teal-200 shadow-md overflow-hidden dark:border-teal-900"
+                className="border-primary/20 shadow-md overflow-hidden dark:border-primary/20"
               >
                 {/* Header Banner */}
-                <div className="bg-linear-to-r from-teal-800 to-slate-900 p-6 text-white">
+                <div className="bg-linear-to-r from-emerald-800 to-slate-900 p-6 text-white">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono tracking-widest text-emerald-300 uppercase font-bold">
+                    <span className="text-[10px] font-mono tracking-widest text-primary uppercase font-bold">
                       {cert.certificateNumber}
                     </span>
-                    <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                    <span className="text-xs bg-primary/20 text-primary px-2.5 py-0.5 rounded-full border border-primary/20">
                       {cert.status}
                     </span>
                   </div>
@@ -90,7 +90,7 @@ export default function PortalCertificatesPage() {
                       <span className="text-slate-400 block text-[10px] uppercase font-semibold">
                         Assessment Grade
                       </span>
-                      <span className="font-semibold text-teal-700">
+                      <span className="font-semibold text-primary">
                         {cert.grade || "Pass"}
                       </span>
                     </div>
@@ -98,7 +98,7 @@ export default function PortalCertificatesPage() {
                       <span className="text-slate-400 block text-[10px] uppercase font-semibold">
                         Attendance Rate
                       </span>
-                      <span className="font-semibold text-emerald-700">
+                      <span className="font-semibold text-primary">
                         {cert.overallAttendanceRate}%
                       </span>
                     </div>
@@ -114,7 +114,7 @@ export default function PortalCertificatesPage() {
 
                   <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 flex items-center justify-between dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center gap-2">
-                      <ShieldCheck className="h-5 w-5 text-teal-700 shrink-0" />
+                      <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
                       <div>
                         <p className="font-bold text-slate-900 dark:text-slate-100">
                           Public Verification Code
@@ -134,14 +134,14 @@ export default function PortalCertificatesPage() {
                     onClick={() =>
                       window.open(`/verify/${cert.verificationCode}`, "_blank")
                     }
-                    className="gap-1.5 text-xs text-teal-800"
+                    className="gap-1.5 text-xs text-primary"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     Public Verification Link
                   </Button>
                   <Button
                     size="sm"
-                    className="bg-teal-700 hover:bg-teal-800 text-xs"
+                    className="text-xs"
                   >
                     View Certificate
                   </Button>

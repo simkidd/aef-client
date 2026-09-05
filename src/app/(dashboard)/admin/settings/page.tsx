@@ -88,7 +88,7 @@ export default function AdminSettingsPage() {
         </div>
 
         {successMsg && (
-          <div className="flex items-center gap-2 rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-xs font-semibold text-emerald-900 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-200">
+          <div className="flex items-center gap-2 rounded-xl bg-primary/10 border border-primary/20 p-4 text-xs font-semibold text-primary dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
             <CheckCircle2 className="h-4 w-4" />
             <span>{successMsg}</span>
           </div>
@@ -98,7 +98,7 @@ export default function AdminSettingsPage() {
           <Card>
             <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-4">
               <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-teal-700" />
+                <Clock className="h-5 w-5 text-primary" />
                 <CardTitle className="text-base">
                   Biometric Attendance Engine Rules
                 </CardTitle>
@@ -202,7 +202,7 @@ export default function AdminSettingsPage() {
               <Button
                 type="submit"
                 disabled={savePolicyMutation.isPending}
-                className="bg-teal-700 hover:bg-teal-800 gap-2"
+                className="gap-2"
               >
                 <Save className="h-4 w-4" />
                 {savePolicyMutation.isPending

@@ -54,7 +54,7 @@ export default function PortalProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Identity Card */}
           <Card className="p-6 space-y-5 flex flex-col items-center text-center">
-            <div className="h-24 w-24 rounded-full bg-linear-to-tr from-teal-700 to-teal-500 text-white flex items-center justify-center font-bold text-3xl shadow-md">
+            <div className="h-24 w-24 rounded-full bg-linear-to-tr from-emerald-700 to-emerald-500 text-white flex items-center justify-center font-bold text-3xl shadow-md">
               {profile?.firstName?.[0] || user?.firstName?.[0] || "B"}
             </div>
             <div>
@@ -62,30 +62,30 @@ export default function PortalProfilePage() {
                 {profile?.firstName || user?.firstName}{" "}
                 {profile?.lastName || user?.lastName}
               </h2>
-              <span className="font-mono text-xs text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-md border border-teal-200 mt-1 inline-block dark:bg-teal-950 dark:text-teal-300">
+              <span className="font-mono text-xs text-primary bg-primary/10 px-2.5 py-0.5 rounded-md border border-primary/20 mt-1 inline-block dark:bg-primary/15 dark:text-primary">
                 {profile?.beneficiaryCode || "AEF-BEN-2026"}
               </span>
             </div>
 
             <div className="w-full pt-4 border-t border-slate-100 dark:border-slate-800 text-left space-y-3 text-xs">
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <Mail className="h-4 w-4 text-teal-600 shrink-0" />
+                <Mail className="h-4 w-4 text-primary shrink-0" />
                 <span className="truncate">
                   {profile?.email || user?.email}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <Phone className="h-4 w-4 text-teal-600 shrink-0" />
+                <Phone className="h-4 w-4 text-primary shrink-0" />
                 <span>{profile?.phone || "—"}</span>
               </div>
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <MapPin className="h-4 w-4 text-teal-600 shrink-0" />
+                <MapPin className="h-4 w-4 text-primary shrink-0" />
                 <span>{profile?.stateOfResidence || "Lagos"}, Nigeria</span>
               </div>
             </div>
 
-            <div className="w-full rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-emerald-900 text-xs flex items-center gap-2 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300">
-              <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
+            <div className="w-full rounded-xl bg-primary/10 border border-primary/20 p-3 text-primary text-xs flex items-center gap-2 dark:bg-primary/15 dark:border-primary/20 dark:text-primary">
+              <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
               <span>Biometric Identity Token Assigned</span>
             </div>
           </Card>
