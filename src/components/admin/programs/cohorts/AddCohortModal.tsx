@@ -152,7 +152,7 @@ export function AddCohortModal({
         }
       }}
     >
-      <DialogContent className="sm:max-w-xl flex flex-col gap-0 overflow-hidden">
+      <DialogContent className="sm:max-w-2xl flex flex-col gap-0 overflow-hidden">
         <DialogHeader>
           <DialogTitle className="font-bold font-heading">
             Create Training Cohort & Slot Schedule
@@ -165,10 +165,10 @@ export function AddCohortModal({
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-0 flex-1 flex flex-col overflow-hidden"
+          className="space-y-0 flex-1 flex flex-col"
         >
           <ScrollArea className="h-[380px] sm:h-[420px] py-2">
-            <FieldGroup className="px-6 py-2 space-y-4">
+            <FieldGroup className="px-4 py-2">
               {/* Cohort Name */}
               <Field>
                 <FieldLabel className="text-xs font-semibold">
@@ -232,7 +232,9 @@ export function AddCohortModal({
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="text-xs">
-                          <SelectValue placeholder="Select program" />
+                          <SelectValue placeholder="Select program">
+                            {programs.find((p) => p._id === field.value)?.title}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {programs.map((p) => (
@@ -264,7 +266,12 @@ export function AddCohortModal({
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="text-xs">
-                          <SelectValue placeholder="Select centre" />
+                          <SelectValue placeholder="Select centre">
+                            {(() => {
+                              const c = centres.find((ctr) => ctr._id === field.value);
+                              return c ? `${c.name} (${c.state})` : undefined;
+                            })()}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {centres.map((c) => (
@@ -339,7 +346,9 @@ export function AddCohortModal({
                           onValueChange={field.onChange}
                         >
                           <SelectTrigger className="text-xs">
-                            <SelectValue placeholder="Select skill" />
+                            <SelectValue placeholder="Select skill">
+                              {skillAreas.find((s) => s._id === field.value)?.name}
+                            </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             {skillAreas.map((s) => (
@@ -386,18 +395,23 @@ export function AddCohortModal({
                   control={control}
                   name="status"
                   render={({ field }) => (
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="text-xs">
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder="Select status">
+                          {field.value === "upcoming"
+                            ? "Upcoming"
+                            : field.value === "in_progress"
+                            ? "In Progress"
+                            : field.value === "completed"
+                            ? "Completed"
+                            : field.value === "cancelled"
+                            ? "Cancelled"
+                            : undefined}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="upcoming">Upcoming</SelectItem>
-                        <SelectItem value="in_progress">
-                          In Progress
-                        </SelectItem>
+                        <SelectItem value="in_progress">In Progress</SelectItem>
                         <SelectItem value="completed">Completed</SelectItem>
                         <SelectItem value="cancelled">Cancelled</SelectItem>
                       </SelectContent>

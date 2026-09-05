@@ -55,11 +55,11 @@ export function CohortCard({
 
   const pct = Math.min(
     100,
-    Math.round(((metrics.active || 0) / (cohort.maxCapacity || 1)) * 100)
+    Math.round(((metrics.active || 0) / (cohort.maxCapacity || 1)) * 100),
   );
 
   return (
-    <Card className="flex flex-col justify-between hover:border-teal-600/40 transition-colors">
+    <Card className="flex flex-col justify-between hover:border-teal-600/40 transition-colors py-0 gap-0">
       <div>
         <CardHeader className="p-5 pb-3">
           <div className="flex items-start justify-between gap-2">
@@ -131,18 +131,25 @@ export function CohortCard({
 
           {/* Timetable and Skill tracks */}
           <div>
-            <span className="font-semibold text-foreground text-[11px] block mb-1.5">
-              Configured Skill Tracks & Timetable Schedule:
-            </span>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="font-semibold text-foreground text-[11px] block">
+                Configured Skill Tracks ({cohort.skillConfigs?.length || 0}):
+              </span>
+              {cohort.skillConfigs && cohort.skillConfigs.length > 2 && (
+                <span className="text-[10px] font-semibold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-border">
+                  +{cohort.skillConfigs.length - 2} more
+                </span>
+              )}
+            </div>
             <div className="space-y-1.5">
               {cohort.skillConfigs && cohort.skillConfigs.length > 0 ? (
-                cohort.skillConfigs.map((cfg: any, idx: number) => (
+                cohort.skillConfigs.slice(0, 2).map((cfg: any, idx: number) => (
                   <div
                     key={idx}
-                    className="p-2.5 rounded-lg border border-border bg-card flex items-center justify-between gap-2"
+                    className="p-2 rounded-lg border border-border bg-card flex items-center justify-between gap-2"
                   >
                     <div className="truncate">
-                      <span className="font-bold text-foreground block truncate">
+                      <span className="font-bold text-foreground block truncate text-xs">
                         {cfg.skillAreaId?.name ||
                           cfg.skillName ||
                           "Technical Track"}
@@ -151,7 +158,7 @@ export function CohortCard({
                         Room: {cfg.assignedRoomId?.name || "Practical Lab"}
                       </span>
                     </div>
-                    <span className="font-mono text-[11px] font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300 shrink-0">
+                    <span className="font-mono text-[10px] font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 dark:bg-teal-950 dark:text-teal-300 shrink-0">
                       {cfg.startTime || "09:00"} – {cfg.endTime || "12:00"}
                     </span>
                   </div>
@@ -191,7 +198,7 @@ export function CohortCard({
         </CardContent>
       </div>
 
-      <CardFooter className="p-5 pt-0">
+      <CardFooter className="">
         <Button
           variant="outline"
           size="sm"

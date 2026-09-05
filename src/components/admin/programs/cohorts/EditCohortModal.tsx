@@ -104,6 +104,7 @@ export function EditCohortModal({
   const onSubmit = (data: AddCohortFormData) => {
     if (!cohort?._id) return;
 
+    const firstConfig = cohort.skillConfigs?.[0];
     const payload = {
       name: data.name,
       cohortCode: data.cohortCode || cohort.cohortCode,
@@ -113,6 +114,22 @@ export function EditCohortModal({
       endDate: data.endDate,
       maxCapacity: data.maxCapacity,
       status: data.status,
+      skillConfigs: [
+        {
+          ...(firstConfig || {}),
+          skillAreaId:
+            data.skillAreaId ||
+            (typeof firstConfig?.skillAreaId === "string"
+              ? firstConfig.skillAreaId
+              : firstConfig?.skillAreaId?._id) ||
+            skillAreas[0]?._id,
+          startTime: data.startTime || firstConfig?.startTime || "09:00",
+          endTime: data.endTime || firstConfig?.endTime || "12:00",
+          daysOfWeek: firstConfig?.daysOfWeek || [1, 3, 5],
+          durationWeeks: firstConfig?.durationWeeks || 8,
+          maxCapacity: data.maxCapacity,
+        },
+      ],
     };
 
     updateMutation.mutate({
@@ -133,7 +150,7 @@ export function EditCohortModal({
         }
       }}
     >
-      <DialogContent className="sm:max-w-xl flex flex-col gap-0 overflow-hidden">
+      <DialogContent className="sm:max-w-2xl flex flex-col gap-0 overflow-hidden">
         <DialogHeader>
           <DialogTitle className="font-bold font-heading">
             Edit Cohort Settings
@@ -149,7 +166,7 @@ export function EditCohortModal({
           className="space-y-0 flex-1 flex flex-col overflow-hidden"
         >
           <ScrollArea className="h-[380px] sm:h-[420px] py-2">
-            <FieldGroup className="px-6 py-2 space-y-4">
+            <FieldGroup className="px-4 py-2">
               {/* Cohort Name */}
               <Field>
                 <FieldLabel className="text-xs font-semibold">
@@ -212,7 +229,9 @@ export function EditCohortModal({
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="text-xs">
-                          <SelectValue placeholder="Select program" />
+                          <SelectValue placeholder="Select program">
+                            {programs.find((p) => p._id === field.value)?.title}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {programs.map((p) => (
@@ -244,7 +263,12 @@ export function EditCohortModal({
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger className="text-xs">
-                          <SelectValue placeholder="Select centre" />
+                          <SelectValue placeholder="Select centre">
+                            {(() => {
+                              const c = centres.find((ctr) => ctr._id === field.value);
+                              return c ? `${c.name} (${c.state})` : undefined;
+                            })()}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           {centres.map((c) => (
@@ -299,6 +323,66 @@ export function EditCohortModal({
                 </Field>
               </div>
 
+              {/* Primary Skill Discipline & Schedule Rules */}
+              <div className="p-3.5 rounded-lg border border-border bg-muted/20 space-y-3">
+                <span className="text-xs font-semibold text-foreground block">
+                  Primary Curriculum Track & Timetable Schedule
+                </span>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <Field className="sm:col-span-1">
+                    <FieldLabel className="text-[11px] font-medium">
+                      Skill Discipline
+                    </FieldLabel>
+                    <Controller
+                      control={control}
+                      name="skillAreaId"
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger className="text-xs">
+                            <SelectValue placeholder="Select skill">
+                              {skillAreas.find((s) => s._id === field.value)?.name}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            {skillAreas.map((s) => (
+                              <SelectItem key={s._id} value={s._id}>
+                                {s.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </Field>
+
+                  <Field>
+                    <FieldLabel className="text-[11px] font-medium">
+                      Daily Start Time
+                    </FieldLabel>
+                    <Input
+                      type="time"
+                      {...register("startTime")}
+                      className="text-xs"
+                    />
+                  </Field>
+
+                  <Field>
+                    <FieldLabel className="text-[11px] font-medium">
+                      Daily End Time
+                    </FieldLabel>
+                    <Input
+                      type="time"
+                      {...register("endTime")}
+                      className="text-xs"
+                    />
+                  </Field>
+                </div>
+              </div>
+
               {/* Status */}
               <Field>
                 <FieldLabel className="text-xs font-semibold">
@@ -313,7 +397,17 @@ export function EditCohortModal({
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger className="text-xs">
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder="Select status">
+                          {field.value === "upcoming"
+                            ? "Upcoming"
+                            : field.value === "in_progress"
+                            ? "In Progress"
+                            : field.value === "completed"
+                            ? "Completed"
+                            : field.value === "cancelled"
+                            ? "Cancelled"
+                            : undefined}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="upcoming">Upcoming</SelectItem>
