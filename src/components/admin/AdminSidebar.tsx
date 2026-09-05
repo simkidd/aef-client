@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Building2,
@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   History,
   Settings,
+  LogOut,
 } from "lucide-react";
 import {
   Sidebar,
@@ -39,7 +40,10 @@ import {
   SidebarGroupContent,
   SidebarSeparator,
 } from "../ui/sidebar";
+import { Button } from "../ui/button";
+import { ConfirmationModal } from "../common/ConfirmationModal";
 import { useAuthStore } from "@/stores/auth.store";
+import { authApi } from "@/lib/api/auth.api";
 
 interface NavItem {
   label: string;
@@ -55,7 +59,24 @@ interface NavGroup {
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const { user, hasPermission } = useAuthStore();
+  const router = useRouter();
+  const { user, hasPermission, clearAuth } = useAuthStore();
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await authApi.logout();
+    } catch (e) {
+      console.warn("Logout API error:", e);
+    } finally {
+      clearAuth();
+      setIsLogoutOpen(false);
+      setIsLoggingOut(false);
+      router.push("/auth/login");
+    }
+  };
 
   const navGroups: NavGroup[] = [
     {
@@ -219,7 +240,7 @@ export function AdminSidebar() {
       {/* Brand Header */}
       <SidebarHeader className="p-4 border-b border-slate-100 dark:border-slate-900">
         <Link href="/admin" className="flex items-center gap-3 group">
-          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-sm border border-slate-100 dark:border-slate-800 dark:bg-slate-900 group-hover:scale-105 transition-transform">
+          <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white p-1 shadow-sm border border-slate-100 dark:border-slate-800">
             <Image
               src="/logos/adele-logo.png"
               alt="Adele Empowerment Foundation"
@@ -231,10 +252,10 @@ export function AdminSidebar() {
           </div>
           <div className="flex flex-col overflow-hidden">
             <span className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-none truncate font-heading">
-              ADELE FOUNDATION
+              AEF
             </span>
             <span className="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest dark:text-emerald-400 mt-1">
-              Operations OS v2.0
+              Admin Portal
             </span>
           </div>
         </Link>
@@ -251,7 +272,7 @@ export function AdminSidebar() {
           return (
             <React.Fragment key={group.group}>
               {groupIndex > 0 && (
-                <SidebarSeparator className="my-1 border-slate-100 dark:border-slate-900" />
+                <SidebarSeparator className="my-1 bg-slate-100 dark:bg-slate-800/80" />
               )}
               <SidebarGroup>
                 <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3">
@@ -296,20 +317,47 @@ export function AdminSidebar() {
 
       {/* Sidebar Footer: User Card */}
       <SidebarFooter className="p-3 border-t border-slate-100 dark:border-slate-900">
-        <div className="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60">
-          <div className="h-9 w-9 rounded-xl bg-linear-to-tr from-teal-800 to-teal-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-            {user?.firstName?.[0] || "A"}
+        <div className="flex items-center justify-between gap-2 p-2 rounded-xl bg-slate-50 dark:bg-slate-900/60">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="h-9 w-9 rounded-xl bg-linear-to-tr from-teal-800 to-teal-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              {user?.firstName?.[0] || "A"}
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                {user ? `${user.firstName} ${user.lastName}` : "Staff Member"}
+              </span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                {user?.roles?.[0] || "Administrator"}
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-              {user ? `${user.firstName} ${user.lastName}` : "Staff Member"}
-            </span>
-            <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
-              {user?.roles?.[0] || "Administrator"}
-            </span>
-          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsLogoutOpen(true)}
+            title="Log Out"
+            className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 shrink-0 rounded-lg"
+          >
+            <LogOut className="h-4 w-4" />
+            <span className="sr-only">Log Out</span>
+          </Button>
         </div>
       </SidebarFooter>
+
+      {/* Logout Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isLogoutOpen}
+        onClose={() => !isLoggingOut && setIsLogoutOpen(false)}
+        onConfirm={handleLogout}
+        title="Sign out of Adele Foundation Admin?"
+        description="Are you sure you want to log out? You will need to sign in again to access the operations portal."
+        confirmText="Yes, Log Out"
+        cancelText="Stay Signed In"
+        variant="destructive"
+        icon={LogOut}
+        isLoading={isLoggingOut}
+      />
     </Sidebar>
   );
 }

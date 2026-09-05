@@ -2,29 +2,17 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Fingerprint, LogOut, ExternalLink } from "lucide-react";
+import { Fingerprint, ExternalLink } from "lucide-react";
 import { Button } from "../ui/button";
 import { SidebarTrigger } from "../ui/sidebar";
 import { ThemeToggle } from "../ui/theme-toggle";
 import { useAuthStore } from "@/stores/auth.store";
-import { authApi } from "@/lib/api/auth.api";
 import { BiometricSimulatorModal } from "./BiometricSimulatorModal";
 
 export function AdminHeader() {
-  const { user, clearAuth } = useAuthStore();
+  const { user } = useAuthStore();
   const router = useRouter();
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
-
-  const handleLogout = async () => {
-    try {
-      await authApi.logout();
-    } catch (e) {
-      console.warn("Logout API failed:", e);
-    } finally {
-      clearAuth();
-      router.push("/auth/login");
-    }
-  };
 
   return (
     <>
@@ -72,17 +60,6 @@ export function AdminHeader() {
 
           {/* Theme Mode Toggle */}
           <ThemeToggle />
-
-          {/* Logout */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLogout}
-            title="Log out"
-            className="text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30"
-          >
-            <LogOut className="h-4 w-4" />
-          </Button>
         </div>
       </header>
 

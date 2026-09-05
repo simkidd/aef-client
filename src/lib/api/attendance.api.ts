@@ -22,6 +22,11 @@ export const attendanceApi = {
     return res.data;
   },
 
+  getTodaySummary: async (): Promise<ApiResponse<any>> => {
+    const res = await api.get('/attendance/today-summary');
+    return res.data;
+  },
+
   manualRecord: async (data: Partial<AttendanceRecord>): Promise<ApiResponse<AttendanceRecord>> => {
     const res = await api.post('/attendance/manual-record', data);
     return res.data;
