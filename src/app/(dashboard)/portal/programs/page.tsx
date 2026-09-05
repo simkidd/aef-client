@@ -21,6 +21,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import {
   Dialog,
@@ -56,7 +57,7 @@ export default function PortalProgramsPage() {
   const { data: programs, isLoading } = useQuery({
     queryKey: ["portal-programs"],
     queryFn: async () => {
-      const res = await api.get("/programs?published=true");
+      const res = await api.get("/programs/published");
       return res.data?.data as Program[];
     },
   });
@@ -303,13 +304,13 @@ export default function PortalProgramsPage() {
                     <FieldLabel htmlFor="statement">
                       Statement of Purpose
                     </FieldLabel>
-                    <textarea
+                    <Textarea
                       id="statement"
                       rows={3}
                       placeholder="Why are you interested in this technical empowerment track?"
                       value={statement}
                       onChange={(e) => setStatement(e.target.value)}
-                      className="w-full rounded-md border border-slate-300 bg-white p-2 text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                      className="text-xs"
                     />
                   </Field>
                 </FieldGroup>

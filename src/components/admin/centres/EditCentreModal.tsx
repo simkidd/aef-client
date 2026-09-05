@@ -31,6 +31,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { Staff, TrainingCentre } from "@/interfaces";
 import { useUpdateCentreMutation } from "@/hooks";
+import { toast } from "@/components/ui/toast";
 
 export const editCentreSchema = z.object({
   name: z.string().min(3, "Centre name must be at least 3 characters"),
