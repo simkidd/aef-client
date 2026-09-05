@@ -26,4 +26,12 @@ export const staffApi = {
     const res = await api.get('/org/departments');
     return res.data;
   },
+
+  provisionAccount: async (
+    staffId: string,
+    data: { roles: string[] }
+  ): Promise<ApiResponse<any>> => {
+    const res = await api.post(`/staff/${staffId}/provision-account`, data);
+    return res.data;
+  },
 };

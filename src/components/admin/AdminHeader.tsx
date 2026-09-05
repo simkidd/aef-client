@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Fingerprint, ExternalLink } from "lucide-react";
+import { Fingerprint } from "lucide-react";
 import { Button } from "../ui/button";
 import { SidebarTrigger } from "../ui/sidebar";
 import { ThemeToggle } from "../ui/theme-toggle";
@@ -11,7 +10,6 @@ import { BiometricSimulatorModal } from "./BiometricSimulatorModal";
 
 export function AdminHeader() {
   const { user } = useAuthStore();
-  const router = useRouter();
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
   return (
@@ -45,17 +43,6 @@ export function AdminHeader() {
           >
             <Fingerprint className="h-4 w-4" />
             <span className="hidden sm:inline">Biometric Simulator</span>
-          </Button>
-
-          {/* Link to Public / Beneficiary portal */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push("/portal")}
-            className="gap-1.5 text-xs text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hidden md:flex"
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            Beneficiary Portal
           </Button>
 
           {/* Theme Mode Toggle */}

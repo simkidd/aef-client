@@ -3,7 +3,7 @@ export interface Staff {
   staffCode: string;
   firstName: string;
   lastName: string;
-  gender: 'Male' | 'Female' | 'Other';
+  gender: 'male' | 'female' | 'other' | string;
   email: string;
   phone: string;
   departmentId?: any;
