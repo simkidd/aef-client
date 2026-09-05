@@ -1,5 +1,5 @@
 import { api } from '../client';
-import { ApiResponse, TrainingCentre, RoomFacility } from '@/interfaces';
+import { ApiResponse, TrainingCentre, RoomFacility, CentreDetailData } from '@/interfaces';
 
 export const centreApi = {
   getAll: async (params?: Record<string, any>): Promise<ApiResponse<TrainingCentre[]>> => {
@@ -7,7 +7,7 @@ export const centreApi = {
     return res.data;
   },
 
-  getById: async (id: string): Promise<ApiResponse<TrainingCentre>> => {
+  getById: async (id: string): Promise<ApiResponse<CentreDetailData>> => {
     const res = await api.get(`/centres/${id}`);
     return res.data;
   },

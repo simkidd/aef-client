@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { centreApi } from '@/lib/api/centre.api';
-import { TrainingCentre, RoomFacility } from '@/interfaces';
+import { TrainingCentre, RoomFacility, CentreDetailData } from '@/interfaces';
 
 export function useCentresQuery(params?: Record<string, any>) {
   return useQuery({
@@ -17,7 +17,7 @@ export function useCentreQuery(id: string) {
     queryKey: ['centre', id],
     queryFn: async () => {
       const res = await centreApi.getById(id);
-      return res?.data as TrainingCentre;
+      return res?.data as CentreDetailData;
     },
     enabled: !!id,
   });

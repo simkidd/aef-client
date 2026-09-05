@@ -128,7 +128,9 @@ export function AddStaffModal({
     >
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Add New Staff Record</DialogTitle>
+          <DialogTitle className="font-bold font-heading">
+            Add New Staff Record
+          </DialogTitle>
           <DialogDescription>
             Create a new employee record in the organizational HR database.
           </DialogDescription>

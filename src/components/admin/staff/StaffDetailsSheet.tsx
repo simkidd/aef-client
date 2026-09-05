@@ -53,7 +53,7 @@ export function StaffDetailsSheet({
       }}
     >
       <SheetContent
-        className="w-full sm:max-w-lg! p-0 flex flex-col justify-between overflow-hidden gap-0"
+        className="w-full! sm:max-w-lg! p-0 flex flex-col justify-between overflow-hidden gap-0"
         showCloseButton={false}
       >
         <ScrollArea className="flex-1 h-[calc(100vh-80px)]">

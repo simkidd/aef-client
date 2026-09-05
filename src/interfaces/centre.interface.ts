@@ -9,6 +9,16 @@ export interface TrainingCentre {
   contactPhone: string;
   capacity: number;
   status: string;
+  centreManagerId?:
+    | string
+    | {
+        _id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone?: string;
+        position?: string;
+      };
   stats?: {
     rooms: number;
     devices: number;
@@ -37,3 +47,11 @@ export interface Asset {
   condition: string;
   status: string;
 }
+
+export interface CentreDetailData {
+  centre: TrainingCentre;
+  rooms: RoomFacility[];
+  devices: any[];
+  cohorts: any[];
+}
+
