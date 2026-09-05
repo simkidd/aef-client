@@ -81,8 +81,7 @@ export function ApplicationsTable({
               applications.map((app) => (
                 <TableRow
                   key={app._id}
-                  onClick={() => handleOpenDetails(app)}
-                  className="cursor-pointer hover:bg-muted/60 transition-colors group"
+                  className="hover:bg-muted/60 transition-colors group"
                 >
                   {/* Candidate: Avatar + Name + Application Code */}
                   <TableCell>
@@ -94,7 +93,7 @@ export function ApplicationsTable({
                         <AvatarFallback className="bg-primary/10 text-primary">
                           {getInitials(
                             app.beneficiaryId?.firstName,
-                            app.beneficiaryId?.lastName
+                            app.beneficiaryId?.lastName,
                           )}
                         </AvatarFallback>
                       </Avatar>

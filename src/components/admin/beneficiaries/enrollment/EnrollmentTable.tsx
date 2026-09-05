@@ -19,14 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import {
-  MoreHorizontal,
-  Eye,
-  UserCheck,
-  Fingerprint,
-  CheckCircle2,
-  ShieldAlert,
-} from "lucide-react";
+import { MoreHorizontal, Eye, UserCheck, Fingerprint } from "lucide-react";
 import { Enrollment } from "@/interfaces";
 import { EnrollmentDetailsSheet } from "./EnrollmentDetailsSheet";
 
@@ -64,20 +57,20 @@ export function EnrollmentTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Enrollment Code & Trainee</TableHead>
+              <TableHead>Trainee & Enrollment Code</TableHead>
               <TableHead>Assigned Centre & Cohort</TableHead>
               <TableHead>Skill Track</TableHead>
-              <TableHead>Physical Verification</TableHead>
-              <TableHead>Biometric Status</TableHead>
-              <TableHead>Lifecycle Status</TableHead>
-              <TableHead className="w-[170px] text-right">Desk Action</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="w-[60px] text-right">
+                <span className="sr-only">Actions</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={5}
                   className="text-center py-8 text-muted-foreground text-xs"
                 >
                   Loading onboarding queue...
@@ -95,10 +88,9 @@ export function EnrollmentTable({
                 return (
                   <TableRow
                     key={enr._id}
-                    onClick={() => handleOpenDetails(enr)}
-                    className="cursor-pointer hover:bg-muted/60 transition-colors group"
+                    className="hover:bg-muted/60 transition-colors group"
                   >
-                    {/* Candidate: Avatar + Name + Enrollment Code */}
+                    {/* Trainee: Avatar + Name + Enrollment Code */}
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar
@@ -140,112 +132,57 @@ export function EnrollmentTable({
                       {enr.skillAreaId?.name || "General Track"}
                     </TableCell>
 
-                    {/* Physical Verification */}
-                    <TableCell>
-                      {isVerified ? (
-                        <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1 w-fit dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-400">
-                          <CheckCircle2 className="h-3 w-3" /> Verified
-                        </span>
-                      ) : (
-                        <span className="text-[11px] font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex items-center gap-1 w-fit dark:bg-amber-950/40 dark:border-amber-900 dark:text-amber-300">
-                          <ShieldAlert className="h-3 w-3" /> Pending Check
-                        </span>
-                      )}
-                    </TableCell>
-
-                    {/* Biometric Status */}
-                    <TableCell>
-                      {hasBiometrics ? (
-                        <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1 w-fit dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-400">
-                          <Fingerprint className="h-3 w-3" /> Registered
-                        </span>
-                      ) : (
-                        <span className="text-[11px] text-muted-foreground italic">
-                          Not Captured
-                        </span>
-                      )}
-                    </TableCell>
-
                     {/* Lifecycle Status */}
                     <TableCell>
                       <StatusBadge status={enr.status} size="sm" />
                     </TableCell>
 
-                    {/* Desk Action */}
+                    {/* Action Menu */}
                     <TableCell
                       className="text-right"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="flex items-center justify-end gap-1.5">
-                        {!isVerified ? (
-                          <Button
-                            size="sm"
-                            onClick={() => onOpenVerify(enr)}
-                            className="text-xs h-7 gap-1 font-semibold"
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          render={
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                            />
+                          }
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">Open menu</span>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-44 p-1">
+                          <DropdownMenuItem
+                            onClick={() => handleOpenDetails(enr)}
+                            className="text-[13px] cursor-pointer"
                           >
-                            <UserCheck className="h-3.5 w-3.5" /> Verify
-                          </Button>
-                        ) : !hasBiometrics ? (
-                          <Button
-                            size="sm"
-                            onClick={() => onOpenBiometric(enr)}
-                            className="text-xs h-7 gap-1 font-semibold"
-                          >
-                            <Fingerprint className="h-3.5 w-3.5" /> Biometrics
-                          </Button>
-                        ) : (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-xs h-7 gap-1 text-primary border-primary/20"
-                            disabled
-                          >
-                            <CheckCircle2 className="h-3.5 w-3.5 text-primary" /> Ready
-                          </Button>
-                        )}
-
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            render={
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                className="h-7 w-7 text-muted-foreground hover:text-foreground"
-                              />
-                            }
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Open menu</span>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-44 p-1">
+                            <Eye className="h-3.5 w-3.5 text-muted-foreground" />
+                            <span>View Dossier</span>
+                          </DropdownMenuItem>
+                          {!isVerified && (
                             <DropdownMenuItem
-                              onClick={() => handleOpenDetails(enr)}
-                              className="text-[13px] cursor-pointer"
+                              onClick={() => onOpenVerify(enr)}
+                              className="text-[13px] cursor-pointer font-medium text-primary dark:text-primary focus:text-primary"
                             >
-                              <Eye className="h-3.5 w-3.5 text-muted-foreground" />
-                              <span>View Dossier</span>
+                              <UserCheck className="h-3.5 w-3.5 text-primary" />
+                              <span>Verify Identity</span>
                             </DropdownMenuItem>
-                            {!isVerified && (
-                              <DropdownMenuItem
-                                onClick={() => onOpenVerify(enr)}
-                                className="text-[13px] cursor-pointer font-medium text-primary dark:text-primary focus:text-primary"
-                              >
-                                <UserCheck className="h-3.5 w-3.5 text-primary" />
-                                <span>Verify Identity</span>
-                              </DropdownMenuItem>
-                            )}
-                            {isVerified && !hasBiometrics && (
-                              <DropdownMenuItem
-                                onClick={() => onOpenBiometric(enr)}
-                                className="text-[13px] cursor-pointer font-medium text-primary dark:text-primary focus:text-primary"
-                              >
-                                <Fingerprint className="h-3.5 w-3.5 text-primary" />
-                                <span>Scan Biometrics</span>
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </div>
+                          )}
+                          {isVerified && !hasBiometrics && (
+                            <DropdownMenuItem
+                              onClick={() => onOpenBiometric(enr)}
+                              className="text-[13px] cursor-pointer font-medium text-primary dark:text-primary focus:text-primary"
+                            >
+                              <Fingerprint className="h-3.5 w-3.5 text-primary" />
+                              <span>Scan Biometrics</span>
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
                   </TableRow>
                 );
@@ -253,7 +190,7 @@ export function EnrollmentTable({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={5}
                   className="text-center py-8 text-muted-foreground text-xs"
                 >
                   No candidates currently found in the onboarding queue.
@@ -264,7 +201,7 @@ export function EnrollmentTable({
         </Table>
       </Card>
 
-      {/* Enrollment Details Sheet */}
+      {/* Enrollment Details Sheet with full rich content */}
       <EnrollmentDetailsSheet
         isOpen={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}

@@ -56,10 +56,9 @@ export function TraineesTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Enrollment Code & Trainee</TableHead>
+              <TableHead>Trainee & Enrollment Code</TableHead>
               <TableHead>Training Cohort & Centre</TableHead>
               <TableHead>Skill Track</TableHead>
-              <TableHead>Biometric Token</TableHead>
               <TableHead>Attendance Rate</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-[60px] text-right">
@@ -71,7 +70,7 @@ export function TraineesTable({
             {isLoading ? (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={6}
                   className="text-center py-8 text-muted-foreground text-xs"
                 >
                   Loading active trainees directory...
@@ -84,8 +83,7 @@ export function TraineesTable({
                 return (
                   <TableRow
                     key={t._id}
-                    onClick={() => handleOpenDetails(t)}
-                    className="cursor-pointer hover:bg-muted/60 transition-colors group"
+                    className="hover:bg-muted/60 transition-colors group"
                   >
                     {/* Trainee: Avatar + Name + Enrollment Code */}
                     <TableCell>
@@ -126,17 +124,6 @@ export function TraineesTable({
                     {/* Skill Track */}
                     <TableCell className="text-xs font-semibold text-primary dark:text-primary">
                       {t.skillAreaId?.name || "General Track"}
-                    </TableCell>
-
-                    {/* Biometric Token */}
-                    <TableCell className="font-mono text-[11px] text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Fingerprint className="h-3 w-3 text-primary shrink-0" />
-                        <span className="truncate max-w-[120px]">
-                          {t.biometricRegistrationDetails?.biometricIdentifier ||
-                            "BIO-TOKEN-OK"}
-                        </span>
-                      </span>
                     </TableCell>
 
                     {/* Cumulative Attendance */}

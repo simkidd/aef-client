@@ -79,7 +79,8 @@ export function TraineeDetailsSheet({
                 {beneficiary.firstName} {beneficiary.lastName}
               </SheetTitle>
               <SheetDescription className="text-xs text-muted-foreground">
-                Enrolled on {formatDate(trainee.enrolledAt || trainee.createdAt)}
+                Enrolled on{" "}
+                {formatDate(trainee.enrolledAt || trainee.createdAt)}
               </SheetDescription>
             </SheetHeader>
 
@@ -116,7 +117,8 @@ export function TraineeDetailsSheet({
             {/* Cohort & Centre Assignment */}
             <div className="rounded-lg border bg-card p-4 space-y-3">
               <h4 className="text-xs font-bold text-foreground tracking-wider uppercase flex items-center gap-1.5">
-                <Layers className="h-3.5 w-3.5 text-primary" /> Training Cohort & Location
+                <Layers className="h-3.5 w-3.5 text-primary" /> Training Cohort
+                & Location
               </h4>
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div className="space-y-1">
@@ -195,7 +197,9 @@ export function TraineeDetailsSheet({
               </h4>
               <div className="rounded-lg border bg-card p-3.5 text-xs space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Practical Assessment:</span>
+                  <span className="text-muted-foreground">
+                    Practical Assessment:
+                  </span>
                   <span className="font-semibold text-foreground flex items-center gap-1">
                     {trainee.assessmentPassed ? (
                       <>
@@ -208,7 +212,9 @@ export function TraineeDetailsSheet({
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Certificate Issuance:</span>
+                  <span className="text-muted-foreground">
+                    Certificate Issuance:
+                  </span>
                   <span className="font-semibold text-foreground flex items-center gap-1">
                     {trainee.certificateIssued ? (
                       <>
@@ -216,7 +222,9 @@ export function TraineeDetailsSheet({
                         <span>Issued</span>
                       </>
                     ) : (
-                      <span className="text-muted-foreground">Pending Completion</span>
+                      <span className="text-muted-foreground">
+                        Pending Completion
+                      </span>
                     )}
                   </span>
                 </div>
@@ -241,7 +249,7 @@ export function TraineeDetailsSheet({
                 onClose();
                 onOpenDrop(trainee);
               }}
-              className="text-xs font-semibold gap-1.5"
+              className="text-xs font-semibold gap-1.5 flex-1"
             >
               <UserX className="h-3.5 w-3.5" /> Drop Trainee
             </Button>

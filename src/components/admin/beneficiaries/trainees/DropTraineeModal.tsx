@@ -63,7 +63,7 @@ export function DropTraineeModal({
       }}
     >
       <DialogContent className="sm:max-w-md flex flex-col gap-0 overflow-hidden">
-        <DialogHeader className="p-6 pb-4 border-b">
+        <DialogHeader className="pb-4 border-b">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-400">
               <ShieldAlert className="h-5 w-5" />
@@ -88,7 +88,7 @@ export function DropTraineeModal({
         </DialogHeader>
 
         <form onSubmit={handleConfirmDrop} className="flex flex-col flex-1">
-          <FieldGroup className="p-6 space-y-4 text-xs">
+          <FieldGroup className="py-6 px-2 text-xs">
             {/* Non-destructive audit warning notice */}
             <div className="rounded-lg bg-amber-500/10 border border-amber-500/20 p-3.5 text-amber-900 dark:text-amber-300 space-y-1">
               <div className="flex items-center gap-1.5 font-bold text-xs">

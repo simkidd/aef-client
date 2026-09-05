@@ -78,8 +78,7 @@ export function StaffTable({
               staffList.map((st) => (
                 <TableRow
                   key={st._id}
-                  onClick={() => handleOpenDetails(st)}
-                  className="cursor-pointer hover:bg-muted/60 transition-colors group"
+                  className="hover:bg-muted/60 transition-colors group"
                 >
                   {/* Staff Member: Avatar + Name + Staff Code */}
                   <TableCell>
