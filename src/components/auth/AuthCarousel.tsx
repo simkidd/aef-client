@@ -32,7 +32,7 @@ const slides: Slide[] = [
   },
   {
     id: "social-media",
-    image: "/images/auth-hero-tech.jpg",
+    image: "/images/auth-hero-social.jpg",
     alt: "Adele Foundation Social Media Communications and digital media lab",
     tag: "Social Media Communications",
     icon: Megaphone,
@@ -44,7 +44,7 @@ const slides: Slide[] = [
   },
   {
     id: "solar-pv",
-    image: "/images/skill-solar-pv.jpg",
+    image: "/images/auth-hero-solar.jpg",
     alt: "Adele Foundation Solar PV Installation & Maintenance workshop",
     tag: "Solar PV Installation & Maintenance",
     icon: SunMedium,
@@ -56,11 +56,12 @@ const slides: Slide[] = [
   },
   {
     id: "beauty-cosmetology",
-    image: "/images/auth-hero-fashion.jpg",
+    image: "/images/auth-hero-makeup.jpg",
     alt: "Adele Foundation Beauty Therapy & Cosmetology professional studio",
     tag: "Beauty Therapy & Cosmetology",
     icon: Sparkles,
-    headline: "Mastering aesthetic craft and salon enterprise.",
+    headline:
+      "Transforming aesthetic artistry into thriving beauty enterprises.",
     quote:
       "Gained professional skincare and cosmetology skills to launch my own beauty studio.",
     author: "Grace Adeyemi",
@@ -116,9 +117,9 @@ export function AuthCarousel() {
       ))}
 
       {/* 2. Editorial Gradient Overlays for Readability & Blended Depth */}
-      <div className="absolute inset-0 z-1 bg-linear-to-t from-slate-950 via-slate-950/70 to-slate-950/35 pointer-events-none" />
-      <div className="absolute inset-0 z-1 bg-[#064E3B]/40 mix-blend-multiply pointer-events-none" />
-      <div className="absolute -top-32 -left-32 z-1 w-96 h-96 rounded-full bg-primary/20 blur-[130px] pointer-events-none" />
+      <div className="absolute inset-0 z-1 bg-linear-to-t from-slate-950/90 via-slate-950/60 to-slate-950/20 pointer-events-none" />
+      <div className="absolute inset-0 z-1 bg-[#064E3B]/20 mix-blend-multiply pointer-events-none" />
+      <div className="absolute -top-32 -left-32 z-1 w-96 h-96 rounded-full bg-primary/15 blur-[130px] pointer-events-none" />
 
       {/* 3. Top Foundation Identity */}
       <div className="relative z-10">
@@ -175,7 +176,7 @@ export function AuthCarousel() {
                 title={s.tag}
                 className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                   idx === current
-                    ? "w-7 bg-emerald-400 shadow-xs shadow-emerald-400/50"
+                    ? "w-7 bg-primary shadow-xs shadow-primary/50"
                     : "w-1.5 bg-white/30 hover:bg-white/60 hover:scale-125"
                 }`}
               />

@@ -25,7 +25,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSkeleton,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
@@ -33,15 +32,24 @@ import {
   useSidebar,
 } from "../ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
+import { ConfirmationModal } from "../common/ConfirmationModal";
 import { useAuthStore } from "@/stores/auth.store";
-import { authApi } from "@/lib/api/auth.api";
+import { useLogout } from "@/hooks/useLogout";
 
 export function PortalSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
-  const { user, clearAuth } = useAuthStore();
+  const { user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
+
+  const {
+    isOpen: isLogoutOpen,
+    openLogoutModal,
+    closeLogoutModal,
+    isLoggingOut,
+    handleLogout,
+  } = useLogout();
 
   useEffect(() => {
     setMounted(true);
@@ -50,17 +58,6 @@ export function PortalSidebar() {
   const closeMobileSidebar = () => {
     if (isMobile) {
       setOpenMobile(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await authApi.logout();
-    } catch (e) {
-      console.warn("Logout error:", e);
-    } finally {
-      clearAuth();
-      router.push("/auth/login");
     }
   };
 
@@ -111,170 +108,132 @@ export function PortalSidebar() {
         </Link>
       </SidebarHeader>
 
-      {/* Main Navigation */}
+      {/* Main Navigation - Rendered immediately with zero delay */}
       <SidebarContent className="px-2 py-2 space-y-2">
-        {!mounted ? (
-          <>
-            <SidebarGroup className="p-0">
-              <div className="px-2.5 h-7 flex items-center">
-                <Skeleton className="h-2.5 w-28 rounded-sm" />
-              </div>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <SidebarMenuItem key={i}>
-                      <SidebarMenuSkeleton showIcon />
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-
-            <SidebarSeparator className="my-1 border-slate-100 dark:border-slate-900" />
-
-            <SidebarGroup className="p-0">
-              <div className="px-2.5 h-7 flex items-center">
-                <Skeleton className="h-2.5 w-32 rounded-sm" />
-              </div>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-0.5">
-                  {Array.from({ length: 2 }).map((_, i) => (
-                    <SidebarMenuItem key={i}>
-                      <SidebarMenuSkeleton showIcon />
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </>
-        ) : (
-          <>
-            {/* Trainee Learning Menu */}
-            <SidebarGroup className="p-0">
-              <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2.5 h-7">
-                Training & Programs
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-0.5">
-                  {mainNavItems.map((item) => {
-                    const isActive = pathname === item.href;
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          render={<Link href={item.href} onClick={closeMobileSidebar} />}
-                          isActive={isActive}
-                          tooltip={item.label}
-                          onClick={closeMobileSidebar}
-                          className={
-                            isActive
-                              ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
-                              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
-                          }
-                        >
-                          <Icon
-                            className={`h-4 w-4 shrink-0 transition-colors ${
-                              isActive
-                                ? "text-primary dark:text-primary"
-                                : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
-                            }`}
-                          />
-                          <span className="truncate">{item.label}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-
-            <SidebarSeparator className="my-1 border-slate-100 dark:border-slate-900" />
-
-            {/* Identity & Verification */}
-            <SidebarGroup className="p-0">
-              <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2.5 h-7">
-                Identity & Verification
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu className="gap-0.5">
-                  {profileNavItems.map((item) => {
-                    const isActive = pathname === item.href;
-                    const Icon = item.icon;
-                    return (
-                      <SidebarMenuItem key={item.href}>
-                        <SidebarMenuButton
-                          render={<Link href={item.href} onClick={closeMobileSidebar} />}
-                          isActive={isActive}
-                          tooltip={item.label}
-                          onClick={closeMobileSidebar}
-                          className={
-                            isActive
-                              ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
-                              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
-                          }
-                        >
-                          <Icon
-                            className={`h-4 w-4 shrink-0 transition-colors ${
-                              isActive
-                                ? "text-primary dark:text-primary"
-                                : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
-                            }`}
-                          />
-                          <span className="truncate">{item.label}</span>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    );
-                  })}
-
-                  <SidebarMenuItem>
+        {/* Trainee Learning Menu */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2.5 h-7">
+            Training & Programs
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="gap-0.5">
+              {mainNavItems.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
+                return (
+                  <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
-                      render={
-                        <Link
-                          href="/verify/aef-verify-7c9e12bf4089a8c"
-                          target="_blank"
-                          onClick={closeMobileSidebar}
-                        />
-                      }
-                      tooltip="Certificate Verification"
+                      render={<Link href={item.href} onClick={closeMobileSidebar} />}
+                      isActive={isActive}
+                      tooltip={item.label}
                       onClick={closeMobileSidebar}
-                      className="text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900"
+                      className={
+                        isActive
+                          ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
+                      }
                     >
-                      <ShieldCheck className="h-4 w-4 text-primary dark:text-primary shrink-0" />
-                      <span className="truncate">Public Verification</span>
-                      <ExternalLink className="ml-auto h-3 w-3 text-slate-400" />
+                      <Icon
+                        className={`h-4 w-4 shrink-0 transition-colors ${
+                          isActive
+                            ? "text-primary dark:text-primary"
+                            : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
+                        }`}
+                      />
+                      <span className="truncate">{item.label}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
-            {/* Staff Switch if user is staff */}
-            {user?.isStaff && (
-              <SidebarGroup className="mt-auto p-0">
-                <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-primary px-2.5 h-7">
-                  Staff Portal
-                </SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu className="gap-0.5">
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        onClick={() => {
-                          closeMobileSidebar();
-                          router.push("/admin");
-                        }}
-                        className="text-primary bg-primary/10 hover:bg-primary/15 dark:bg-primary/15 dark:text-primary dark:hover:bg-emerald-950"
-                      >
-                        <ShieldAlert className="h-4 w-4 text-primary dark:text-primary shrink-0" />
-                        <span className="truncate font-semibold">
-                          Staff Operations
-                        </span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
-            )}
-          </>
+        <SidebarSeparator className="my-1 border-slate-100 dark:border-slate-900" />
+
+        {/* Identity & Verification */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2.5 h-7">
+            Identity & Verification
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="gap-0.5">
+              {profileNavItems.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.icon;
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      render={<Link href={item.href} onClick={closeMobileSidebar} />}
+                      isActive={isActive}
+                      tooltip={item.label}
+                      onClick={closeMobileSidebar}
+                      className={
+                        isActive
+                          ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
+                      }
+                    >
+                      <Icon
+                        className={`h-4 w-4 shrink-0 transition-colors ${
+                          isActive
+                            ? "text-primary dark:text-primary"
+                            : "text-slate-400 group-hover/menu-button:text-slate-600 dark:text-slate-500 dark:group-hover/menu-button:text-slate-300"
+                        }`}
+                      />
+                      <span className="truncate">{item.label}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  render={
+                    <Link
+                      href="/verify/aef-verify-7c9e12bf4089a8c"
+                      target="_blank"
+                      onClick={closeMobileSidebar}
+                    />
+                  }
+                  tooltip="Certificate Verification"
+                  onClick={closeMobileSidebar}
+                  className="text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-900"
+                >
+                  <ShieldCheck className="h-4 w-4 text-primary dark:text-primary shrink-0" />
+                  <span className="truncate">Public Verification</span>
+                  <ExternalLink className="ml-auto h-3 w-3 text-slate-400" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Staff Switch if user is staff (waits for hydration) */}
+        {mounted && user?.isStaff && (
+          <SidebarGroup className="mt-auto p-0">
+            <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-primary dark:text-primary px-2.5 h-7">
+              Staff Portal
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="gap-0.5">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => {
+                      closeMobileSidebar();
+                      router.push("/admin");
+                    }}
+                    className="text-primary bg-primary/10 hover:bg-primary/15 dark:bg-primary/15 dark:text-primary dark:hover:bg-emerald-950"
+                  >
+                    <ShieldAlert className="h-4 w-4 text-primary dark:text-primary shrink-0" />
+                    <span className="truncate font-semibold">
+                      Staff Operations
+                    </span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         )}
       </SidebarContent>
 
@@ -307,7 +266,7 @@ export function PortalSidebar() {
               </div>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={openLogoutModal}
               title="Sign Out"
               className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
             >
@@ -316,6 +275,20 @@ export function PortalSidebar() {
           </div>
         )}
       </SidebarFooter>
+
+      {/* Logout Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isLogoutOpen}
+        onClose={closeLogoutModal}
+        onConfirm={handleLogout}
+        title="Sign out of Adele Beneficiary Portal?"
+        description="Are you sure you want to log out? You will need to sign in again to access your applications, certificates, and training schedule."
+        confirmText="Yes, Log Out"
+        cancelText="Stay Signed In"
+        variant="destructive"
+        icon={LogOut}
+        isLoading={isLoggingOut}
+      />
     </Sidebar>
   );
 }

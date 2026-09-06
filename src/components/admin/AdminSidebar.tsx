@@ -45,7 +45,7 @@ import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { ConfirmationModal } from "../common/ConfirmationModal";
 import { useAuthStore } from "@/stores/auth.store";
-import { authApi } from "@/lib/api/auth.api";
+import { useLogout } from "@/hooks/useLogout";
 
 interface NavItem {
   label: string;
@@ -218,10 +218,16 @@ export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isMobile, setOpenMobile } = useSidebar();
-  const { user, hasPermission, clearAuth } = useAuthStore();
+  const { user, hasPermission } = useAuthStore();
   const [mounted, setMounted] = useState(false);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const {
+    isOpen: isLogoutOpen,
+    openLogoutModal,
+    closeLogoutModal,
+    isLoggingOut,
+    handleLogout,
+  } = useLogout();
 
   useEffect(() => {
     setMounted(true);
@@ -230,20 +236,6 @@ export function AdminSidebar() {
   const closeMobileSidebar = () => {
     if (isMobile) {
       setOpenMobile(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      setIsLoggingOut(true);
-      await authApi.logout();
-    } catch (e) {
-      console.warn("Logout API error:", e);
-    } finally {
-      clearAuth();
-      setIsLogoutOpen(false);
-      setIsLoggingOut(false);
-      router.push("/auth/login");
     }
   };
 
@@ -354,7 +346,7 @@ export function AdminSidebar() {
                               onClick={closeMobileSidebar}
                               className={
                                 isActive
-                                  ? "bg-primary/10 text-primary font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
+                                  ? "bg-primary/10 text-primary! font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
                                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
                               }
                             >
@@ -409,7 +401,7 @@ export function AdminSidebar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsLogoutOpen(true)}
+              onClick={openLogoutModal}
               title="Log Out"
               className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 shrink-0 rounded-lg"
             >
@@ -423,7 +415,7 @@ export function AdminSidebar() {
       {/* Logout Confirmation Modal */}
       <ConfirmationModal
         isOpen={isLogoutOpen}
-        onClose={() => !isLoggingOut && setIsLogoutOpen(false)}
+        onClose={closeLogoutModal}
         onConfirm={handleLogout}
         title="Sign out of Adele Foundation Admin?"
         description="Are you sure you want to log out? You will need to sign in again to access the operations portal."

@@ -1,8 +1,8 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import Cookies from 'js-cookie';
-import { User } from '../interfaces';
-import { COOKIE_KEYS } from '../constants/cookies.constants';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import Cookies from "js-cookie";
+import { User } from "../interfaces";
+import { COOKIE_KEYS } from "../constants/cookies.constants";
 
 interface AuthState {
   user: User | null;
@@ -35,12 +35,21 @@ export const useAuthStore = create<AuthState>()(
       initialized: false,
 
       setAuth: (user: User, token: string, refreshToken?: string) => {
-        if (typeof window !== 'undefined') {
-          Cookies.set(COOKIE_KEYS.AUTH_TOKEN, token, { expires: 7, sameSite: 'lax' });
+        if (typeof window !== "undefined") {
+          Cookies.set(COOKIE_KEYS.AUTH_TOKEN, token, {
+            expires: 7,
+            sameSite: "lax",
+          });
           if (refreshToken) {
-            Cookies.set(COOKIE_KEYS.REFRESH_TOKEN, refreshToken, { expires: 30, sameSite: 'lax' });
+            Cookies.set(COOKIE_KEYS.REFRESH_TOKEN, refreshToken, {
+              expires: 30,
+              sameSite: "lax",
+            });
           }
-          Cookies.set(COOKIE_KEYS.USER, JSON.stringify(user), { expires: 7, sameSite: 'lax' });
+          Cookies.set(COOKIE_KEYS.USER, JSON.stringify(user), {
+            expires: 7,
+            sameSite: "lax",
+          });
         }
 
         set({
@@ -54,9 +63,12 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setUser: (user: User | null) => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           if (user) {
-            Cookies.set(COOKIE_KEYS.USER, JSON.stringify(user), { expires: 7, sameSite: 'lax' });
+            Cookies.set(COOKIE_KEYS.USER, JSON.stringify(user), {
+              expires: 7,
+              sameSite: "lax",
+            });
           } else {
             Cookies.remove(COOKIE_KEYS.USER);
           }
@@ -65,9 +77,12 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setToken: (token: string | null) => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           if (token) {
-            Cookies.set(COOKIE_KEYS.AUTH_TOKEN, token, { expires: 7, sameSite: 'lax' });
+            Cookies.set(COOKIE_KEYS.AUTH_TOKEN, token, {
+              expires: 7,
+              sameSite: "lax",
+            });
           } else {
             Cookies.remove(COOKIE_KEYS.AUTH_TOKEN);
           }
@@ -76,7 +91,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       clearAuth: () => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           Cookies.remove(COOKIE_KEYS.AUTH_TOKEN);
           Cookies.remove(COOKIE_KEYS.REFRESH_TOKEN);
           Cookies.remove(COOKIE_KEYS.USER);
@@ -98,32 +113,32 @@ export const useAuthStore = create<AuthState>()(
       hasRole: (roleCode: string): boolean => {
         const { user } = get();
         if (!user) return false;
-        return user.roles?.includes(roleCode) || user.roles?.includes('SUPER_ADMIN');
+        return (
+          user.roles?.includes(roleCode) || user.roles?.includes("SUPER_ADMIN")
+        );
       },
 
       hasPermission: (permissionCode: string): boolean => {
         const { user } = get();
         if (!user) return false;
-        if (user.roles?.includes('SUPER_ADMIN')) return true;
+        if (user.roles?.includes("SUPER_ADMIN")) return true;
         return user.permissions?.includes(permissionCode) || false;
       },
 
       hasAnyPermission: (permissionCodes: string[]): boolean => {
         const { user } = get();
         if (!user) return false;
-        if (user.roles?.includes('SUPER_ADMIN')) return true;
+        if (user.roles?.includes("SUPER_ADMIN")) return true;
         return permissionCodes.some((p) => user.permissions?.includes(p));
       },
     }),
     {
-      name: 'adele-auth-storage',
+      name: "aef-auth-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
-        refreshToken: state.refreshToken,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );
