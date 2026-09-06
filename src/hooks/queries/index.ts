@@ -8,3 +8,5 @@ export * from './useEnrollmentQueries';
 export * from './useBiometricQueries';
 export * from './useAttendanceQueries';
 export * from './useReportQueries';
+export * from './useCertificateQueries';
+export * from './useAssessmentQueries';

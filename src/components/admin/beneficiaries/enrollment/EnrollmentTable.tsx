@@ -19,15 +19,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { MoreHorizontal, Eye, UserCheck, Fingerprint } from "lucide-react";
+import { MoreHorizontal, Eye, UserCheck, Fingerprint, Loader2 } from "lucide-react";
 import { Enrollment } from "@/interfaces";
 import { EnrollmentDetailsSheet } from "./EnrollmentDetailsSheet";
+import { TablePagination } from "@/components/ui/table-pagination";
 
 interface EnrollmentTableProps {
   queue: Enrollment[];
   isLoading: boolean;
   onOpenVerify: (enrollment: Enrollment) => void;
   onOpenBiometric: (enrollment: Enrollment) => void;
+  page?: number;
+  totalPages?: number;
+  total?: number;
+  limit?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function EnrollmentTable({
@@ -35,6 +41,11 @@ export function EnrollmentTable({
   isLoading,
   onOpenVerify,
   onOpenBiometric,
+  page = 1,
+  totalPages = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
 }: EnrollmentTableProps) {
   const [selectedEnrForDetails, setSelectedEnrForDetails] =
     useState<Enrollment | null>(null);
@@ -71,9 +82,12 @@ export function EnrollmentTable({
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  Loading onboarding queue...
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    <p className="text-xs font-medium">Loading onboarding queue...</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : queue && queue.length > 0 ? (
@@ -191,14 +205,30 @@ export function EnrollmentTable({
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  No candidates currently found in the onboarding queue.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <UserCheck className="h-8 w-8 text-muted-foreground/50" />
+                    <p className="text-sm font-semibold text-foreground">No candidates found in queue</p>
+                    <p className="text-xs text-muted-foreground">
+                      Try adjusting your search query or verification status filter.
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+
+        {onPageChange && (
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+            onPageChange={onPageChange}
+          />
+        )}
       </Card>
 
       {/* Enrollment Details Sheet with full rich content */}

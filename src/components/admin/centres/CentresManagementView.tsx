@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { Plus, Building2, Users, DoorOpen, Fingerprint } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Plus, Building2, Users, DoorOpen, Fingerprint, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { TrainingCentre } from "@/interfaces";
-import { useCentresQuery, useStaffListQuery } from "@/hooks";
+import { useCentresQuery, useStaffListQuery, useDebounce } from "@/hooks";
 import { CentresFilters } from "./CentresFilters";
 import { CentreCard } from "./CentreCard";
 import { AddCentreModal } from "./AddCentreModal";
@@ -14,6 +14,7 @@ import { CentreDetailsSheet } from "./CentreDetailsSheet";
 
 export function CentresManagementView() {
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 300);
   const [statusFilter, setStatusFilter] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -22,25 +23,34 @@ export function CentresManagementView() {
     null
   );
 
-  const { data: centres = [], isLoading } = useCentresQuery();
-  const { data: staffList = [] } = useStaffListQuery();
+  const {
+    data: centres = [],
+    isLoading,
+    refetch,
+    isFetching,
+  } = useCentresQuery();
+  const { data: staffData } = useStaffListQuery({ limit: 100 });
+  const staffList = staffData?.docs || [];
 
   // Filtered centres
-  const filteredCentres = centres.filter((c) => {
-    const matchesSearch =
-      !search ||
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.centreCode.toLowerCase().includes(search.toLowerCase()) ||
-      c.state.toLowerCase().includes(search.toLowerCase()) ||
-      c.address.toLowerCase().includes(search.toLowerCase()) ||
-      c.lga.toLowerCase().includes(search.toLowerCase());
+  const filteredCentres = useMemo(() => {
+    return centres.filter((c) => {
+      const searchLower = debouncedSearch.toLowerCase().trim();
+      const matchesSearch =
+        !searchLower ||
+        c.name.toLowerCase().includes(searchLower) ||
+        c.centreCode.toLowerCase().includes(searchLower) ||
+        c.state.toLowerCase().includes(searchLower) ||
+        c.address.toLowerCase().includes(searchLower) ||
+        c.lga.toLowerCase().includes(searchLower);
 
-    const matchesStatus =
-      !statusFilter ||
-      c.status.toLowerCase() === statusFilter.toLowerCase();
+      const matchesStatus =
+        !statusFilter ||
+        c.status.toLowerCase() === statusFilter.toLowerCase();
 
-    return matchesSearch && matchesStatus;
-  });
+      return matchesSearch && matchesStatus;
+    });
+  }, [centres, debouncedSearch, statusFilter]);
 
   // Calculate high-level KPIs
   const totalCapacity = centres.reduce((acc, c) => acc + (c.capacity || 0), 0);
@@ -78,13 +88,27 @@ export function CentresManagementView() {
             capacities, biometric terminals, and physical infrastructure.
           </p>
         </div>
-        <Button
-          onClick={() => setIsAddModalOpen(true)}
-          className="text-xs font-semibold gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Add Training Centre
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="text-xs h-8 gap-1.5"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </Button>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            className="text-xs h-8 font-semibold gap-1.5"
+          >
+            <Plus className="h-4 w-4" />
+            Add Training Centre
+          </Button>
+        </div>
       </div>
 
       {/* KPI Stats Grid */}

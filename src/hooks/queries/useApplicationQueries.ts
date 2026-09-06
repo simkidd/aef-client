@@ -7,7 +7,10 @@ export function useApplicationsQuery(params?: Record<string, any>) {
     queryKey: ['applications', params],
     queryFn: async () => {
       const response = await applicationApi.getAll(params);
-      return (response?.data || []) as Application[];
+      return {
+        docs: (response?.data || []) as Application[],
+        pagination: response?.pagination,
+      };
     },
   });
 }

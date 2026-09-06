@@ -5,3 +5,5 @@ export * from './useCentreMutations';
 export * from './useCohortMutations';
 export * from './useApplicationMutations';
 export * from './useEnrollmentMutations';
+export * from './useAssessmentMutations';
+export * from './useAttendanceMutations';

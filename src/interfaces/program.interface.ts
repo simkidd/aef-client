@@ -81,4 +81,5 @@ export interface TrainingSession {
   topic?: string;
   sessionType: string;
   isCancelled: boolean;
+  cancellationReason?: string;
 }

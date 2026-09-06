@@ -11,6 +11,14 @@ export function useAttendanceListQuery(params?: Record<string, any>) {
   });
 }
 
+export function useAttendanceRecordsQuery(params?: Record<string, any>) {
+  return useAttendanceListQuery(params);
+}
+
+export function useAttendanceSheetQuery(params?: Record<string, any>) {
+  return useAttendanceListQuery(params);
+}
+
 export function useMyAttendanceQuery(params?: Record<string, any>) {
   return useQuery({
     queryKey: ['attendance', 'my', params],

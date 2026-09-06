@@ -7,6 +7,11 @@ export const biometricApi = {
     return res.data;
   },
 
+  getEvents: async (params?: Record<string, any>): Promise<ApiResponse<BiometricEvent[]>> => {
+    const res = await api.get('/biometrics/events', { params });
+    return res.data;
+  },
+
   registerDevice: async (data: Partial<BiometricDevice>): Promise<ApiResponse<BiometricDevice>> => {
     const res = await api.post('/biometrics/devices', data);
     return res.data;
@@ -15,10 +20,10 @@ export const biometricApi = {
   recordScanEvent: async (data: {
     deviceSerial: string;
     biometricToken: string;
-    centreId: string;
-    scanType: 'IN' | 'OUT';
+    centreId?: string;
+    scanType?: 'IN' | 'OUT';
   }): Promise<ApiResponse<BiometricEvent>> => {
-    const res = await api.post('/biometrics/scan-event', data);
+    const res = await api.post('/biometrics/scan', data);
     return res.data;
   },
 

@@ -2,15 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 import { staffApi } from '@/lib/api/staff.api';
 import { Staff, Department } from '@/interfaces';
 
-export function useStaffListQuery(params?: { category?: string; search?: string }) {
+export function useStaffListQuery(params?: {
+  category?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+  [key: string]: any;
+}) {
   return useQuery({
-    queryKey: ['staff', 'list', params?.category, params?.search],
+    queryKey: ['staff', 'list', params],
     queryFn: async () => {
-      const queryParams = new URLSearchParams();
-      if (params?.category) queryParams.append('category', params.category);
-      if (params?.search) queryParams.append('search', params.search);
-      const res = await staffApi.getAll(Object.fromEntries(queryParams.entries()));
-      return (res?.data || []) as Staff[];
+      const res = await staffApi.getAll(params);
+      return {
+        docs: (res?.data || []) as Staff[],
+        pagination: res?.pagination,
+      };
     },
   });
 }

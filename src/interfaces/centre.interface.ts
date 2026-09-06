@@ -1,5 +1,6 @@
 export interface TrainingCentre {
   _id: string;
+  id?: string;
   name: string;
   centreCode: string;
   address: string;
@@ -25,6 +26,8 @@ export interface TrainingCentre {
     activeCohorts: number;
   };
 }
+
+export type Centre = TrainingCentre;
 
 export interface RoomFacility {
   _id: string;
@@ -54,4 +57,3 @@ export interface CentreDetailData {
   devices: any[];
   cohorts: any[];
 }
-

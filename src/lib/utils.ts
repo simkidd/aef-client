@@ -5,7 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(date: string | Date | undefined | null, includeTime: boolean = false): string {
+export function formatDate(
+  date: string | Date | undefined | null,
+  includeTime: boolean = false,
+): string {
   if (!date) return "N/A";
   const d = typeof date === "string" ? new Date(date) : date;
   if (isNaN(d.getTime())) return "N/A";
@@ -38,7 +41,10 @@ export function formatDateTime(date: string | Date | undefined | null): string {
   });
 }
 
-export function formatCurrency(amount: number, currency: string = "NGN"): string {
+export function formatCurrency(
+  amount: number,
+  currency: string = "NGN",
+): string {
   return new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency,
@@ -58,6 +64,7 @@ export function getStatusColor(status: string): string {
     case "passed":
     case "enrolling":
     case "selected":
+    case "online":
     case "biometric registered":
     case "biometric registration":
     case "enrollment confirmed":
@@ -67,8 +74,16 @@ export function getStatusColor(status: string): string {
     case "upcoming":
     case "in progress":
     case "shortlisted":
+    case "syncing":
     case "assigned to cohort":
       return "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800";
+
+    // Evaluation / Assessments States (Semantic Violet)
+    case "assessments":
+    case "assessment":
+    case "evaluation":
+    case "examination":
+      return "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-400 dark:border-purple-800";
 
     // Submitted / New
     case "submitted":
@@ -84,6 +99,7 @@ export function getStatusColor(status: string): string {
     case "late":
     case "partial":
     case "incomplete":
+    case "maintenance":
     case "under maintenance":
     case "suspended":
       return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800";
@@ -93,6 +109,7 @@ export function getStatusColor(status: string): string {
     case "not selected":
     case "failed":
     case "absent":
+    case "offline":
     case "inactive":
     case "dropped":
     case "withdrawn":
@@ -111,4 +128,3 @@ export function getStatusColor(status: string): string {
       return "bg-slate-50 text-slate-700 border-slate-200 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800";
   }
 }
-

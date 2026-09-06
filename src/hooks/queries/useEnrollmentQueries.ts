@@ -16,12 +16,21 @@ export function useEnrollmentQueueQuery(params?: {
   status?: string;
   search?: string;
   skillArea?: string;
+  centreId?: string;
+  programId?: string;
+  cohortId?: string;
+  page?: number;
+  limit?: number;
+  [key: string]: any;
 }) {
   return useQuery({
     queryKey: ['enrollment-queue', params],
     queryFn: async () => {
       const response = await enrollmentApi.getQueue(params);
-      return (response?.data || []) as Enrollment[];
+      return {
+        docs: (response?.data || []) as Enrollment[],
+        pagination: response?.pagination,
+      };
     },
   });
 }

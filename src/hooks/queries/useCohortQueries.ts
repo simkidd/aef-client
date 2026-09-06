@@ -32,3 +32,13 @@ export function useCohortTimetableQuery(params?: Record<string, any>) {
     },
   });
 }
+
+export function useSessionsQuery(params?: Record<string, any>) {
+  return useQuery({
+    queryKey: ['sessions', params],
+    queryFn: async () => {
+      const response = await cohortApi.getTimetable(params);
+      return (response?.data || []) as any[];
+    },
+  });
+}

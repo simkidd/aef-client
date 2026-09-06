@@ -19,20 +19,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { MoreHorizontal, Eye, Key } from "lucide-react";
+import { MoreHorizontal, Eye, Key, Loader2, Users } from "lucide-react";
 import { Staff } from "@/interfaces";
 import { StaffDetailsSheet } from "./StaffDetailsSheet";
+import { TablePagination } from "@/components/ui/table-pagination";
 
 interface StaffTableProps {
   staffList: Staff[];
   isLoading: boolean;
   onOpenProvision: (staff: Staff) => void;
+  page?: number;
+  totalPages?: number;
+  total?: number;
+  limit?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function StaffTable({
   staffList,
   isLoading,
   onOpenProvision,
+  page = 1,
+  totalPages = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
 }: StaffTableProps) {
   const [selectedStaffForDetails, setSelectedStaffForDetails] =
     useState<Staff | null>(null);
@@ -69,9 +80,12 @@ export function StaffTable({
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="text-center py-8 text-slate-500 text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  Loading staff directory...
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    <p className="text-xs font-medium">Loading staff directory...</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : staffList && staffList.length > 0 ? (
@@ -166,14 +180,30 @@ export function StaffTable({
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  No staff records found matching filter.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Users className="h-8 w-8 text-muted-foreground/50" />
+                    <p className="text-sm font-semibold text-foreground">No staff records found</p>
+                    <p className="text-xs text-muted-foreground">
+                      Try adjusting your search query or category filter.
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+
+        {onPageChange && (
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+            onPageChange={onPageChange}
+          />
+        )}
       </Card>
 
       {/* Staff Details Sheet */}

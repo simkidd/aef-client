@@ -20,20 +20,31 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { Progress } from "@/components/ui/progress";
-import { MoreHorizontal, Eye, UserX, Fingerprint } from "lucide-react";
+import { MoreHorizontal, Eye, UserX, Fingerprint, Loader2, UserCheck } from "lucide-react";
 import { Enrollment } from "@/interfaces";
 import { TraineeDetailsSheet } from "./TraineeDetailsSheet";
+import { TablePagination } from "@/components/ui/table-pagination";
 
 interface TraineesTableProps {
   trainees: Enrollment[];
   isLoading: boolean;
   onOpenDrop: (trainee: Enrollment) => void;
+  page?: number;
+  totalPages?: number;
+  total?: number;
+  limit?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function TraineesTable({
   trainees,
   isLoading,
   onOpenDrop,
+  page = 1,
+  totalPages = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
 }: TraineesTableProps) {
   const [selectedTraineeForDetails, setSelectedTraineeForDetails] =
     useState<Enrollment | null>(null);
@@ -71,9 +82,12 @@ export function TraineesTable({
               <TableRow>
                 <TableCell
                   colSpan={6}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  Loading active trainees directory...
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    <p className="text-xs font-medium">Loading enrolled trainees...</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : trainees && trainees.length > 0 ? (
@@ -188,15 +202,31 @@ export function TraineesTable({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={7}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  colSpan={6}
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  No active trainees found matching filter.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <UserCheck className="h-8 w-8 text-muted-foreground/50" />
+                    <p className="text-sm font-semibold text-foreground">No enrolled trainees found</p>
+                    <p className="text-xs text-muted-foreground">
+                      Try adjusting your search query or skill track filter.
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+
+        {onPageChange && (
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+            onPageChange={onPageChange}
+          />
+        )}
       </Card>
 
       {/* Trainee Details Sheet */}

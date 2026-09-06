@@ -1,5 +1,6 @@
 export interface AttendanceRecord {
   _id: string;
+  id?: string;
   beneficiaryId: any;
   enrollmentId: any;
   cohortId: any;
@@ -7,6 +8,8 @@ export interface AttendanceRecord {
   centreId: any;
   date: string;
   status: string;
+  originalStatus?: string;
+  correctionReason?: string;
   firstClockIn?: string;
   lastClockOut?: string;
   durationMinutes: number;

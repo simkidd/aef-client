@@ -41,7 +41,9 @@ export function AdminDashboardView() {
   // Fetch pending applications
   const { data: applicationsData } = useApplicationsQuery({
     status: "Submitted",
+    limit: 5,
   });
+  const applicationsList = applicationsData?.docs || [];
 
   const kpis = overviewData || {};
 
@@ -287,7 +289,7 @@ export function AdminDashboardView() {
                 href="/admin/beneficiaries/applications"
                 className="text-xs font-semibold text-primary hover:underline"
               >
-                Review All ({applicationsData?.length || 0})
+                Review All ({applicationsData?.pagination?.total ?? applicationsList.length})
               </Link>
             </div>
             <CardDescription className="text-xs">
@@ -295,8 +297,8 @@ export function AdminDashboardView() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-5 space-y-3">
-            {applicationsData && applicationsData.length > 0 ? (
-              applicationsData.slice(0, 4).map((app) => (
+            {applicationsList && applicationsList.length > 0 ? (
+              applicationsList.slice(0, 4).map((app) => (
                 <div
                   key={app._id}
                   className="flex items-center justify-between p-2.5 rounded-lg border border-slate-100 bg-slate-50/60 dark:border-slate-800 dark:bg-slate-900"

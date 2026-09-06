@@ -1,14 +1,15 @@
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 export interface ApiResponse<T = any> {
   success: boolean;
   message?: string;
   data?: T;
-  meta?: {
-    total?: number;
-    page?: number;
-    limit?: number;
-    pages?: number;
-    [key: string]: any;
-  };
+  pagination?: PaginationMeta;
 }
 
 export interface ApiError {

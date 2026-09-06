@@ -17,14 +17,27 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Edit2, Eye, Award, Clock } from "lucide-react";
+import {
+  MoreHorizontal,
+  Edit2,
+  Eye,
+  Award,
+  Clock,
+  Loader2,
+} from "lucide-react";
 import { SkillArea } from "@/interfaces";
+import { TablePagination } from "@/components/ui/table-pagination";
 
 interface SkillsTableProps {
   skills: SkillArea[];
   isLoading: boolean;
   onOpenDetails: (skill: SkillArea) => void;
   onOpenEdit: (skill: SkillArea) => void;
+  page?: number;
+  totalPages?: number;
+  total?: number;
+  limit?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function SkillsTable({
@@ -32,34 +45,16 @@ export function SkillsTable({
   isLoading,
   onOpenDetails,
   onOpenEdit,
+  page = 1,
+  totalPages = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
 }: SkillsTableProps) {
-  if (isLoading) {
-    return (
-      <div className="p-8 text-center space-y-3">
-        <div className="h-6 bg-muted rounded w-1/3 mx-auto animate-pulse" />
-        <div className="h-4 bg-muted rounded w-1/2 mx-auto animate-pulse" />
-        <div className="h-4 bg-muted rounded w-1/4 mx-auto animate-pulse" />
-      </div>
-    );
-  }
-
-  if (skills.length === 0) {
-    return (
-      <div className="p-12 text-center text-muted-foreground">
-        <Award className="h-10 w-10 mx-auto mb-3 opacity-30" />
-        <p className="text-sm font-semibold text-foreground">
-          No skill disciplines found
-        </p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Try adjusting your search criteria or category filter.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <Table>
-      <TableHeader>
+    <div className="w-full overflow-x-auto">
+      <Table>
+        <TableHeader>
         <TableRow>
           <TableHead className="w-[300px]">Skill Code & Discipline</TableHead>
           <TableHead>Category</TableHead>
@@ -70,80 +65,124 @@ export function SkillsTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {skills.map((skill) => (
-          <TableRow key={skill._id} className="hover:bg-muted/50">
-            <TableCell>
-              <div className="flex flex-col">
-                <span className="font-bold text-xs text-foreground">
-                  {skill.name}
-                </span>
-                <span className="font-mono text-[10px] text-primary dark:text-primary font-medium">
-                  {skill.code}
-                </span>
+        {isLoading ? (
+          <TableRow>
+            <TableCell
+              colSpan={6}
+              className="text-center py-12 text-muted-foreground"
+            >
+              <div className="flex flex-col items-center justify-center gap-2">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                <p className="text-xs font-medium">
+                  Loading skill disciplines...
+                </p>
               </div>
             </TableCell>
+          </TableRow>
+        ) : skills && skills.length > 0 ? (
+          skills.map((skill) => (
+            <TableRow key={skill._id} className="hover:bg-muted/50">
+              <TableCell>
+                <div className="flex flex-col">
+                  <span className="font-bold text-xs text-foreground">
+                    {skill.name}
+                  </span>
+                  <span className="font-mono text-[10px] text-primary dark:text-primary font-medium">
+                    {skill.code}
+                  </span>
+                </div>
+              </TableCell>
 
-            <TableCell className="text-xs text-muted-foreground">
-              <span className="px-2 py-0.5 rounded bg-muted text-foreground text-[11px] font-medium border border-border">
-                {skill.category}
-              </span>
-            </TableCell>
+              <TableCell className="text-xs text-muted-foreground">
+                <span className="px-2 py-0.5 rounded bg-muted text-foreground text-[11px] font-medium border border-border">
+                  {skill.category}
+                </span>
+              </TableCell>
 
-            <TableCell className="text-xs">
-              <span className="flex items-center gap-1.5 text-foreground font-medium">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                {skill.defaultDurationWeeks} Weeks
-              </span>
-            </TableCell>
+              <TableCell className="text-xs">
+                <span className="flex items-center gap-1.5 text-foreground font-medium">
+                  <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                  {skill.defaultDurationWeeks} Weeks
+                </span>
+              </TableCell>
 
-            <TableCell className="text-xs">
-              <span className="text-primary dark:text-primary font-semibold bg-primary/10 dark:bg-primary/15 px-2 py-0.5 rounded border border-primary/20 dark:border-primary/20 text-[11px]">
-                {skill.certificationType || "National Certification"}
-              </span>
-            </TableCell>
+              <TableCell className="text-xs">
+                <span className="text-primary dark:text-primary font-semibold bg-primary/10 dark:bg-primary/15 px-2 py-0.5 rounded border border-primary/20 dark:border-primary/20 text-[11px]">
+                  {skill.certificationType || "National Certification"}
+                </span>
+              </TableCell>
 
-            <TableCell>
-              <StatusBadge
-                status={skill.isActive ? "active" : "inactive"}
-                size="sm"
-              />
-            </TableCell>
+              <TableCell>
+                <StatusBadge
+                  status={skill.isActive ? "active" : "inactive"}
+                  size="sm"
+                />
+              </TableCell>
 
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                    />
-                  }
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                  <span className="sr-only">Actions</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-40 text-xs">
-                  <DropdownMenuItem
-                    onClick={() => onOpenDetails(skill)}
-                    className="cursor-pointer gap-2"
+              <TableCell className="text-right">
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                      />
+                    }
                   >
-                    <Eye className="h-3.5 w-3.5 text-muted-foreground" />
-                    View Details
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => onOpenEdit(skill)}
-                    className="cursor-pointer gap-2 text-primary dark:text-primary"
-                  >
-                    <Edit2 className="h-3.5 w-3.5" />
-                    Edit Skill
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Actions</span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-40 text-xs">
+                    <DropdownMenuItem
+                      onClick={() => onOpenDetails(skill)}
+                      className="cursor-pointer gap-2"
+                    >
+                      <Eye className="h-3.5 w-3.5 text-muted-foreground" />
+                      View Details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => onOpenEdit(skill)}
+                      className="cursor-pointer gap-2 text-primary dark:text-primary"
+                    >
+                      <Edit2 className="h-3.5 w-3.5" />
+                      Edit Skill
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell
+              colSpan={6}
+              className="text-center py-12 text-muted-foreground"
+            >
+              <div className="flex flex-col items-center justify-center gap-2">
+                <Award className="h-8 w-8 text-muted-foreground/50" />
+                <p className="text-sm font-semibold text-foreground">
+                  No skill disciplines found
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Try adjusting your search criteria or category filter.
+                </p>
+              </div>
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
+
+    {onPageChange && (
+      <TablePagination
+        page={page}
+        totalPages={totalPages}
+        total={total}
+        limit={limit}
+        onPageChange={onPageChange}
+      />
+    )}
+    </div>
   );
 }

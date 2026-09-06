@@ -1,19 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import { Plus } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import { Plus, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SkillArea } from "@/interfaces";
 import { useSkillAreasQuery } from "@/hooks";
+import { useDebounce } from "@/hooks";
 import { SkillsFilters } from "./SkillsFilters";
 import { SkillsTable } from "./SkillsTable";
 import { AddSkillModal } from "./AddSkillModal";
 import { EditSkillModal } from "./EditSkillModal";
 import { SkillDetailsSheet } from "./SkillDetailsSheet";
 
+const ITEMS_PER_PAGE = 10;
+
 export function SkillsRegistryView() {
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 300);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -21,23 +26,40 @@ export function SkillsRegistryView() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<SkillArea | null>(null);
 
-  const { data: skills = [], isLoading } = useSkillAreasQuery();
+  const {
+    data: skills = [],
+    isLoading,
+    refetch,
+    isFetching,
+  } = useSkillAreasQuery();
 
   // Filter skills
-  const filteredSkills = skills.filter((s) => {
-    const matchesSearch =
-      !search ||
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.code.toLowerCase().includes(search.toLowerCase()) ||
-      s.description?.toLowerCase().includes(search.toLowerCase());
+  const filteredSkills = useMemo(() => {
+    return skills.filter((s) => {
+      const searchLower = debouncedSearch.toLowerCase().trim();
+      const matchesSearch =
+        !debouncedSearch ||
+        s.name.toLowerCase().includes(searchLower) ||
+        s.code.toLowerCase().includes(searchLower) ||
+        s.description?.toLowerCase().includes(searchLower);
 
-    const matchesCategory = !categoryFilter || s.category === categoryFilter;
+      const matchesCategory = !categoryFilter || s.category === categoryFilter;
 
-    const matchesStatus =
-      !statusFilter || (statusFilter === "active" ? s.isActive : !s.isActive);
+      const matchesStatus =
+        !statusFilter || (statusFilter === "active" ? s.isActive : !s.isActive);
 
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+  }, [skills, debouncedSearch, categoryFilter, statusFilter]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredSkills.length / ITEMS_PER_PAGE),
+  );
+  const paginatedSkills = filteredSkills.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE,
+  );
 
   const handleOpenDetails = (skill: SkillArea) => {
     setSelectedSkill(skill);
@@ -65,32 +87,60 @@ export function SkillsRegistryView() {
             duplication.
           </p>
         </div>
-        <Button
-          onClick={() => setIsAddModalOpen(true)}
-          className="text-xs font-semibold gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Add Skill Area
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="border-border text-foreground hover:bg-muted text-xs"
+          >
+            <RefreshCw
+              className={`h-4 w-4 mr-2 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </Button>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            className="text-xs font-semibold gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Add Skill Area
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
       <SkillsFilters
         search={search}
-        onSearchChange={setSearch}
+        onSearchChange={(val) => {
+          setSearch(val);
+          setPage(1);
+        }}
         categoryFilter={categoryFilter}
-        onCategoryFilterChange={setCategoryFilter}
+        onCategoryFilterChange={(val) => {
+          setCategoryFilter(val);
+          setPage(1);
+        }}
         statusFilter={statusFilter}
-        onStatusFilterChange={setStatusFilter}
+        onStatusFilterChange={(val) => {
+          setStatusFilter(val);
+          setPage(1);
+        }}
       />
 
       {/* Skills Table Card */}
       <Card className="overflow-hidden border-border py-0">
         <SkillsTable
-          skills={filteredSkills}
+          skills={paginatedSkills}
           isLoading={isLoading}
           onOpenDetails={handleOpenDetails}
           onOpenEdit={handleOpenEdit}
+          page={page}
+          totalPages={totalPages}
+          total={filteredSkills.length}
+          limit={ITEMS_PER_PAGE}
+          onPageChange={setPage}
         />
       </Card>
 
@@ -118,3 +168,4 @@ export function SkillsRegistryView() {
     </div>
   );
 }
+

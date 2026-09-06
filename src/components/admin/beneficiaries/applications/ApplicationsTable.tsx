@@ -19,21 +19,32 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { MoreHorizontal, Eye, UserCheck, Sparkles } from "lucide-react";
+import { MoreHorizontal, Eye, UserCheck, Sparkles, Loader2, Inbox } from "lucide-react";
 import { Application } from "@/interfaces";
 import { formatDate } from "@/lib/utils";
 import { ApplicationDetailsSheet } from "./ApplicationDetailsSheet";
+import { TablePagination } from "@/components/ui/table-pagination";
 
 interface ApplicationsTableProps {
   applications: Application[];
   isLoading: boolean;
   onOpenReview: (application: Application) => void;
+  page?: number;
+  totalPages?: number;
+  total?: number;
+  limit?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export function ApplicationsTable({
   applications,
   isLoading,
   onOpenReview,
+  page = 1,
+  totalPages = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
 }: ApplicationsTableProps) {
   const [selectedAppForDetails, setSelectedAppForDetails] =
     useState<Application | null>(null);
@@ -72,9 +83,12 @@ export function ApplicationsTable({
               <TableRow>
                 <TableCell
                   colSpan={7}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  Loading applications pipeline...
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                    <p className="text-xs font-medium">Loading applications pipeline...</p>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : applications && applications.length > 0 ? (
@@ -188,14 +202,30 @@ export function ApplicationsTable({
               <TableRow>
                 <TableCell
                   colSpan={7}
-                  className="text-center py-8 text-muted-foreground text-xs"
+                  className="text-center py-12 text-muted-foreground"
                 >
-                  No applications found matching the filter criteria.
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Inbox className="h-8 w-8 text-muted-foreground/50" />
+                    <p className="text-sm font-semibold text-foreground">No applications found</p>
+                    <p className="text-xs text-muted-foreground">
+                      Try adjusting your search query or application status filter.
+                    </p>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+
+        {onPageChange && (
+          <TablePagination
+            page={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+            onPageChange={onPageChange}
+          />
+        )}
       </Card>
 
       {/* Application Details Sheet */}
