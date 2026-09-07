@@ -6,9 +6,7 @@ export interface Staff {
   gender: 'male' | 'female' | 'other' | string;
   email: string;
   phone: string;
-  departmentId?: any;
   position: string;
-  category: string;
   employmentStatus: string;
   assignedCentreId?: any;
   dateJoined: string;
@@ -25,7 +23,6 @@ export interface Volunteer {
   phone: string;
   gender?: string;
   skills: string[];
-  departmentId?: any;
   assignedCentreId?: any;
   responsibilities?: string;
   startDate: string;

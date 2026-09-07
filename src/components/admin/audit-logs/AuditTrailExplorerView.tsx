@@ -44,7 +44,11 @@ const DEFAULT_ENTITIES = [
   "Setting",
 ];
 
-export function AuditTrailExplorerView() {
+interface AuditTrailExplorerViewProps {
+  hideHeader?: boolean;
+}
+
+export function AuditTrailExplorerView({ hideHeader = false }: AuditTrailExplorerViewProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
@@ -119,25 +123,45 @@ export function AuditTrailExplorerView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Immutable Audit Trail Explorer
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Permanent forensic ledger of all administrative events, state
-            mutations, application approvals, role reassignments, and attendance
-            corrections.
-          </p>
-        </div>
+      {!hideHeader ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Immutable Audit Trail Explorer
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Permanent forensic ledger of all administrative events, state
+              mutations, application approvals, role reassignments, and attendance
+              corrections.
+            </p>
+          </div>
 
-        <div className="inline-flex items-center gap-2 shrink-0">
+          <div className="inline-flex items-center gap-2 shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="text-xs h-8 gap-1.5 whitespace-nowrap"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+              />
+              Refresh Ledger
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-between gap-4 pb-1">
+          <p className="text-xs text-muted-foreground">
+            Permanent forensic log of all administrative actions, data modifications, and security events.
+          </p>
           <Button
             variant="outline"
             size="sm"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="text-xs h-8 gap-1.5 whitespace-nowrap"
+            className="text-xs h-8 gap-1.5 shrink-0"
           >
             <RefreshCw
               className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
@@ -145,7 +169,7 @@ export function AuditTrailExplorerView() {
             Refresh Ledger
           </Button>
         </div>
-      </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

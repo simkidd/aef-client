@@ -15,7 +15,7 @@ import { StatusBadge } from "@/components/common/StatusBadge";
 import {
   Mail,
   Phone,
-  Building2,
+  Briefcase,
   MapPin,
   Calendar,
   ShieldCheck,
@@ -70,8 +70,7 @@ export function StaffDetailsSheet({
                 {staff.firstName} {staff.lastName}
               </SheetTitle>
               <SheetDescription className="text-xs text-muted-foreground">
-                {staff.position} •{" "}
-                <span className="capitalize">{staff.category}</span>
+                {staff.position}
               </SheetDescription>
             </SheetHeader>
 
@@ -79,12 +78,12 @@ export function StaffDetailsSheet({
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg border bg-card p-3 space-y-1">
                 <span className="text-[11px] text-muted-foreground font-medium block">
-                  Department
+                  Job Title
                 </span>
                 <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                  <Building2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <Briefcase className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span className="truncate">
-                    {staff.departmentId?.name || "Central Org"}
+                    {staff.position}
                   </span>
                 </span>
               </div>

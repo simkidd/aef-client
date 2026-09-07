@@ -67,7 +67,7 @@ export function StaffTable({
           <TableHeader>
             <TableRow>
               <TableHead>Staff Member</TableHead>
-              <TableHead>Role & Department</TableHead>
+              <TableHead>Job Title</TableHead>
               <TableHead>Centre</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-[60px] text-right">
@@ -116,13 +116,10 @@ export function StaffTable({
                     </div>
                   </TableCell>
 
-                  {/* Role & Department */}
+                  {/* Job Title */}
                   <TableCell>
                     <span className="font-medium text-xs text-foreground block truncate">
                       {st.position}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground block truncate capitalize">
-                      {st.category} • {st.departmentId?.name || "Central Org"}
                     </span>
                   </TableCell>
 

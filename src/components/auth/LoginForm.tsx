@@ -15,6 +15,10 @@ import {
   EyeOff,
   Sparkles,
   Loader2,
+  ShieldCheck,
+  Building2,
+  GraduationCap,
+  UserCheck,
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -32,6 +36,37 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
+const DEMO_ACCOUNTS = [
+  {
+    role: "Super Admin",
+    scope: "Full System",
+    email: "admin@adelefoundation.org",
+    pass: "Admin@2026",
+    icon: ShieldCheck,
+  },
+  {
+    role: "Centre Manager",
+    scope: "PH Centre Lead",
+    email: "manager@adelefoundation.org",
+    pass: "Manager@2026",
+    icon: Building2,
+  },
+  {
+    role: "Trainer / Instructor",
+    scope: "Solar PV Faculty",
+    email: "trainer@adelefoundation.org",
+    pass: "Trainer@2026",
+    icon: GraduationCap,
+  },
+  {
+    role: "Trainee / Student",
+    scope: "Student Portal",
+    email: "trainee@adelefoundation.org",
+    pass: "Trainee@2026",
+    icon: UserCheck,
+  },
+];
+
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { setAuth } = useAuthStore();
@@ -42,6 +77,7 @@ export function LoginForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -50,6 +86,8 @@ export function LoginForm() {
       password: "",
     },
   });
+
+  const activeEmail = watch("email");
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginFormData) =>
@@ -202,42 +240,56 @@ export function LoginForm() {
 
       {/* 3. Quick Fill Demo Accounts */}
       <div className="pt-3 border-t border-border/60 space-y-2">
-        <div className="flex items-center gap-1.5 text-muted-foreground">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
-          <span className="text-[11px] font-semibold uppercase tracking-wider">
-            Quick Fill Demo Access
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider">
+              Quick Fill Demo Accounts
+            </span>
+          </div>
+          <span className="text-[10px] text-muted-foreground">
+            Click to populate
           </span>
         </div>
-        <div className="grid grid-cols-2 gap-2.5">
-          <button
-            type="button"
-            onClick={() =>
-              handleDemoFill("admin@adelefoundation.org", "Admin@2026")
-            }
-            className="p-2.5 rounded-lg bg-muted/40 hover:bg-muted/80 border border-border text-left transition-all cursor-pointer hover:border-primary/40 group"
-          >
-            <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-xs">
-              Administrator
-            </p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">
-              Admin Dashboard
-            </p>
-          </button>
 
-          <button
-            type="button"
-            onClick={() =>
-              handleDemoFill("trainee@adelefoundation.org", "Trainee@2026")
-            }
-            className="p-2.5 rounded-lg bg-muted/40 hover:bg-muted/80 border border-border text-left transition-all cursor-pointer hover:border-primary/40 group"
-          >
-            <p className="font-semibold text-foreground group-hover:text-primary transition-colors text-xs">
-              Student
-            </p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">
-              Learning Dashboard
-            </p>
-          </button>
+        <div className="grid grid-cols-2 gap-2">
+          {DEMO_ACCOUNTS.map((acc) => {
+            const Icon = acc.icon;
+            const isSelected = activeEmail === acc.email;
+
+            return (
+              <button
+                key={acc.email}
+                type="button"
+                onClick={() => handleDemoFill(acc.email, acc.pass)}
+                className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer group ${
+                  isSelected
+                    ? "border-primary/50 bg-primary/10 shadow-2xs font-medium"
+                    : "bg-muted/30 hover:bg-muted/60 border-border hover:border-primary/30"
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <Icon
+                    className={`h-3.5 w-3.5 ${
+                      isSelected
+                        ? "text-primary"
+                        : "text-muted-foreground group-hover:text-primary transition-colors"
+                    }`}
+                  />
+                  <p
+                    className={`text-xs font-semibold truncate ${
+                      isSelected ? "text-primary" : "text-foreground"
+                    }`}
+                  >
+                    {acc.role}
+                  </p>
+                </div>
+                <p className="text-[10px] text-muted-foreground mt-0.5 truncate pl-5">
+                  {acc.scope}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </div>
 

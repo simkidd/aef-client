@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Staff } from "@/interfaces";
 import {
   useStaffListQuery,
-  useDepartmentsQuery,
   useCentresQuery,
   useDebounce,
 } from "@/hooks";
@@ -19,7 +18,6 @@ const ITEMS_PER_PAGE = 10;
 
 export function StaffDirectoryView() {
   const [page, setPage] = useState(1);
-  const [categoryFilter, setCategoryFilter] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 400);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -32,7 +30,6 @@ export function StaffDirectoryView() {
     refetch,
     isFetching,
   } = useStaffListQuery({
-    category: categoryFilter || undefined,
     search: debouncedSearch.trim() || undefined,
     page,
     limit: ITEMS_PER_PAGE,
@@ -46,7 +43,6 @@ export function StaffDirectoryView() {
     totalPages: 1,
   };
 
-  const { data: departments = [] } = useDepartmentsQuery();
   const { data: centres = [] } = useCentresQuery();
 
   const handleOpenProvision = (st: Staff) => {
@@ -62,8 +58,7 @@ export function StaffDirectoryView() {
             Staff & Employee Directory
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Organization HR registry for all employees (Trainers, Management,
-            Operations, Cleaners, Drivers). System login accounts are
+            Organization HR registry for all employees. System login accounts are
             provisioned separately on-demand.
           </p>
         </div>
@@ -98,11 +93,6 @@ export function StaffDirectoryView() {
           setSearch(val);
           setPage(1);
         }}
-        categoryFilter={categoryFilter}
-        onCategoryFilterChange={(val) => {
-          setCategoryFilter(val);
-          setPage(1);
-        }}
       />
 
       {/* Staff Table */}
@@ -121,7 +111,6 @@ export function StaffDirectoryView() {
       <AddStaffModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        departments={departments}
         centres={centres}
       />
 

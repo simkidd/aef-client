@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useAuthStore } from "@/stores/auth.store";
 import { useCurrentUserQuery } from "@/hooks/queries/useAuthQueries";
 import { User } from "@/interfaces";
+import { AccessDeniedView } from "@/components/common/AccessDeniedView";
 
 /**
  * Checks if a user possesses a specific role code or is a SUPER_ADMIN
@@ -122,4 +123,78 @@ export function RoleGuard({
   return <>{children}</>;
 }
 
+export { AccessDeniedView };
+
+/**
+ * PermissionGuard Component
+ * Guards a page or view area by requiring a specific capability code.
+ * If unauthorized, renders AccessDeniedView (403) or custom fallback.
+ */
+export function PermissionGuard({
+  permission,
+  permissions,
+  children,
+  fallback,
+  pageTitle,
+}: {
+  permission?: string;
+  permissions?: string[];
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+  pageTitle?: string;
+}) {
+  const { user, isAuthenticated, hasPermission, initialized } = useAuthStore();
+
+  if (!initialized) return null;
+
+  if (!isAuthenticated || !user) {
+    return (
+      fallback ? (
+        <>{fallback}</>
+      ) : (
+        <AccessDeniedView
+          pageTitle={pageTitle}
+          requiredPermission={permission || permissions?.[0]}
+        />
+      )
+    );
+  }
+
+  // Super Admins always bypass permission checks
+  if (user.roles?.includes("SUPER_ADMIN")) {
+    return <>{children}</>;
+  }
+
+  // Single permission check
+  if (permission && !hasPermission(permission)) {
+    return (
+      fallback ? (
+        <>{fallback}</>
+      ) : (
+        <AccessDeniedView
+          pageTitle={pageTitle}
+          requiredPermission={permission}
+        />
+      )
+    );
+  }
+
+  // Multi permission check (require at least one)
+  if (permissions && permissions.length > 0 && !checkUserAnyPermission(user, permissions)) {
+    return (
+      fallback ? (
+        <>{fallback}</>
+      ) : (
+        <AccessDeniedView
+          pageTitle={pageTitle}
+          requiredPermission={permissions.join(" | ")}
+        />
+      )
+    );
+  }
+
+  return <>{children}</>;
+}
+
 export default AuthGuard;
+

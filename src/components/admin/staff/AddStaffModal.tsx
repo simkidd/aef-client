@@ -29,7 +29,7 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Loader2 } from "lucide-react";
-import { Department, TrainingCentre } from "@/interfaces";
+import { TrainingCentre } from "@/interfaces";
 import { useCreateStaffMutation } from "@/hooks";
 
 export const addStaffSchema = z.object({
@@ -40,9 +40,7 @@ export const addStaffSchema = z.object({
   }),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(7, "Please enter a valid phone number"),
-  position: z.string().min(2, "Position is required"),
-  category: z.string().min(1, "Category is required"),
-  departmentId: z.string().optional(),
+  position: z.string().min(2, "Job title is required"),
   assignedCentreId: z.string().optional(),
 });
 
@@ -51,14 +49,12 @@ export type AddStaffFormData = z.infer<typeof addStaffSchema>;
 interface AddStaffModalProps {
   isOpen: boolean;
   onClose: () => void;
-  departments: Department[];
   centres: TrainingCentre[];
 }
 
 export function AddStaffModal({
   isOpen,
   onClose,
-  departments,
   centres,
 }: AddStaffModalProps) {
   const {
@@ -77,18 +73,9 @@ export function AddStaffModal({
       email: "",
       phone: "",
       position: "",
-      category: "trainers",
-      departmentId: departments?.[0]?._id || "",
       assignedCentreId: centres?.[0]?._id || "",
     },
   });
-
-  // Keep default department and centre updated if lists populate later
-  useEffect(() => {
-    if (departments?.length > 0) {
-      setValue("departmentId", departments[0]._id);
-    }
-  }, [departments, setValue]);
 
   useEffect(() => {
     if (centres?.length > 0) {
@@ -106,7 +93,6 @@ export function AddStaffModal({
   const onSubmit = (data: AddStaffFormData) => {
     createStaffMutation.mutate({
       ...data,
-      departmentId: data.departmentId || departments?.[0]?._id,
       assignedCentreId: data.assignedCentreId || centres?.[0]?._id,
     });
   };
@@ -253,104 +239,6 @@ export function AddStaffModal({
                     }}
                   />
                   <FieldError>{errors.gender?.message}</FieldError>
-                </Field>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <Field>
-                  <FieldLabel
-                    htmlFor="category"
-                    className="text-xs font-semibold text-foreground"
-                  >
-                    Category *
-                  </FieldLabel>
-                  <Controller
-                    name="category"
-                    control={control}
-                    render={({ field }) => {
-                      const categoryLabels: Record<string, string> = {
-                        trainers: "Trainers",
-                        management: "Management",
-                        operations: "Operations",
-                        administration: "Administration",
-                        finance: "Finance",
-                        hr: "HR",
-                        drivers: "Drivers",
-                        security: "Security",
-                        cleaning: "Cleaning",
-                      };
-                      return (
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger id="category" className="w-full">
-                            <SelectValue placeholder="Select Category">
-                              {categoryLabels[field.value] || field.value}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="trainers">Trainers</SelectItem>
-                            <SelectItem value="management">
-                              Management
-                            </SelectItem>
-                            <SelectItem value="operations">
-                              Operations
-                            </SelectItem>
-                            <SelectItem value="administration">
-                              Administration
-                            </SelectItem>
-                            <SelectItem value="finance">Finance</SelectItem>
-                            <SelectItem value="hr">HR</SelectItem>
-                            <SelectItem value="drivers">Drivers</SelectItem>
-                            <SelectItem value="security">Security</SelectItem>
-                            <SelectItem value="cleaning">Cleaning</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      );
-                    }}
-                  />
-                  <FieldError>{errors.category?.message}</FieldError>
-                </Field>
-
-                <Field>
-                  <FieldLabel
-                    htmlFor="department"
-                    className="text-xs font-semibold text-foreground"
-                  >
-                    Department
-                  </FieldLabel>
-                  <Controller
-                    name="departmentId"
-                    control={control}
-                    render={({ field }) => {
-                      const selectedDeptId =
-                        field.value || departments?.[0]?._id;
-                      const selectedDept = departments?.find(
-                        (d) => d._id === selectedDeptId,
-                      );
-                      return (
-                        <Select
-                          value={selectedDeptId || ""}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger id="department" className="w-full">
-                            <SelectValue placeholder="Select Department">
-                              {selectedDept?.name}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            {departments?.map((dept) => (
-                              <SelectItem key={dept._id} value={dept._id}>
-                                {dept.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      );
-                    }}
-                  />
-                  <FieldError>{errors.departmentId?.message}</FieldError>
                 </Field>
               </div>
 
