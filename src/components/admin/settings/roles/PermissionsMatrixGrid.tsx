@@ -1,10 +1,17 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShieldCheck, CheckSquare, Square, Save, Loader2, Key } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search, ShieldCheck, Save, Loader2, Key, ArrowLeft } from "lucide-react";
 
 interface PermissionItem {
   code: string;
@@ -20,6 +27,7 @@ interface PermissionsMatrixGridProps {
   onTogglePerm: (code: string) => void;
   onSelectAllCategory: (codes: string[], select: boolean) => void;
   onSave: () => void;
+  onBack?: () => void;
   isSaving?: boolean;
   hasChanges?: boolean;
 }
@@ -31,6 +39,7 @@ export function PermissionsMatrixGrid({
   onTogglePerm,
   onSelectAllCategory,
   onSave,
+  onBack,
   isSaving,
   hasChanges,
 }: PermissionsMatrixGridProps) {
@@ -76,8 +85,8 @@ export function PermissionsMatrixGrid({
             Select a System Role
           </h3>
           <p className="text-xs text-muted-foreground">
-            Choose a role from the left panel to inspect and customize its granular
-            RBAC permission privileges.
+            Choose a role from the left panel to inspect and customize its
+            granular RBAC permission privileges.
           </p>
         </div>
       </Card>
@@ -85,9 +94,23 @@ export function PermissionsMatrixGrid({
   }
 
   return (
-    <Card className="border-border bg-card shadow-2xs flex flex-col h-full overflow-hidden">
+    <Card className="border-border bg-card shadow-2xs flex flex-col h-full overflow-hidden py-0 gap-0">
       {/* Header */}
-      <CardHeader className="p-4 sm:p-5 border-b border-border bg-muted/20 shrink-0">
+      <CardHeader className="p-4 border-b border-border bg-muted/20 shrink-0">
+        {onBack && (
+          <div className="lg:hidden mb-2.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBack}
+              className="text-xs h-7 px-2 -ml-2 text-muted-foreground hover:text-foreground gap-1.5 font-medium"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to Roles List</span>
+            </Button>
+          </div>
+        )}
+
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
@@ -97,7 +120,11 @@ export function PermissionsMatrixGrid({
               </CardTitle>
             </div>
             <CardDescription className="text-xs text-muted-foreground mt-0.5">
-              Configuring scope: <strong className="text-foreground">{selectedRole.defaultScope || "CENTRE"}</strong> • {activePerms.length} permissions currently assigned.
+              Configuring scope:{" "}
+              <strong className="text-foreground">
+                {selectedRole.defaultScope || "CENTRE"}
+              </strong>{" "}
+              • {activePerms.length} permissions currently assigned.
             </CardDescription>
           </div>
 
@@ -144,22 +171,42 @@ export function PermissionsMatrixGrid({
         ) : (
           Object.entries(groupedPermissions).map(([category, perms]) => {
             const categoryCodes = perms.map((p) => p.code);
-            const allChecked = categoryCodes.every((c) => activePerms.includes(c));
-            const someChecked = categoryCodes.some((c) => activePerms.includes(c));
+            const allChecked =
+              categoryCodes.length > 0 &&
+              categoryCodes.every((c) => activePerms.includes(c));
+            const someChecked = categoryCodes.some((c) =>
+              activePerms.includes(c),
+            );
+            const categoryId = `cat-${category.toLowerCase().replace(/\s+/g, "-")}`;
 
             return (
               <div key={category} className="space-y-2.5">
-                <div className="flex items-center justify-between border-b border-border pb-1.5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                    <span>{category} Domain</span>
-                    <span className="text-[10px] font-mono text-muted-foreground font-normal">
-                      ({perms.length})
-                    </span>
-                  </h4>
+                <div className="flex items-center justify-between border-b border-border pb-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id={categoryId}
+                      checked={allChecked}
+                      indeterminate={!allChecked && someChecked}
+                      onCheckedChange={(checked) =>
+                        onSelectAllCategory(categoryCodes, !!checked)
+                      }
+                    />
+                    <label
+                      htmlFor={categoryId}
+                      className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5 cursor-pointer select-none"
+                    >
+                      <span>{category} Domain</span>
+                      <span className="text-[10px] font-mono text-muted-foreground font-normal">
+                        ({perms.length})
+                      </span>
+                    </label>
+                  </div>
 
                   <button
                     type="button"
-                    onClick={() => onSelectAllCategory(categoryCodes, !allChecked)}
+                    onClick={() =>
+                      onSelectAllCategory(categoryCodes, !allChecked)
+                    }
                     className="text-[11px] font-semibold text-primary hover:underline"
                   >
                     {allChecked ? "Deselect All" : "Select All"}
@@ -169,35 +216,43 @@ export function PermissionsMatrixGrid({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                   {perms.map((perm) => {
                     const isChecked = activePerms.includes(perm.code);
+                    const permId = `perm-${perm.code.replace(/[:.]/g, "-")}`;
+
                     return (
-                      <label
+                      <div
                         key={perm.code}
-                        className={`flex items-start gap-2.5 p-3 rounded-xl border cursor-pointer transition-all text-xs ${
+                        onClick={() => onTogglePerm(perm.code)}
+                        className={`flex items-start gap-2.5 p-3 rounded-xl border cursor-pointer select-none transition-all text-xs ${
                           isChecked
-                            ? "border-primary/30 bg-primary/5 text-foreground shadow-2xs font-medium"
-                            : "border-border bg-card text-muted-foreground hover:bg-muted/30"
+                            ? "border-primary/40 bg-primary/5 text-foreground shadow-2xs font-medium"
+                            : "border-border bg-card text-muted-foreground hover:bg-muted/30 hover:text-foreground"
                         }`}
                       >
-                        <input
-                          type="checkbox"
+                        <Checkbox
+                          id={permId}
                           checked={isChecked}
-                          onChange={() => onTogglePerm(perm.code)}
-                          className="h-4 w-4 rounded text-primary mt-0.5 accent-primary cursor-pointer"
+                          onCheckedChange={() => onTogglePerm(perm.code)}
+                          onClick={(e) => e.stopPropagation()}
+                          className="mt-0.5 shrink-0"
                         />
-                        <div className="min-w-0">
-                          <strong className="text-foreground block truncate">
+                        <div className="min-w-0 flex-1">
+                          <label
+                            htmlFor={permId}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-foreground font-semibold block truncate cursor-pointer"
+                          >
                             {perm.name}
-                          </strong>
+                          </label>
                           <span className="font-mono text-[10px] text-muted-foreground block truncate mt-0.5">
                             {perm.code}
                           </span>
                           {perm.description && (
-                            <p className="text-[10px] text-muted-foreground/80 mt-1 line-clamp-2">
+                            <p className="text-[10px] text-muted-foreground/80 mt-1 line-clamp-2 leading-relaxed">
                               {perm.description}
                             </p>
                           )}
                         </div>
-                      </label>
+                      </div>
                     );
                   })}
                 </div>

@@ -14,6 +14,7 @@ export function RolesPermissionsMatrixView() {
 
   const [selectedRole, setSelectedRole] = useState<any>(null);
   const [activePerms, setActivePerms] = useState<string[]>([]);
+  const [mobileScreen, setMobileScreen] = useState<"roles" | "matrix">("roles");
 
   // Automatically select first role once loaded
   useEffect(() => {
@@ -26,6 +27,11 @@ export function RolesPermissionsMatrixView() {
   const handleSelectRole = (role: any) => {
     setSelectedRole(role);
     setActivePerms(role.permissions || []);
+    setMobileScreen("matrix");
+  };
+
+  const handleBackToRoles = () => {
+    setMobileScreen("roles");
   };
 
   const handleTogglePerm = (code: string) => {
@@ -91,10 +97,14 @@ export function RolesPermissionsMatrixView() {
         </div>
       </div>
 
-      {/* Main 2-Column Split */}
+      {/* Main 2-Column Split on Desktop, Screen-by-Screen on Mobile */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Left Column: Role Selector */}
-        <div className="lg:col-span-1">
+        {/* Left Column: Role Selector (hidden on mobile when viewing matrix) */}
+        <div
+          className={`lg:col-span-1 ${
+            mobileScreen === "matrix" ? "hidden lg:block" : "block"
+          }`}
+        >
           <RoleSelectorList
             roles={rolesData?.roles || []}
             selectedRoleId={selectedRole?._id}
@@ -103,8 +113,12 @@ export function RolesPermissionsMatrixView() {
           />
         </div>
 
-        {/* Right Column: Interactive Permissions Matrix */}
-        <div className="lg:col-span-2">
+        {/* Right Column: Interactive Permissions Matrix (hidden on mobile when viewing roles list) */}
+        <div
+          className={`lg:col-span-2 ${
+            mobileScreen === "roles" ? "hidden lg:block" : "block"
+          }`}
+        >
           <PermissionsMatrixGrid
             selectedRole={selectedRole}
             allPermissions={rolesData?.allPermissions || []}
@@ -112,6 +126,7 @@ export function RolesPermissionsMatrixView() {
             onTogglePerm={handleTogglePerm}
             onSelectAllCategory={handleSelectAllCategory}
             onSave={handleSave}
+            onBack={handleBackToRoles}
             isSaving={updateRoleMutation.isPending}
             hasChanges={hasChanges}
           />
