@@ -7,8 +7,13 @@ export const adminApi = {
     return res.data;
   },
 
-  getRoles: async (): Promise<ApiResponse<any[]>> => {
+  getRoles: async (): Promise<ApiResponse<any>> => {
     const res = await api.get('/admin/roles');
+    return res.data;
+  },
+
+  updateRolePermissions: async (id: string, permissions: string[]): Promise<ApiResponse<any>> => {
+    const res = await api.put(`/admin/roles/${id}`, { permissions });
     return res.data;
   },
 

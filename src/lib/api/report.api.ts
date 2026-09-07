@@ -7,6 +7,11 @@ export const reportApi = {
     return res.data;
   },
 
+  getImpact: async (params?: Record<string, any>): Promise<ApiResponse<any>> => {
+    const res = await api.get('/reports/impact', { params });
+    return res.data;
+  },
+
   getAttendanceSummary: async (params?: Record<string, any>): Promise<ApiResponse<any>> => {
     const res = await api.get('/reports/attendance-summary', { params });
     return res.data;
