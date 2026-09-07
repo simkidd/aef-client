@@ -31,4 +31,19 @@ export const cohortApi = {
     const res = await api.put(`/cohorts/${id}`, data);
     return res.data;
   },
+
+  saveTimetableDraft: async (id: string, data: { slots: any[]; publishImmediately?: boolean }): Promise<ApiResponse<{ cohort: Cohort; sessionCount: number }>> => {
+    const res = await api.post(`/cohorts/${id}/timetable/draft`, data);
+    return res.data;
+  },
+
+  publishTimetable: async (id: string): Promise<ApiResponse<Cohort>> => {
+    const res = await api.post(`/cohorts/${id}/timetable/publish`);
+    return res.data;
+  },
+
+  unpublishTimetable: async (id: string): Promise<ApiResponse<Cohort>> => {
+    const res = await api.post(`/cohorts/${id}/timetable/unpublish`);
+    return res.data;
+  },
 };

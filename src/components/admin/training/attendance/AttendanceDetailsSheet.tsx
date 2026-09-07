@@ -12,7 +12,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatTime, formatDuration } from "@/lib/utils";
 import { AttendanceRecord } from "@/interfaces";
 import {
   Clock,
@@ -87,27 +87,23 @@ export function AttendanceDetailsSheet({
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg border bg-card p-3 space-y-1">
                 <span className="text-[11px] text-muted-foreground font-medium block">
-                  First Clock In
+                  Clock In (Sign In)
                 </span>
                 <span className="text-xs font-semibold text-foreground flex items-center gap-1.5 font-mono">
                   <Clock className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span>
-                    {record.firstClockIn
-                      ? formatDate(record.firstClockIn, true)
-                      : "No Scan"}
+                    {formatTime(record.firstClockIn)}
                   </span>
                 </span>
               </div>
               <div className="rounded-lg border bg-card p-3 space-y-1">
                 <span className="text-[11px] text-muted-foreground font-medium block">
-                  Last Clock Out
+                  Clock Out (Sign Out)
                 </span>
                 <span className="text-xs font-semibold text-foreground flex items-center gap-1.5 font-mono">
                   <Clock className="h-3.5 w-3.5 text-primary shrink-0" />
                   <span>
-                    {record.lastClockOut
-                      ? formatDate(record.lastClockOut, true)
-                      : "No Scan"}
+                    {formatTime(record.lastClockOut)}
                   </span>
                 </span>
               </div>
@@ -164,8 +160,8 @@ export function AttendanceDetailsSheet({
               <div className="rounded-lg border divide-y bg-card text-xs">
                 <div className="flex items-center justify-between p-3">
                   <span className="text-muted-foreground">Session Duration</span>
-                  <span className="font-semibold text-foreground">
-                    {record.durationMinutes || 0} minutes
+                  <span className="font-semibold text-foreground font-medium">
+                    {formatDuration(record.durationMinutes)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3">

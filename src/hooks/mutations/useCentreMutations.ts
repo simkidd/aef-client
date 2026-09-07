@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { centreApi } from '@/lib/api/centre.api';
-import { TrainingCentre } from '@/interfaces';
+import {
+  TrainingCentre,
+  RoomFacility,
+  Asset,
+  DocumentRecord,
+} from '@/interfaces';
 import { toast } from '@/components/ui/toast';
 
 export function useCreateCentreMutation(options?: {
@@ -65,6 +70,109 @@ export function useUpdateCentreMutation(options?: {
           err?.response?.data?.message ||
           err?.message ||
           'Unable to update training centre.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}
+
+export function useCreateRoomMutation(options?: {
+  onSuccess?: (data?: RoomFacility) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Partial<RoomFacility>) => {
+      const res = await centreApi.createRoom(data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['rooms'] });
+      queryClient.invalidateQueries({ queryKey: ['facilities'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Facility Room Added',
+        description: `"${data?.name}" registered successfully.`,
+        type: 'success',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Failed to add facility',
+        description:
+          err?.response?.data?.message ||
+          err?.message ||
+          'Unable to add facility room.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}
+
+export function useCreateAssetMutation(options?: {
+  onSuccess?: (data?: Asset) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Partial<Asset>) => {
+      const res = await centreApi.createAsset(data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['assets'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Asset Logged',
+        description: `"${data?.name}" registered successfully.`,
+        type: 'success',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Failed to log asset',
+        description:
+          err?.response?.data?.message ||
+          err?.message ||
+          'Unable to log asset.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}
+
+export function useCreateDocumentMutation(options?: {
+  onSuccess?: (data?: DocumentRecord) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Partial<DocumentRecord>) => {
+      const res = await centreApi.createDocument(data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['documents'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Document Uploaded',
+        description: `"${data?.title}" logged to repository.`,
+        type: 'success',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Upload Failed',
+        description:
+          err?.response?.data?.message ||
+          err?.message ||
+          'Unable to upload document.',
         type: 'error',
       });
       options?.onError?.(err);

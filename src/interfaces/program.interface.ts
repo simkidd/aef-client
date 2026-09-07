@@ -53,6 +53,17 @@ export interface CohortCapacityMetrics {
   availableSlots: number;
 }
 
+export interface TimetableSlot {
+  slotNumber: number; // 1, 2, 3
+  slotName: string; // e.g. "Morning Session"
+  startTime: string; // "08:30"
+  endTime: string; // "11:30"
+  daysOfWeek: number[]; // [1, 2, 3, 4, 5]
+  skillAreaIds: any[];
+  roomId?: any;
+  notes?: string;
+}
+
 export interface Cohort {
   _id: string;
   name: string;
@@ -64,6 +75,9 @@ export interface Cohort {
   status: string;
   maxCapacity: number;
   skillConfigs: CohortSkillConfig[];
+  timetableStatus?: "draft" | "published";
+  timetablePublishedAt?: string;
+  timetableSlots?: TimetableSlot[];
   capacityMetrics?: CohortCapacityMetrics;
 }
 
@@ -78,6 +92,8 @@ export interface TrainingSession {
   sessionDate: string;
   startTime: string;
   endTime: string;
+  slotNumber?: number;
+  isPublished?: boolean;
   topic?: string;
   sessionType: string;
   isCancelled: boolean;

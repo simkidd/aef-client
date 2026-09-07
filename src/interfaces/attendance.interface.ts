@@ -17,5 +17,13 @@ export interface AttendanceRecord {
   minutesLate: number;
   isExcused: boolean;
   isManualCorrection: boolean;
+  sessionId?: {
+    _id: string;
+    startTime?: string;
+    endTime?: string;
+    slotNumber?: number;
+    topic?: string;
+    sessionType?: string;
+  } | any;
   notes?: string;
 }

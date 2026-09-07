@@ -37,7 +37,7 @@ export interface RoomFacility {
   type: string;
   capacity: number;
   equipment: string[];
-  isAvailable: boolean;
+  isAvailable?: boolean;
   status: string;
 }
 
@@ -47,8 +47,29 @@ export interface Asset {
   name: string;
   category: string;
   centreId?: any;
+  roomId?: any;
+  assignedStaffId?: any;
   condition: string;
   status: string;
+  purchaseDate?: string;
+  purchaseCost?: number;
+  serialNumber?: string;
+  supplier?: string;
+}
+
+export interface DocumentRecord {
+  _id: string;
+  title: string;
+  category: string;
+  fileUrl?: string;
+  fileType?: string;
+  fileSize?: string;
+  accessLevel?: string;
+  relatedCentreId?: any;
+  relatedProgramId?: any;
+  uploadedBy?: any;
+  createdAt: string;
+  downloadsCount?: number;
 }
 
 export interface CentreDetailData {

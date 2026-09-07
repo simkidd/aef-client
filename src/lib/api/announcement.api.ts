@@ -1,5 +1,5 @@
 import { api } from '../client';
-import { ApiResponse, Announcement } from '@/interfaces';
+import { ApiResponse, Announcement, Notification, NotificationsResponse } from '@/interfaces';
 
 export const announcementApi = {
   getAll: async (params?: Record<string, any>): Promise<ApiResponse<Announcement[]>> => {
@@ -16,4 +16,15 @@ export const announcementApi = {
     const res = await api.delete(`/announcements/${id}`);
     return res.data;
   },
+
+  getMyNotifications: async (): Promise<ApiResponse<NotificationsResponse>> => {
+    const res = await api.get('/announcements/notifications/my');
+    return res.data;
+  },
+
+  markNotificationRead: async (id: string): Promise<ApiResponse<Notification>> => {
+    const res = await api.put(`/announcements/notifications/${id}/read`);
+    return res.data;
+  },
 };
+

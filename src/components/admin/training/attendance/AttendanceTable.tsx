@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TablePagination } from "@/components/ui/table-pagination";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatTime, formatDuration } from "@/lib/utils";
 import { AttendanceRecord } from "@/interfaces";
 import {
   MoreHorizontal,
@@ -60,7 +60,8 @@ export function AttendanceTable({
             <TableHead>Date</TableHead>
             <TableHead>Enrolled Trainee</TableHead>
             <TableHead>Cohort & Skill Track</TableHead>
-            <TableHead>First In / Last Out</TableHead>
+            <TableHead>Clock In</TableHead>
+            <TableHead>Clock Out</TableHead>
             <TableHead>Duration</TableHead>
             <TableHead>Calculated Status</TableHead>
             <TableHead className="w-[60px] text-right">
@@ -71,7 +72,7 @@ export function AttendanceTable({
         <TableBody>
           {isLoading ? (
             <TableRow>
-              <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
+              <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
                 <div className="flex flex-col items-center justify-center gap-2">
                   <Loader2 className="h-6 w-6 animate-spin text-primary" />
                   <p className="text-xs font-medium">Loading attendance records...</p>
@@ -99,24 +100,26 @@ export function AttendanceTable({
                   <span className="font-semibold text-foreground block">
                     {rec.skillAreaId?.name || "Skill Track"}
                   </span>
-                  <span className="text-[11px] text-muted-foreground">
-                    {rec.cohortId?.name || "Cohort"}
-                  </span>
+                  <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mt-0.5">
+                    <span>{rec.cohortId?.name || "Cohort"}</span>
+                    {rec.sessionId?.startTime && (
+                      <>
+                        <span>•</span>
+                        <span className="font-mono font-medium text-primary bg-primary/10 px-1 py-0.2 rounded text-[10px]">
+                          {rec.sessionId.startTime} – {rec.sessionId.endTime || "End"}
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </TableCell>
-                <TableCell className="text-xs font-mono">
-                  <span className="block text-foreground font-semibold">
-                    {rec.firstClockIn
-                      ? formatDate(rec.firstClockIn, true).split(",")[1]
-                      : "—"}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground block">
-                    {rec.lastClockOut
-                      ? formatDate(rec.lastClockOut, true).split(",")[1]
-                      : "—"}
-                  </span>
+                <TableCell className="text-xs font-mono font-medium text-foreground">
+                  {formatTime(rec.firstClockIn)}
                 </TableCell>
-                <TableCell className="text-xs text-foreground">
-                  {rec.durationMinutes ? `${rec.durationMinutes} mins` : "—"}
+                <TableCell className="text-xs font-mono text-muted-foreground">
+                  {formatTime(rec.lastClockOut)}
+                </TableCell>
+                <TableCell className="text-xs text-foreground font-medium">
+                  {formatDuration(rec.durationMinutes)}
                 </TableCell>
                 <TableCell>
                   <StatusBadge status={rec.status} size="sm" />
@@ -162,7 +165,7 @@ export function AttendanceTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={7} className="text-center py-12 text-muted-foreground">
+              <TableCell colSpan={8} className="text-center py-12 text-muted-foreground">
                 <div className="flex flex-col items-center justify-center gap-2">
                   <UserCheck className="h-8 w-8 text-muted-foreground/50" />
                   <p className="text-sm font-semibold text-foreground">No attendance records found</p>

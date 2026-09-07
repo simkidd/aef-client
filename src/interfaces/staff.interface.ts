@@ -23,8 +23,12 @@ export interface Volunteer {
   lastName: string;
   email: string;
   phone: string;
+  gender?: string;
   skills: string[];
+  departmentId?: any;
   assignedCentreId?: any;
+  responsibilities?: string;
   startDate: string;
   status: string;
+  hoursLogged?: number;
 }

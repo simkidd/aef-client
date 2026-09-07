@@ -7,3 +7,6 @@ export * from './useApplicationMutations';
 export * from './useEnrollmentMutations';
 export * from './useAssessmentMutations';
 export * from './useAttendanceMutations';
+export * from './useNotificationMutations';
+export * from './useOrgMutations';
+export * from './useBiometricMutations';

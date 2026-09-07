@@ -1,16 +1,26 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { useSessionsQuery, useCentresQuery, useCohortsQuery } from "@/hooks/queries";
-import { useDebounce } from "@/hooks";
+import {
+  useSessionsQuery,
+  useCentresQuery,
+  useCohortsQuery,
+  useSkillAreasQuery,
+} from "@/hooks/queries";
+import {
+  useDebounce,
+  usePublishTimetableMutation,
+  useUnpublishTimetableMutation,
+} from "@/hooks";
 import {
   TimetableTable,
   SessionDetailsSheet,
   CancelSessionModal,
+  DraftTimetableModal,
   TimetableFilters,
 } from "./";
 import { TrainingSession } from "@/interfaces";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Layers, Send, EyeOff, Loader2, Sparkles, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function TimetableManagementView() {
@@ -25,10 +35,17 @@ export function TimetableManagementView() {
   const [selectedSession, setSelectedSession] = useState<TrainingSession | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [cancellingSession, setCancellingSession] = useState<TrainingSession | null>(null);
+  const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
 
   const { data: sessions = [], isLoading, refetch, isFetching } = useSessionsQuery();
   const { data: centres = [] } = useCentresQuery();
   const { data: cohorts = [] } = useCohortsQuery();
+  const { data: skillAreas = [] } = useSkillAreasQuery();
+
+  const publishMutation = usePublishTimetableMutation();
+  const unpublishMutation = useUnpublishTimetableMutation();
+
+  const selectedCohort = cohorts.find((c) => c._id === cohortFilter);
 
   // Filter sessions
   const filteredSessions = useMemo(() => {
@@ -120,21 +137,124 @@ export function TimetableManagementView() {
             Training Timetables & Sessions Matrix
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            Data-driven training schedules generated dynamically from cohort skill configs.
-            Expected sessions serve as the baseline for the biometric attendance engine.
+            Draft and manage 2 to 3 session slots per day with customizable start times and assigned skill tracks. Trainees only see schedules once published.
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="text-xs h-8 gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
-          Refresh Matrix
-        </Button>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="text-xs h-8 gap-1.5"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} />
+            Refresh
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={() => setIsDraftModalOpen(true)}
+            className="text-xs h-8 gap-1.5 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-2xs"
+          >
+            <Layers className="h-3.5 w-3.5" />
+            Draft Timetable
+          </Button>
+        </div>
       </div>
+
+      {/* Cohort Timetable Lifecycle Status Card */}
+      {selectedCohort && (
+        <div
+          className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+            selectedCohort.timetableStatus === "published"
+              ? "bg-emerald-50/50 border-emerald-200 dark:bg-emerald-950/20 dark:border-emerald-800/40"
+              : "bg-amber-50/50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800/40"
+          }`}
+        >
+          <div className="flex items-start gap-3">
+            <div
+              className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${
+                selectedCohort.timetableStatus === "published"
+                  ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+                  : "bg-amber-500/15 text-amber-600 dark:text-amber-400"
+              }`}
+            >
+              {selectedCohort.timetableStatus === "published" ? (
+                <CheckCircle className="h-5 w-5" />
+              ) : (
+                <AlertCircle className="h-5 w-5" />
+              )}
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-foreground">
+                  {selectedCohort.name} ({selectedCohort.cohortCode})
+                </span>
+                <span
+                  className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${
+                    selectedCohort.timetableStatus === "published"
+                      ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"
+                      : "bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/20"
+                  }`}
+                >
+                  {selectedCohort.timetableStatus === "published"
+                    ? "Published (Visible on Portal)"
+                    : "Draft Mode (Hidden from Trainees)"}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {selectedCohort.timetableStatus === "published"
+                  ? "Trainees can currently view their session schedule and classroom instructions."
+                  : "This timetable is in draft mode. Trainees will see a 'draft in progress' notice until you publish."}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsDraftModalOpen(true)}
+              className="text-xs h-8 gap-1.5"
+            >
+              <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+              Edit Slots
+            </Button>
+
+            {selectedCohort.timetableStatus === "published" ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => unpublishMutation.mutate(selectedCohort._id)}
+                disabled={unpublishMutation.isPending}
+                className="text-xs h-8 gap-1.5 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 border-amber-300 dark:border-amber-800"
+              >
+                {unpublishMutation.isPending ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <EyeOff className="h-3.5 w-3.5" />
+                )}
+                Revert to Draft
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => publishMutation.mutate(selectedCohort._id)}
+                disabled={publishMutation.isPending}
+                className="text-xs h-8 gap-1.5 bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 font-semibold shadow-2xs"
+              >
+                {publishMutation.isPending ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Send className="h-3.5 w-3.5" />
+                )}
+                Publish to Trainees
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Filters */}
       <TimetableFilters
@@ -180,6 +300,17 @@ export function TimetableManagementView() {
         isOpen={!!cancellingSession}
         onClose={() => setCancellingSession(null)}
       />
+
+      {/* Draft Timetable Modal */}
+      <DraftTimetableModal
+        isOpen={isDraftModalOpen}
+        onClose={() => setIsDraftModalOpen(false)}
+        cohorts={cohorts}
+        skillAreas={skillAreas}
+        centres={centres}
+        defaultCohortId={cohortFilter || cohorts[0]?._id}
+      />
     </div>
   );
 }
+

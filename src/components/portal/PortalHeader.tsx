@@ -15,6 +15,7 @@ import {
   ShieldAlert,
 } from 'lucide-react';
 import { Button } from '../ui/button';
+import { NotificationDropdown } from '../common/NotificationDropdown';
 import { useAuthStore } from '@/stores/auth.store';
 import { authApi } from '@/lib/api/auth.api';
 
@@ -98,6 +99,9 @@ export function PortalHeader() {
                 Staff Operations
               </Button>
             )}
+
+            {/* Notifications */}
+            <NotificationDropdown />
 
             <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
               <div className="h-8 w-8 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-xs">

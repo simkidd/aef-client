@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { staffApi } from '@/lib/api/staff.api';
-import { Staff, Department } from '@/interfaces';
+import { Staff, Volunteer, Partner } from '@/interfaces';
 
 export function useStaffListQuery(params?: {
   category?: string;
@@ -32,12 +32,22 @@ export function useStaffQuery(id: string) {
   });
 }
 
-export function useDepartmentsQuery() {
+export function useVolunteersQuery() {
   return useQuery({
-    queryKey: ['departments', 'list'],
+    queryKey: ['volunteers', 'all'],
     queryFn: async () => {
-      const res = await staffApi.getDepartments();
-      return (res?.data || []) as Department[];
+      const res = await staffApi.getVolunteers();
+      return (res?.data || []) as Volunteer[];
+    },
+  });
+}
+
+export function usePartnersQuery() {
+  return useQuery({
+    queryKey: ['partners', 'all'],
+    queryFn: async () => {
+      const res = await staffApi.getPartners();
+      return (res?.data || []) as Partner[];
     },
   });
 }

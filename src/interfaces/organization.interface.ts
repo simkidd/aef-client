@@ -32,11 +32,17 @@ export interface Partner {
   type: string;
   contactPerson: {
     name: string;
-    title: string;
+    title?: string;
     email: string;
     phone: string;
   };
   email: string;
   phone?: string;
+  website?: string;
+  address?: string;
+  state?: string;
+  country?: string;
   status: string;
+  programsSponsored?: any[];
+  notes?: string;
 }

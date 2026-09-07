@@ -22,7 +22,7 @@ import { FieldGroup } from "@/components/ui/field";
 import { ShieldAlert, Loader2 } from "lucide-react";
 import { useCorrectAttendanceMutation } from "@/hooks/mutations";
 import { AttendanceRecord } from "@/interfaces";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatTime } from "@/lib/utils";
 
 interface AttendanceCorrectionModalProps {
   record: AttendanceRecord | null;
@@ -106,10 +106,10 @@ export function AttendanceCorrectionModal({
               <strong className="text-primary">{record.status}</strong>
             </div>
             <div className="flex items-center justify-between text-muted-foreground">
-              <span>First In / Last Out:</span>
+              <span>Clock In / Clock Out:</span>
               <span className="font-mono">
-                {record.firstClockIn ? formatDate(record.firstClockIn, true) : "None"} /{" "}
-                {record.lastClockOut ? formatDate(record.lastClockOut, true) : "None"}
+                {formatTime(record.firstClockIn)} /{" "}
+                {formatTime(record.lastClockOut)}
               </span>
             </div>
           </div>

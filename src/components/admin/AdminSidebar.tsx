@@ -20,6 +20,7 @@ import {
   Calendar,
   Clock,
   Fingerprint,
+  Radio,
   Award,
   BarChart3,
   ShieldCheck,

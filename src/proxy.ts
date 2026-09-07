@@ -20,9 +20,10 @@ export function proxy(request: NextRequest) {
   const isAuthRoute = pathname.startsWith("/auth");
   const isAdminRoute = pathname.startsWith("/admin");
   const isPortalRoute = pathname.startsWith("/portal");
+  const isTerminalRoute = pathname.startsWith("/terminal");
 
-  // Protect Admin & Portal routes
-  if ((isAdminRoute || isPortalRoute) && !token) {
+  // Protect Admin, Portal & Terminal routes
+  if ((isAdminRoute || isPortalRoute || isTerminalRoute) && !token) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
@@ -39,7 +40,11 @@ export function proxy(request: NextRequest) {
 
   // Role scoping
   if (token && user) {
-    if (isAdminRoute && !user.isStaff && !user.roles?.includes("SUPER_ADMIN")) {
+    if (
+      (isAdminRoute || isTerminalRoute) &&
+      !user.isStaff &&
+      !user.roles?.includes("SUPER_ADMIN")
+    ) {
       return NextResponse.redirect(new URL("/portal", request.url));
     }
     if (isPortalRoute && user.isStaff && !user.isBeneficiary) {

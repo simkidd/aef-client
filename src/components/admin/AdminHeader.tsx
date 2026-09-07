@@ -1,12 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Fingerprint } from "lucide-react";
 import { Button } from "../ui/button";
 import { SidebarTrigger } from "../ui/sidebar";
 import { ThemeToggle } from "../ui/theme-toggle";
 import { useAuthStore } from "@/stores/auth.store";
 import { BiometricSimulatorModal } from "./BiometricSimulatorModal";
+
+import { NotificationDropdown } from "../common/NotificationDropdown";
 
 export function AdminHeader() {
   const { user } = useAuthStore();
@@ -35,15 +38,30 @@ export function AdminHeader() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Launch Biometric Attendance Terminal */}
+          <Link href="/terminal">
+            <Button
+              size="sm"
+              className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 shadow-xs text-xs font-semibold"
+            >
+              <Fingerprint className="h-4 w-4" />
+              <span className="hidden md:inline">Attendance Terminal</span>
+              <span className="md:hidden">Terminal</span>
+            </Button>
+          </Link>
+
           {/* Trigger Biometric Hardware Simulator */}
           <Button
             size="sm"
+            variant="outline"
             onClick={() => setIsSimulatorOpen(true)}
-            className="gap-2 bg-linear-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white shadow-xs text-xs font-semibold"
+            className="gap-1.5 text-xs font-semibold hidden sm:inline-flex"
           >
-            <Fingerprint className="h-4 w-4" />
-            <span className="hidden sm:inline">Biometric Simulator</span>
+            <span>Simulator</span>
           </Button>
+
+          {/* Notifications */}
+          <NotificationDropdown />
 
           {/* Theme Mode Toggle */}
           <ThemeToggle />

@@ -12,3 +12,4 @@ export * from './biometric.api';
 export * from './report.api';
 export * from './admin.api';
 export * from './announcement.api';
+export * from './org.api';

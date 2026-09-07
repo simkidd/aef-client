@@ -87,9 +87,16 @@ export function TimetableTable({
                 className="hover:bg-muted/60 transition-colors group"
               >
                 <TableCell>
-                  <span className="font-bold text-xs text-foreground block">
-                    {formatDate(sess.sessionDate)}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-xs text-foreground block">
+                      {formatDate(sess.sessionDate)}
+                    </span>
+                    {sess.slotNumber && (
+                      <span className="text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary font-bold rounded">
+                        Slot {sess.slotNumber}
+                      </span>
+                    )}
+                  </div>
                   <span className="font-mono text-[11px] text-primary font-semibold flex items-center gap-1 mt-0.5">
                     <Clock className="h-3 w-3 inline" />
                     {sess.startTime} – {sess.endTime}
@@ -123,10 +130,21 @@ export function TimetableTable({
                   </span>
                 </TableCell>
                 <TableCell>
-                  <StatusBadge
-                    status={sess.isCancelled ? "Cancelled" : "Scheduled"}
-                    size="sm"
-                  />
+                  <div className="space-y-0.5">
+                    <StatusBadge
+                      status={sess.isCancelled ? "Cancelled" : "Scheduled"}
+                      size="sm"
+                    />
+                    {sess.isPublished ? (
+                      <span className="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                        • Published
+                      </span>
+                    ) : (
+                      <span className="block text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
+                        • Draft
+                      </span>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
                   <DropdownMenu>

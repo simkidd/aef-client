@@ -10,3 +10,5 @@ export * from './useAttendanceQueries';
 export * from './useReportQueries';
 export * from './useCertificateQueries';
 export * from './useAssessmentQueries';
+export * from './useNotificationQueries';
+export * from './useOrgQueries';

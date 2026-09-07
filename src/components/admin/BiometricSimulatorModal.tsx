@@ -35,7 +35,7 @@ export function BiometricSimulatorModal({
   onScanSuccess,
 }: BiometricSimulatorModalProps) {
   const [selectedDeviceSerial, setSelectedDeviceSerial] =
-    useState<string>("BIO-DEV-LAGOS-01");
+    useState<string>("BIO-DEV-PH-01");
   const [selectedToken, setSelectedToken] = useState<string>(
     "BIO-AEF-JOHN-EZE-TOKEN-01",
   );
@@ -143,11 +143,14 @@ export function BiometricSimulatorModal({
                   </option>
                 )) || (
                   <>
-                    <option value="BIO-DEV-LAGOS-01">
-                      Lagos Reception Main Biometric Gate (BIO-DEV-LAGOS-01)
+                    <option value="BIO-DEV-PH-01">
+                      Port Harcourt Main Gate (BIO-DEV-PH-01)
                     </option>
-                    <option value="BIO-DEV-OGUN-01">
-                      Ogun Hub Entrance Scanner (BIO-DEV-OGUN-01)
+                    <option value="BIO-DEV-PH-02">
+                      Port Harcourt Digital Lab (BIO-DEV-PH-02)
+                    </option>
+                    <option value="BIO-DEV-YEN-01">
+                      Yenagoa Hub Entrance Scanner (BIO-DEV-YEN-01)
                     </option>
                   </>
                 )}

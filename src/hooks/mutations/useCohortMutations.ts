@@ -105,3 +105,105 @@ export function useCancelSessionMutation(options?: {
     },
   });
 }
+
+export function useSaveTimetableDraftMutation(options?: {
+  onSuccess?: (data?: any) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: { slots: any[]; publishImmediately?: boolean } }) => {
+      const res = await cohortApi.saveTimetableDraft(id, data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['cohorts'] });
+      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-cohorts-all'] });
+      queryClient.invalidateQueries({ queryKey: ['portal-sessions'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Timetable Saved',
+        description: 'Cohort timetable and session slots updated successfully.',
+        type: 'success',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Failed to save timetable',
+        description: err?.response?.data?.message || err?.message || 'Unable to save timetable slots.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}
+
+export function usePublishTimetableMutation(options?: {
+  onSuccess?: (data?: Cohort) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (cohortId: string) => {
+      const res = await cohortApi.publishTimetable(cohortId);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['cohorts'] });
+      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-cohorts-all'] });
+      queryClient.invalidateQueries({ queryKey: ['portal-sessions'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Timetable Published',
+        description: 'Trainees can now view their official schedule on their portal.',
+        type: 'success',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Failed to publish timetable',
+        description: err?.response?.data?.message || err?.message || 'Unable to publish timetable.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}
+
+export function useUnpublishTimetableMutation(options?: {
+  onSuccess?: (data?: Cohort) => void;
+  onError?: (error: Error) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (cohortId: string) => {
+      const res = await cohortApi.unpublishTimetable(cohortId);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['cohorts'] });
+      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-cohorts-all'] });
+      queryClient.invalidateQueries({ queryKey: ['portal-sessions'] });
+      options?.onSuccess?.(data);
+      toast.add({
+        title: 'Timetable Reverted to Draft',
+        description: 'The timetable is now hidden from the trainee portal for drafting.',
+        type: 'info',
+      });
+    },
+    onError: (err: any) => {
+      toast.add({
+        title: 'Failed to revert timetable',
+        description: err?.response?.data?.message || err?.message || 'Unable to unpublish timetable.',
+        type: 'error',
+      });
+      options?.onError?.(err);
+    },
+  });
+}

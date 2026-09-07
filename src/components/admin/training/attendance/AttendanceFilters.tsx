@@ -11,7 +11,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { RotateCcw, Search } from "lucide-react";
+import { RotateCcw, Search, Calendar } from "lucide-react";
 import { TrainingCentre, Cohort } from "@/interfaces";
 
 interface AttendanceFiltersProps {
@@ -23,6 +23,10 @@ interface AttendanceFiltersProps {
   onCohortFilterChange: (val: string) => void;
   statusFilter: string;
   onStatusFilterChange: (val: string) => void;
+  yearFilter: string;
+  onYearFilterChange: (val: string) => void;
+  monthFilter: string;
+  onMonthFilterChange: (val: string) => void;
   centres?: TrainingCentre[];
   cohorts?: Cohort[];
   onReset: () => void;
@@ -37,6 +41,29 @@ const ATTENDANCE_STATUS_OPTIONS = [
   { value: "Partial", label: "Partial" },
 ];
 
+const MONTH_OPTIONS = [
+  { value: "all", label: "All Months" },
+  { value: "1", label: "January" },
+  { value: "2", label: "February" },
+  { value: "3", label: "March" },
+  { value: "4", label: "April" },
+  { value: "5", label: "May" },
+  { value: "6", label: "June" },
+  { value: "7", label: "July" },
+  { value: "8", label: "August" },
+  { value: "9", label: "September" },
+  { value: "10", label: "October" },
+  { value: "11", label: "November" },
+  { value: "12", label: "December" },
+];
+
+const YEAR_OPTIONS = [
+  { value: "all", label: "All Years" },
+  { value: "2026", label: "2026" },
+  { value: "2025", label: "2025" },
+  { value: "2024", label: "2024" },
+];
+
 export function AttendanceFilters({
   search,
   onSearchChange,
@@ -46,12 +73,21 @@ export function AttendanceFilters({
   onCohortFilterChange,
   statusFilter,
   onStatusFilterChange,
+  yearFilter,
+  onYearFilterChange,
+  monthFilter,
+  onMonthFilterChange,
   centres = [],
   cohorts = [],
   onReset,
 }: AttendanceFiltersProps) {
   const hasActiveFilters = Boolean(
-    search || centreFilter || cohortFilter || statusFilter
+    search ||
+      centreFilter ||
+      cohortFilter ||
+      statusFilter ||
+      yearFilter ||
+      monthFilter
   );
 
   const handleReset = () => {
@@ -59,6 +95,8 @@ export function AttendanceFilters({
     onCentreFilterChange("");
     onCohortFilterChange("");
     onStatusFilterChange("");
+    onYearFilterChange("");
+    onMonthFilterChange("");
     onReset();
   };
 
@@ -74,6 +112,12 @@ export function AttendanceFilters({
     ATTENDANCE_STATUS_OPTIONS.find((s) => s.value === statusFilter)?.label ||
     "All Statuses";
 
+  const selectedYearLabel =
+    YEAR_OPTIONS.find((y) => y.value === yearFilter)?.label || "All Years";
+
+  const selectedMonthLabel =
+    MONTH_OPTIONS.find((m) => m.value === monthFilter)?.label || "All Months";
+
   return (
     <Card className="p-4">
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 text-xs flex-wrap">
@@ -88,8 +132,54 @@ export function AttendanceFilters({
           />
         </div>
 
+        {/* Year Filter */}
+        <div className="w-full sm:w-32">
+          <Select
+            value={yearFilter || undefined}
+            onValueChange={(val) =>
+              onYearFilterChange(val === "all" || !val ? "" : val)
+            }
+          >
+            <SelectTrigger className="w-full h-9 min-h-9 data-[size=default]:h-9 text-xs">
+              <SelectValue placeholder="Year">
+                {selectedYearLabel}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {YEAR_OPTIONS.map((y) => (
+                <SelectItem key={y.value} value={y.value}>
+                  {y.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Month Filter */}
+        <div className="w-full sm:w-36">
+          <Select
+            value={monthFilter || undefined}
+            onValueChange={(val) =>
+              onMonthFilterChange(val === "all" || !val ? "" : val)
+            }
+          >
+            <SelectTrigger className="w-full h-9 min-h-9 data-[size=default]:h-9 text-xs">
+              <SelectValue placeholder="Month">
+                {selectedMonthLabel}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {MONTH_OPTIONS.map((m) => (
+                <SelectItem key={m.value} value={m.value}>
+                  {m.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Centre Filter */}
-        <div className="w-full sm:w-48">
+        <div className="w-full sm:w-44">
           <Select
             value={centreFilter || undefined}
             onValueChange={(val) =>
@@ -113,7 +203,7 @@ export function AttendanceFilters({
         </div>
 
         {/* Cohort Filter */}
-        <div className="w-full sm:w-48">
+        <div className="w-full sm:w-44">
           <Select
             value={cohortFilter || undefined}
             onValueChange={(val) =>
@@ -137,7 +227,7 @@ export function AttendanceFilters({
         </div>
 
         {/* Status Filter */}
-        <div className="w-full sm:w-44">
+        <div className="w-full sm:w-40">
           <Select
             value={statusFilter || undefined}
             onValueChange={(val) =>

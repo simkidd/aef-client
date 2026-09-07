@@ -28,6 +28,30 @@ export function formatDate(
   });
 }
 
+export function formatTime(date: string | Date | undefined | null): string {
+  if (!date) return "—";
+  const d = typeof date === "string" ? new Date(date) : date;
+  if (isNaN(d.getTime())) return "—";
+  return d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+export function formatDuration(minutes: number | undefined | null): string {
+  if (!minutes || minutes <= 0) return "—";
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (hrs > 0 && mins > 0) {
+    return `${hrs}h ${mins}m`;
+  }
+  if (hrs > 0) {
+    return `${hrs}h`;
+  }
+  return `${mins}m`;
+}
+
 export function formatDateTime(date: string | Date | undefined | null): string {
   if (!date) return "N/A";
   const d = typeof date === "string" ? new Date(date) : date;

@@ -20,4 +20,5 @@ export interface User {
   isBeneficiary: boolean;
   staffRecordId?: string;
   beneficiaryProfileId?: string;
+  assignedCentreId?: any;
 }
