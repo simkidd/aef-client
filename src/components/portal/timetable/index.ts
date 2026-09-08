@@ -1,0 +1,1 @@
+export { PortalTimetableView } from "./PortalTimetableView";

@@ -15,6 +15,16 @@ export function useCertificatesQuery(params?: Record<string, any>) {
   });
 }
 
+export function useMyCertificatesQuery() {
+  return useQuery({
+    queryKey: ['certificates', 'my'],
+    queryFn: async () => {
+      const response = await certificateApi.getMy();
+      return (response?.data || []) as Certificate[];
+    },
+  });
+}
+
 export function useIssueCertificateMutation() {
   const queryClient = useQueryClient();
   return useMutation({

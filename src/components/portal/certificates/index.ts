@@ -1,0 +1,1 @@
+export { PortalCertificatesView } from "./PortalCertificatesView";

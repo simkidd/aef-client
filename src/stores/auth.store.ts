@@ -8,6 +8,7 @@ interface AuthState {
   user: User | null;
   token: string | null;
   refreshToken: string | null;
+  activeCentreId: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   initialized: boolean;
@@ -15,6 +16,7 @@ interface AuthState {
   setAuth: (user: User, token: string, refreshToken?: string) => void;
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
+  setActiveCentreId: (centreId: string | null) => void;
   clearAuth: () => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
@@ -30,6 +32,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       refreshToken: null,
+      activeCentreId: null,
       isLoading: false,
       isAuthenticated: false,
       initialized: false,
@@ -52,10 +55,19 @@ export const useAuthStore = create<AuthState>()(
           });
         }
 
+        const userAssigned =
+          (typeof user?.assignedCentreId === "object"
+            ? user?.assignedCentreId?._id || (user?.assignedCentreId as any)?.id
+            : user?.assignedCentreId) ||
+          user?.scopeAssignments?.find((s) => s.scopeType === "CENTRE")
+            ?.targetId ||
+          null;
+
         set({
           user,
           token,
           refreshToken: refreshToken || null,
+          activeCentreId: userAssigned,
           isAuthenticated: true,
           isLoading: false,
           initialized: true,
@@ -73,7 +85,25 @@ export const useAuthStore = create<AuthState>()(
             Cookies.remove(COOKIE_KEYS.USER);
           }
         }
-        set({ user, isAuthenticated: !!user });
+
+        const currentActive = get().activeCentreId;
+        const userAssigned =
+          (typeof user?.assignedCentreId === "object"
+            ? user?.assignedCentreId?._id || (user?.assignedCentreId as any)?.id
+            : user?.assignedCentreId) ||
+          user?.scopeAssignments?.find((s) => s.scopeType === "CENTRE")
+            ?.targetId ||
+          null;
+
+        set({
+          user,
+          activeCentreId: currentActive || userAssigned,
+          isAuthenticated: !!user,
+        });
+      },
+
+      setActiveCentreId: (activeCentreId: string | null) => {
+        set({ activeCentreId });
       },
 
       setToken: (token: string | null) => {
@@ -101,6 +131,7 @@ export const useAuthStore = create<AuthState>()(
           user: null,
           token: null,
           refreshToken: null,
+          activeCentreId: null,
           isAuthenticated: false,
           isLoading: false,
           initialized: true,
@@ -137,6 +168,7 @@ export const useAuthStore = create<AuthState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
+        activeCentreId: state.activeCentreId,
         isAuthenticated: state.isAuthenticated,
       }),
     },

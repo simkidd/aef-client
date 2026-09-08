@@ -45,6 +45,17 @@ export function useMyTrainingQuery() {
   });
 }
 
+// Portal: returns {active, history} shape from /enrollments/my-training
+export function useMyTrainingJourneyQuery() {
+  return useQuery({
+    queryKey: ['enrollments', 'my-training-journey'],
+    queryFn: async () => {
+      const response = await enrollmentApi.getMyActiveTraining();
+      return response?.data as unknown as { active?: Enrollment; history: Enrollment[] };
+    },
+  });
+}
+
 export function useEnrollmentQuery(id: string) {
   return useQuery({
     queryKey: ['enrollment', id],

@@ -43,6 +43,17 @@ export function useProgramQuery(id: string) {
   });
 }
 
+export function usePublishedProgramQuery(id: string) {
+  return useQuery({
+    queryKey: ['portal-published-program', id],
+    queryFn: async () => {
+      const response = await programApi.getPublishedById(id);
+      return response?.data as { program: Program; cohorts: any[] };
+    },
+    enabled: !!id,
+  });
+}
+
 export function useSkillAreasQuery() {
   return useQuery({
     queryKey: ['admin-skill-areas'],

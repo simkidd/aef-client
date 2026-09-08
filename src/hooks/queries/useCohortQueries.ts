@@ -42,3 +42,24 @@ export function useSessionsQuery(params?: Record<string, any>) {
     },
   });
 }
+
+export function usePortalSessionsQuery(params: { cohortId?: string; publishedOnly?: boolean }) {
+  return useQuery({
+    queryKey: ['portal-sessions', params],
+    queryFn: async () => {
+      const response = await cohortApi.getSessions(params);
+      return (response?.data || []) as any[];
+    },
+    enabled: !!params.cohortId,
+  });
+}
+
+export function useCalendarEventsQuery(params?: Record<string, any>) {
+  return useQuery({
+    queryKey: ['calendar-events', params],
+    queryFn: async () => {
+      const response = await cohortApi.getCalendarEvents(params);
+      return (response?.data || []) as any[];
+    },
+  });
+}

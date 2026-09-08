@@ -24,7 +24,6 @@ import {
   LogOut,
   LogIn,
   UserCheck,
-  Laptop,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -55,6 +54,7 @@ import {
   useEnrollmentsQuery,
 } from "@/hooks/queries";
 import { useProcessBiometricScanMutation } from "@/hooks/mutations";
+import { useAuthStore } from "@/stores/auth.store";
 import { SoundEffects } from "@/lib/services/sound.service";
 import { Enrollment, Centre } from "@/interfaces";
 
@@ -80,10 +80,6 @@ export function BiometricKioskTerminalView() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [devicePingMs, setDevicePingMs] = useState<number>(18);
-
-  // Laptop biometric (WebAuthn / Windows Hello) capability
-  const [hasPlatformBiometrics, setHasPlatformBiometrics] =
-    useState<boolean>(false);
 
   // Scanning animation state
   const [isScanningAnimation, setIsScanningAnimation] = useState(false);
@@ -113,28 +109,41 @@ export function BiometricKioskTerminalView() {
     }>
   >([]);
 
-  // Check laptop platform biometric hardware support (Windows Hello / Touch ID)
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.PublicKeyCredential &&
-      typeof window.PublicKeyCredential
-        .isUserVerifyingPlatformAuthenticatorAvailable === "function"
-    ) {
-      window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
-        .then((available) => setHasPlatformBiometrics(available))
-        .catch(() => setHasPlatformBiometrics(false));
-    }
-  }, []);
-
-  // 1. User & Centre Queries
+  // 1. User & Centre Queries & Global Auth Store
   const { data: currentUser } = useCurrentUserQuery();
   const { data: centres = [] } = useCentresQuery();
+  const { activeCentreId, setActiveCentreId } = useAuthStore();
 
-  // Determine the tied centre (Station is fixed to prevent misplaced records)
+  // Check if user has global administrative scope to toggle centres
+  const isGlobalAdmin = useMemo(() => {
+    if (!currentUser) return false;
+    const isSuper = currentUser.roles?.some((r) =>
+      ["SUPER_ADMIN", "ADMIN", "SYSTEM_ADMIN"].includes(r.toUpperCase()),
+    );
+    const hasGlobalScope = currentUser.scopeAssignments?.some(
+      (s) => s.scopeType === "GLOBAL",
+    );
+    return Boolean(isSuper || hasGlobalScope);
+  }, [currentUser]);
+
+  // Determine the tied centre (Station is fixed for centre staff, switchable for global admins)
   const tiedCentre: Centre | undefined = useMemo(() => {
+    if (!centres.length) return undefined;
+
+    // 1. If global admin, prioritize activeCentreId from auth store
+    if (isGlobalAdmin && activeCentreId) {
+      const found = centres.find(
+        (c) =>
+          c._id === activeCentreId || (c as any).id === activeCentreId,
+      );
+      if (found) return found;
+    }
+
+    // 2. Direct assignedCentreId on user or staff record
     if (currentUser) {
-      const userAssigned = (currentUser as any).assignedCentreId;
+      const userAssigned =
+        (currentUser as any).assignedCentreId ||
+        (currentUser as any).staffRecord?.assignedCentreId;
       if (userAssigned) {
         const assignedId =
           typeof userAssigned === "object"
@@ -160,21 +169,23 @@ export function BiometricKioskTerminalView() {
       }
     }
 
-    // Check if station ID was persisted locally
-    if (typeof window !== "undefined") {
-      const savedId = localStorage.getItem("aef_terminal_centre_id");
-      if (savedId) {
-        const match = centres.find(
-          (c) => c._id === savedId || (c as any).id === savedId,
-        );
-        if (match) return match;
-      }
+    // 3. Fallback to activeCentreId from auth store
+    if (activeCentreId) {
+      const found = centres.find(
+        (c) => c._id === activeCentreId || (c as any).id === activeCentreId,
+      );
+      if (found) return found;
     }
 
     return centres[0];
-  }, [currentUser, centres]);
+  }, [currentUser, centres, isGlobalAdmin, activeCentreId]);
 
   const tiedCentreId = tiedCentre?._id || (tiedCentre as any)?.id || "";
+
+  const handleCentreChange = (newCentreId: string) => {
+    setActiveCentreId(newCentreId);
+    setSelectedDeviceSerial("");
+  };
 
   // 2. Hardware & Skill Queries scoped to tied centre
   const { data: devices = [], refetch: refetchDevices } =
@@ -274,7 +285,6 @@ export function BiometricKioskTerminalView() {
     overrideToken?: string,
     fallbackTrainee?: any,
     overrideScanType?: "IN" | "OUT",
-    useLaptopSensor: boolean = false,
   ) => {
     if (isScanningAnimation || scanMutation.isPending) return;
 
@@ -295,77 +305,19 @@ export function BiometricKioskTerminalView() {
     });
 
     try {
-      let hardwareToken = token;
-
-      // If user chose to test with their physical laptop fingerprint scanner (Windows Hello / Touch ID)
-      if (useLaptopSensor) {
-        if (
-          typeof window === "undefined" ||
-          !window.PublicKeyCredential ||
-          !window.crypto
-        ) {
-          throw new Error(
-            "WebAuthn Biometric API is not supported in this browser environment.",
-          );
-        }
-
-        const challenge = new Uint8Array(32);
-        window.crypto.getRandomValues(challenge);
-        const userId = new Uint8Array(16);
-        window.crypto.getRandomValues(userId);
-
-        // Invoke native Windows Hello / Touch ID platform fingerprint authenticator
-        const credential: any = await navigator.credentials.create({
-          publicKey: {
-            challenge,
-            rp: {
-              name: "AEF Biometric Attendance Terminal",
-              id: window.location.hostname || "localhost",
-            },
-            user: {
-              id: userId,
-              name: currentUser?.email || "trainee@adele.org",
-              displayName: currentUser
-                ? `${currentUser.firstName} ${currentUser.lastName}`
-                : "Enrolled Trainee",
-            },
-            pubKeyCredParams: [
-              { alg: -7, type: "public-key" }, // ES256
-              { alg: -257, type: "public-key" }, // RS256
-            ],
-            authenticatorSelection: {
-              authenticatorAttachment: "platform", // strictly onboard laptop fingerprint / Windows Hello
-              userVerification: "required", // requires biometric validation
-            },
-            timeout: 45000,
-          },
-        });
-
-        if (!credential || !credential.id) {
-          throw new Error(
-            "Biometric reading failed: No valid signature returned by onboard sensor.",
-          );
-        }
-
-        // Successfully read from laptop fingerprint hardware
-        hardwareToken = `BIO-LAPTOP-${credential.id.slice(0, 16)}`;
-      } else {
-        // Optical terminal scanner simulation delay
-        await new Promise((resolve) => setTimeout(resolve, 600));
-      }
+      // Optical terminal scanner simulation delay
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
       const res: any = await scanMutation.mutateAsync({
         deviceSerial: selectedDeviceSerial || currentDevice.deviceSerial,
-        biometricToken: hardwareToken,
+        biometricToken: token,
         scanType: activeScanType,
         timestamp,
         metadata: {
           skillAreaId:
             selectedSkillAreaId !== "all" ? selectedSkillAreaId : undefined,
           centreId: tiedCentreId,
-          simulatedBy: useLaptopSensor
-            ? "Laptop Onboard Biometric Sensor (Windows Hello)"
-            : "Biometric Attendance Terminal",
+          simulatedBy: "Biometric Attendance Terminal",
           qualityScore: 99,
         },
       });
@@ -720,21 +672,62 @@ export function BiometricKioskTerminalView() {
         </div>
       </div>
 
-      {/* 2. Fixed Centre & Station Configuration Bar */}
+      {/* 2. Centre & Station Configuration Bar */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {/* Tied Centre Info (Fixed — No Dropdown to prevent mistaken records) */}
-        <Card className="p-3 bg-card border flex items-center justify-between shadow-2xs">
-          <div className="space-y-0.5">
-            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block flex items-center gap-1">
-              <Lock className="h-3 w-3 text-primary" /> Fixed Terminal Location
+        {/* Terminal Location Card (Switchable for Super Admins, Fixed for Centre Staff) */}
+        <Card className="p-3 bg-card border flex flex-col justify-between shadow-2xs">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+              {isGlobalAdmin ? (
+                <>
+                  <Building2 className="h-3 w-3 text-primary" /> Active Station Location
+                </>
+              ) : (
+                <>
+                  <Lock className="h-3 w-3 text-primary" /> Fixed Terminal Location
+                </>
+              )}
             </span>
-            <div className="flex items-center gap-2">
+            <span
+              className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                isGlobalAdmin
+                  ? "bg-primary/10 text-primary border-primary/20"
+                  : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+              }`}
+            >
+              {isGlobalAdmin ? "Global Switcher" : "Locked Station"}
+            </span>
+          </div>
+
+          {isGlobalAdmin ? (
+            <Select
+              value={tiedCentreId}
+              onValueChange={(val) => val && handleCentreChange(val)}
+            >
+              <SelectTrigger className="w-full h-8 text-xs font-semibold">
+                <SelectValue placeholder="Select training centre...">
+                  {tiedCentre?.name || "Select Centre"}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="text-xs">
+                {centres.map((c) => {
+                  const cId = c._id || (c as any).id;
+                  return (
+                    <SelectItem key={cId} value={cId}>
+                      {c.name} {c.state ? `(${c.state})` : ""}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          ) : (
+            <div className="flex items-center gap-2 pt-0.5">
               <Building2 className="h-4 w-4 text-primary shrink-0" />
-              <div>
+              <div className="min-w-0">
                 <strong className="text-xs font-bold text-foreground block truncate">
                   {tiedCentre?.name || "Adele Training Centre"}
                 </strong>
-                <span className="text-[10px] text-muted-foreground">
+                <span className="text-[10px] text-muted-foreground truncate block">
                   {tiedCentre?.state
                     ? `${tiedCentre.state} State`
                     : "Main Campus"}{" "}
@@ -742,10 +735,7 @@ export function BiometricKioskTerminalView() {
                 </span>
               </div>
             </div>
-          </div>
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
-            Locked Station
-          </span>
+          )}
         </Card>
 
         {/* Hardware Reader Picker (using shadcn Select with explicit labels) */}
@@ -852,56 +842,38 @@ export function BiometricKioskTerminalView() {
           </div>
 
           {/* Central Animated Optical Scanner Pad */}
-          <Card className="relative overflow-hidden p-8 text-center border-2 border-dashed flex flex-col items-center justify-center min-h-[360px] bg-gradient-to-b from-card to-muted/20">
-            {/* Background Ambient Glow */}
+          <Card className="relative overflow-hidden p-8 text-center border-2 border-dashed flex flex-col items-center justify-center min-h-[360px] bg-card">
+            {/* Sensor Pad Button */}
             <div
-              className={`absolute inset-0 opacity-10 transition-colors duration-700 pointer-events-none ${
-                scanType === "IN" ? "bg-emerald-500" : "bg-rose-500"
-              }`}
-            />
-
-            {/* Glowing Sensor Pad Button */}
-            <div
-              className="relative group cursor-pointer select-none"
+              className="relative cursor-pointer select-none"
               onClick={() => handleProcessScan()}
             >
-              {/* Outer pulsing glow ring */}
-              <div
-                className={`absolute -inset-4 rounded-full blur-xl opacity-40 transition-all duration-500 group-hover:opacity-75 ${
-                  isScanning
-                    ? "bg-primary animate-pulse"
-                    : scanType === "IN"
-                      ? "bg-emerald-500 animate-pulse"
-                      : "bg-rose-500 animate-pulse"
-                }`}
-              />
-
               {/* Main Sensor Button Container */}
               <div
-                className={`relative flex h-36 w-36 items-center justify-center rounded-full border-4 shadow-2xl transition-all duration-300 transform group-hover:scale-105 active:scale-95 ${
+                className={`flex h-36 w-36 items-center justify-center rounded-full border-2 transition-all duration-200 transform hover:scale-105 active:scale-95 ${
                   isScanning
-                    ? "border-primary bg-primary/15 text-primary"
+                    ? "border-primary bg-primary/10 text-primary"
                     : scanType === "IN"
-                      ? "border-emerald-500/80 bg-emerald-500/10 text-emerald-500 group-hover:border-emerald-400 group-hover:bg-emerald-500/20"
-                      : "border-rose-500/80 bg-rose-500/10 text-rose-500 group-hover:border-rose-400 group-hover:bg-rose-500/20"
+                      ? "border-emerald-500/40 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400 hover:border-emerald-500 hover:bg-emerald-500/10"
+                      : "border-rose-500/40 bg-rose-500/5 text-rose-600 dark:text-rose-400 hover:border-rose-500 hover:bg-rose-500/10"
                 }`}
               >
                 {/* Active Optical Scanning Laser Line Overlay */}
                 {isScanning && (
                   <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
-                    <div className="w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent animate-bounce absolute top-1/2 -translate-y-1/2" />
+                    <div className="w-full h-0.5 bg-primary absolute top-1/2 -translate-y-1/2" />
                   </div>
                 )}
 
                 {isScanning ? (
                   <div className="flex flex-col items-center justify-center gap-1.5">
-                    <RefreshCw className="h-16 w-16 animate-spin text-primary" />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider animate-pulse">
+                    <RefreshCw className="h-14 w-14 animate-spin text-primary" />
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
                       Scanning
                     </span>
                   </div>
                 ) : (
-                  <Fingerprint className="h-20 w-20 transition-transform duration-300 group-hover:scale-110" />
+                  <Fingerprint className="h-20 w-20 transition-transform duration-200" />
                 )}
               </div>
             </div>
@@ -922,13 +894,13 @@ export function BiometricKioskTerminalView() {
               </p>
             </div>
 
-            {/* Trigger Buttons (Instant Simulation & Laptop Biometric Sensor) */}
+            {/* Trigger Button (Instant Optical Scanner Trigger) */}
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2 z-10">
               <Button
                 size="sm"
                 onClick={() => handleProcessScan()}
                 disabled={isScanning}
-                className={`rounded-full px-5 text-xs font-bold gap-2 shadow-sm text-white transition-all ${
+                className={`rounded-full px-6 text-xs font-bold gap-2 shadow-sm text-white transition-all ${
                   scanType === "IN"
                     ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20"
                     : "bg-rose-600 hover:bg-rose-700 shadow-rose-500/20"
@@ -941,22 +913,7 @@ export function BiometricKioskTerminalView() {
                 )}
                 {isScanning
                   ? "Reading Sensor..."
-                  : `Trigger Instant Scan (${scanType === "IN" ? "Clock In" : "Clock Out"})`}
-              </Button>
-
-              {/* Laptop Biometric Sensor Trigger (Windows Hello / Touch ID) */}
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() =>
-                  handleProcessScan(undefined, undefined, undefined, true)
-                }
-                disabled={isScanning}
-                className="rounded-full px-4 text-xs font-semibold gap-1.5 border-primary/40 hover:bg-primary/10 text-foreground"
-                title="Test with your laptop's built-in fingerprint reader (Windows Hello / Touch ID)"
-              >
-                <Laptop className="h-3.5 w-3.5 text-primary" />
-                <span>Laptop Fingerprint Scanner</span>
+                  : `Trigger Optical Scan (${scanType === "IN" ? "Clock In" : "Clock Out"})`}
               </Button>
             </div>
           </Card>

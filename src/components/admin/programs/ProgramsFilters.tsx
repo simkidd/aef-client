@@ -52,7 +52,7 @@ export function ProgramsFilters({
   onReset,
 }: ProgramsFiltersProps) {
   const hasActiveFilters = Boolean(
-    search || statusFilter || organizerTypeFilter
+    search || statusFilter || organizerTypeFilter,
   );
 
   const handleReset = () => {
