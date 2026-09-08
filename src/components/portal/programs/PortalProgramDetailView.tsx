@@ -128,7 +128,7 @@ export function PortalProgramDetailView({ programId }: { programId: string }) {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 max-w-5xl mx-auto py-2">
+      <div className="space-y-6py-2">
         <Skeleton className="h-6 w-32 rounded-md" />
         <div className="space-y-3">
           <Skeleton className="h-10 w-3/4 rounded-lg" />
@@ -147,7 +147,7 @@ export function PortalProgramDetailView({ programId }: { programId: string }) {
 
   if (error || !program) {
     return (
-      <div className="max-w-md mx-auto text-center py-16 space-y-4">
+      <div className="text-center py-16 space-y-4">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400">
           <AlertCircle className="h-6 w-6" />
         </div>
