@@ -130,7 +130,7 @@ export function RegisterForm() {
       </div>
 
       {/* 2. Registration Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
         <FieldSet>
           <FieldGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
