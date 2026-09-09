@@ -19,17 +19,17 @@ export interface RegisterBeneficiaryPayload {
   lastName: string;
   middleName?: string;
   gender: 'Male' | 'Female' | 'Other';
-  dateOfBirth: string;
+  dateOfBirth?: string;
   phone: string;
   alternatePhone?: string;
-  address: string;
-  stateOfOrigin: string;
-  lgaOfOrigin: string;
-  stateOfResidence: string;
-  lgaOfResidence: string;
-  highestEducation: string;
-  employmentStatus: string;
-  emergencyContact: {
+  address?: string;
+  stateOfOrigin?: string;
+  lgaOfOrigin?: string;
+  stateOfResidence?: string;
+  lgaOfResidence?: string;
+  highestEducation?: string;
+  employmentStatus?: string;
+  emergencyContact?: {
     name: string;
     relationship: string;
     phone: string;

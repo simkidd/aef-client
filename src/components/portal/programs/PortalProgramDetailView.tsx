@@ -53,7 +53,9 @@ import {
   useCentresQuery,
   useSubmitApplicationMutation,
   useMyApplicationsQuery,
+  useCurrentUserQuery,
 } from "@/hooks";
+import { isProfileComplete } from "@/lib/profile.utils";
 
 const applySchema = z.object({
   preferredSkillAreaId: z.string().min(1, "Please select a skill track"),
@@ -72,6 +74,10 @@ export function PortalProgramDetailView({ programId }: { programId: string }) {
   const { data, isLoading, error } = usePublishedProgramQuery(programId);
   const { data: centres } = useCentresQuery();
   const { data: myApplications } = useMyApplicationsQuery();
+  const { data: currentUser } = useCurrentUserQuery();
+
+  const profile = (currentUser as any)?.beneficiaryProfile ?? null;
+  const profileCompletion = isProfileComplete(profile);
 
   const program = data?.program;
   const cohorts = data?.cohorts || [];
@@ -423,6 +429,27 @@ export function PortalProgramDetailView({ programId }: { programId: string }) {
                   >
                     Applications Closed
                   </Button>
+                ) : !profileCompletion.isComplete ? (
+                  <div className="space-y-3 pt-1">
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800 p-3.5 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                        <p className="text-xs font-semibold text-amber-900 dark:text-amber-200">
+                          Profile incomplete
+                        </p>
+                      </div>
+                      <p className="text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
+                        Complete your profile before applying. We need your location and emergency contact details.
+                      </p>
+                    </div>
+                    <Button
+                      onClick={() => router.push("/portal/profile")}
+                      className="w-full text-xs font-semibold gap-1.5 bg-amber-600 hover:bg-amber-700 text-white"
+                    >
+                      Complete Profile to Apply
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 ) : (
                   <Button
                     onClick={handleOpenApply}

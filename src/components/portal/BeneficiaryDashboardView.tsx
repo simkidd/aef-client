@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, ArrowRight, Clock, Building, Fingerprint, ShieldCheck, MapPin, Megaphone, ChevronRight } from "lucide-react";
+import { Sparkles, ArrowRight, Clock, Building, Fingerprint, ShieldCheck, MapPin, Megaphone, ChevronRight, AlertTriangle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/common/StatusBadge";
@@ -10,10 +10,12 @@ import { Progress } from "@/components/ui/progress";
 import { AnnouncementModal } from "@/components/portal/AnnouncementModal";
 import { useAuthStore } from "@/stores/auth.store";
 import { formatDate } from "@/lib/utils";
+import { isProfileComplete } from "@/lib/profile.utils";
 import {
   useMyTrainingJourneyQuery,
   useMyApplicationsQuery,
   useAnnouncementsQuery,
+  useCurrentUserQuery,
 } from "@/hooks";
 
 const SEEN_ANNOUNCEMENTS_KEY = "aef_seen_announcements";
@@ -24,6 +26,10 @@ export function BeneficiaryDashboardView() {
   const { data: applications } = useMyApplicationsQuery();
   const { data: trainingData } = useMyTrainingJourneyQuery();
   const { data: rawAnnouncements } = useAnnouncementsQuery();
+  const { data: currentUser } = useCurrentUserQuery();
+
+  const profile = (currentUser as any)?.beneficiaryProfile ?? null;
+  const profileCompletion = isProfileComplete(profile);
 
   const announcements = Array.isArray(rawAnnouncements) ? rawAnnouncements : [];
 
@@ -78,6 +84,41 @@ export function BeneficiaryDashboardView() {
             </div>
           </div>
         </div>
+
+        {/* Profile Completion Banner */}
+        {!profileCompletion.isComplete && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800 p-4">
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900">
+                <AlertTriangle className="h-4.5 w-4.5 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">
+                  Complete your profile to unlock program applications
+                </p>
+                <p className="text-xs text-amber-700 dark:text-amber-400">
+                  Missing: {profileCompletion.missingFields.slice(0, 2).join(", ")}
+                  {profileCompletion.missingFields.length > 2 && ` + ${profileCompletion.missingFields.length - 2} more`}
+                </p>
+                <div className="flex items-center gap-2 pt-1">
+                  <Progress
+                    value={profileCompletion.completionPercent}
+                    className="h-1.5 w-28 bg-amber-200 dark:bg-amber-900"
+                  />
+                  <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-400">
+                    {profileCompletion.completionPercent}% complete
+                  </span>
+                </div>
+              </div>
+            </div>
+            <Link href="/portal/profile" className="shrink-0">
+              <Button size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold gap-1.5 w-full sm:w-auto">
+                Complete Profile
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </Link>
+          </div>
+        )}
 
         {/* State 1: Active Trainee */}
         {isEnrolledActive && activeEnrollment && (

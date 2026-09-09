@@ -13,7 +13,6 @@ import {
   Lock,
   Eye,
   EyeOff,
-  MapPin,
   ArrowRight,
   Loader2,
 } from "lucide-react";
@@ -27,10 +26,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import {
   Field,
   FieldLabel,
-  FieldDescription,
   FieldGroup,
   FieldSet,
 } from "@/components/ui/field";
@@ -48,19 +47,6 @@ export const registerBeneficiarySchema = z.object({
   gender: z.enum(["Male", "Female", "Other"], {
     errorMap: () => ({ message: "Please select a valid gender" }),
   }),
-  dateOfBirth: z.string().min(1, "Date of birth is required"),
-  address: z.string().min(5, "Residential address is required"),
-  stateOfOrigin: z.string().min(2, "State of origin is required"),
-  lgaOfOrigin: z.string().min(2, "LGA of origin is required"),
-  stateOfResidence: z.string().min(2, "State of residence is required"),
-  lgaOfResidence: z.string().min(2, "LGA of residence is required"),
-  highestEducation: z.string().min(2, "Educational qualification is required"),
-  employmentStatus: z.string().min(2, "Employment status is required"),
-  emergencyContactName: z.string().min(2, "Emergency contact name is required"),
-  emergencyContactPhone: z
-    .string()
-    .min(10, "Emergency contact phone number is required"),
-  emergencyContactRelationship: z.string().min(2, "Relationship is required"),
 });
 
 export type RegisterBeneficiaryFormData = z.infer<
@@ -87,17 +73,6 @@ export function RegisterForm() {
       phone: "",
       password: "",
       gender: "Male",
-      dateOfBirth: "2002-01-01",
-      address: "",
-      stateOfOrigin: "Lagos",
-      lgaOfOrigin: "Ikeja",
-      stateOfResidence: "Lagos",
-      lgaOfResidence: "Ikeja",
-      highestEducation: "Secondary (SSCE/WAEC)",
-      employmentStatus: "Unemployed",
-      emergencyContactName: "Family Member",
-      emergencyContactPhone: "",
-      emergencyContactRelationship: "Parent",
     },
   });
 
@@ -110,19 +85,6 @@ export function RegisterForm() {
         phone: data.phone,
         password: data.password,
         gender: data.gender,
-        dateOfBirth: data.dateOfBirth,
-        address: data.address,
-        stateOfOrigin: data.stateOfOrigin,
-        lgaOfOrigin: data.lgaOfOrigin,
-        stateOfResidence: data.stateOfResidence,
-        lgaOfResidence: data.lgaOfResidence,
-        highestEducation: data.highestEducation,
-        employmentStatus: data.employmentStatus,
-        emergencyContact: {
-          name: data.emergencyContactName || "Family Member",
-          phone: data.emergencyContactPhone || data.phone,
-          relationship: data.emergencyContactRelationship || "Parent",
-        },
       }),
     onSuccess: (res) => {
       toast.add({
@@ -343,118 +305,6 @@ export function RegisterForm() {
               </Field>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <Field>
-                <FieldLabel
-                  htmlFor="highestEducation"
-                  className="text-xs font-semibold text-foreground"
-                >
-                  Highest Education *
-                </FieldLabel>
-                <div className="mt-1">
-                  <Controller
-                    name="highestEducation"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={(val) => field.onChange(val)}
-                      >
-                        <SelectTrigger
-                          id="highestEducation"
-                          className="w-full h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs cursor-pointer"
-                        >
-                          <SelectValue placeholder="Select qualification" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Secondary (SSCE/WAEC)">
-                            Secondary (SSCE/WAEC)
-                          </SelectItem>
-                          <SelectItem value="OND/NCE">OND/NCE</SelectItem>
-                          <SelectItem value="HND/BSc">HND/BSc</SelectItem>
-                          <SelectItem value="Vocational Certificate">
-                            Vocational Certificate
-                          </SelectItem>
-                          <SelectItem value="Primary">Primary</SelectItem>
-                          <SelectItem value="None">None</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </div>
-                {errors.highestEducation && (
-                  <p className="text-[10px] text-destructive mt-0.5 font-medium">
-                    {errors.highestEducation.message}
-                  </p>
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel
-                  htmlFor="employmentStatus"
-                  className="text-xs font-semibold text-foreground"
-                >
-                  Employment Status *
-                </FieldLabel>
-                <div className="mt-1">
-                  <Controller
-                    name="employmentStatus"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={(val) => field.onChange(val)}
-                      >
-                        <SelectTrigger
-                          id="employmentStatus"
-                          className="w-full h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs cursor-pointer"
-                        >
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Unemployed">Unemployed</SelectItem>
-                          <SelectItem value="Self-Employed">
-                            Self-Employed
-                          </SelectItem>
-                          <SelectItem value="Student">Student</SelectItem>
-                          <SelectItem value="Employed Part-Time">
-                            Employed Part-Time
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </div>
-                {errors.employmentStatus && (
-                  <p className="text-[10px] text-destructive mt-0.5 font-medium">
-                    {errors.employmentStatus.message}
-                  </p>
-                )}
-              </Field>
-            </div>
-
-            <Field>
-              <FieldLabel
-                htmlFor="address"
-                className="text-xs font-semibold text-foreground"
-              >
-                Residential Address *
-              </FieldLabel>
-              <div className="relative w-full mt-1">
-                <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground pointer-events-none" />
-                <Input
-                  id="address"
-                  placeholder="e.g. 12 Adeleke Street, Ikeja"
-                  className="pl-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
-                  {...register("address")}
-                />
-              </div>
-              {errors.address && (
-                <p className="text-[10px] text-destructive mt-0.5 font-medium">
-                  {errors.address.message}
-                </p>
-              )}
-            </Field>
           </FieldGroup>
         </FieldSet>
 
