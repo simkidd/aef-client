@@ -26,6 +26,7 @@ import {
   useUserStatsQuery,
 } from "@/hooks/queries/useAdminQueries";
 import { useUpdateUserRolesAndScopesMutation } from "@/hooks/mutations/useAdminMutations";
+import { ConfirmationModal } from "@/components/common/ConfirmationModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -106,6 +107,7 @@ export function AdminUsersView() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [selectedUserForDetails, setSelectedUserForDetails] = useState<User | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [statusConfirmationUser, setStatusConfirmationUser] = useState<User | null>(null);
 
   // Construct query parameters
   const queryParams = useMemo(() => {
@@ -171,12 +173,28 @@ export function AdminUsersView() {
       return;
     }
 
-    updateMutation.mutate({
-      id: userId,
-      payload: {
-        isActive: !currentActive,
+    setStatusConfirmationUser(user);
+  };
+
+  const handleConfirmToggleStatus = () => {
+    if (!statusConfirmationUser) return;
+    const userId = statusConfirmationUser.id || statusConfirmationUser._id;
+    if (!userId) return;
+
+    const currentActive = statusConfirmationUser.isActive !== false;
+    updateMutation.mutate(
+      {
+        id: userId,
+        payload: {
+          isActive: !currentActive,
+        },
       },
-    });
+      {
+        onSettled: () => {
+          setStatusConfirmationUser(null);
+        },
+      },
+    );
   };
 
   const getInitials = (firstName?: string, lastName?: string) => {
@@ -634,6 +652,32 @@ export function AdminUsersView() {
         isOpen={!!editingUser}
         onClose={() => setEditingUser(null)}
         user={editingUser}
+      />
+
+      {/* Status Toggle Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={!!statusConfirmationUser}
+        onClose={() => setStatusConfirmationUser(null)}
+        onConfirm={handleConfirmToggleStatus}
+        title={
+          statusConfirmationUser?.isActive !== false
+            ? `Deactivate ${statusConfirmationUser?.firstName} ${statusConfirmationUser?.lastName}'s Account?`
+            : `Activate ${statusConfirmationUser?.firstName} ${statusConfirmationUser?.lastName}'s Account?`
+        }
+        description={
+          statusConfirmationUser?.isActive !== false
+            ? `Are you sure you want to deactivate ${statusConfirmationUser?.email}? They will be blocked from logging into the platform immediately.`
+            : `Are you sure you want to activate ${statusConfirmationUser?.email}? They will regain login access with their configured roles and permissions.`
+        }
+        confirmText={
+          statusConfirmationUser?.isActive !== false
+            ? "Yes, Deactivate"
+            : "Yes, Activate"
+        }
+        cancelText="Cancel"
+        variant={statusConfirmationUser?.isActive !== false ? "destructive" : "info"}
+        icon={statusConfirmationUser?.isActive !== false ? UserX : UserCheck}
+        isLoading={updateMutation.isPending}
       />
     </div>
   );
