@@ -48,3 +48,45 @@ export function useSystemStatsQuery() {
     staleTime: 60 * 1000,
   });
 }
+
+export function useUsersQuery(params?: Record<string, any>) {
+  return useQuery({
+    queryKey: ["admin", "users", params],
+    queryFn: async () => {
+      const response = await adminApi.getUsers(params);
+      const rawPagination = response?.pagination;
+      const users =
+        (Array.isArray(response?.data)
+          ? response.data
+          : (response as any)?.data?.docs) || [];
+
+      return {
+        users: users as any[],
+        pagination: {
+          page: rawPagination?.page || 1,
+          limit: rawPagination?.limit || 10,
+          total: rawPagination?.total ?? users.length,
+          totalPages: rawPagination?.totalPages || 1,
+        },
+      };
+    },
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useUserStatsQuery() {
+  return useQuery({
+    queryKey: ["admin", "users-stats"],
+    queryFn: async () => {
+      const response = await adminApi.getUserStats();
+      return response?.data || {
+        totalUsers: 0,
+        staffUsers: 0,
+        beneficiaryUsers: 0,
+        activeUsers: 0,
+        inactiveUsers: 0,
+      };
+    },
+    staleTime: 30 * 1000,
+  });
+}

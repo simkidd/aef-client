@@ -138,7 +138,13 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
         permission: "reports:view",
       },
       {
-        label: "User Permissions",
+        label: "User Accounts",
+        href: "/admin/settings/users",
+        icon: Users,
+        permission: "users:manage",
+      },
+      {
+        label: "Roles & Permissions",
         href: "/admin/settings/roles",
         icon: ShieldCheck,
         permission: "users:manage",

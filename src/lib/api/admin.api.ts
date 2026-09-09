@@ -30,4 +30,40 @@ export const adminApi = {
     const res = await api.get("/admin/stats");
     return res.data;
   },
+
+  /** [ADMIN] Fetch all registered user accounts with pagination, search, and role filters */
+  getUsers: async (
+    params?: Record<string, any>,
+  ): Promise<ApiResponse<any>> => {
+    const res = await api.get("/admin/users", { params });
+    return res.data;
+  },
+
+  /** [ADMIN] Fetch aggregate user statistics (total, staff, beneficiaries, active, inactive) */
+  getUserStats: async (): Promise<
+    ApiResponse<{
+      totalUsers: number;
+      staffUsers: number;
+      beneficiaryUsers: number;
+      activeUsers: number;
+      inactiveUsers: number;
+    }>
+  > => {
+    const res = await api.get("/admin/users/stats");
+    return res.data;
+  },
+
+  /** [ADMIN] Update user roles, custom permissions, scopes, or active status */
+  updateUserRolesAndScopes: async (
+    id: string,
+    payload: {
+      roles?: string[];
+      customPermissions?: string[];
+      scopeAssignments?: any[];
+      isActive?: boolean;
+    },
+  ): Promise<ApiResponse<any>> => {
+    const res = await api.put(`/admin/users/${id}/roles-scopes`, payload);
+    return res.data;
+  },
 };

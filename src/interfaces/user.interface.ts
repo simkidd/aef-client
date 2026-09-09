@@ -7,18 +7,25 @@ export interface UserScopeAssignment {
 }
 
 export interface User {
-  id: string;
+  _id?: string;
+  id?: string;
   email: string;
   firstName: string;
   lastName: string;
   phone?: string;
+  gender?: string;
   avatarUrl?: string;
-  roles: string[];
-  permissions: string[];
-  scopeAssignments: UserScopeAssignment[];
+  isActive?: boolean;
   isStaff: boolean;
   isBeneficiary: boolean;
-  staffRecordId?: string;
-  beneficiaryProfileId?: string;
+  roles: string[];
+  permissions?: string[];
+  customPermissions?: string[];
+  scopeAssignments?: UserScopeAssignment[];
+  staffRecordId?: any;
+  beneficiaryProfileId?: any;
   assignedCentreId?: any;
+  lastLoginAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
