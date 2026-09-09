@@ -27,27 +27,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import {
-  Field,
-  FieldLabel,
-  FieldGroup,
-  FieldSet,
-} from "@/components/ui/field";
+import { Field, FieldLabel, FieldGroup, FieldSet } from "@/components/ui/field";
 import { useAuthStore } from "@/stores/auth.store";
 import { authApi } from "@/lib/api/auth.api";
 import { toast } from "@/components/ui/toast";
 
 // Co-located Form Schema
-export const registerBeneficiarySchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  gender: z.enum(["Male", "Female", "Other"], {
-    errorMap: () => ({ message: "Please select a valid gender" }),
-  }),
-});
+export const registerBeneficiarySchema = z
+  .object({
+    firstName: z.string().min(2, "First name must be at least 2 characters"),
+    lastName: z.string().min(2, "Last name must be at least 2 characters"),
+    email: z.string().email("Please enter a valid email address"),
+    phone: z.string().min(10, "Phone number must be at least 10 digits"),
+    gender: z.enum(["Male", "Female"], {
+      errorMap: () => ({ message: "Please select a valid gender" }),
+    }),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export type RegisterBeneficiaryFormData = z.infer<
   typeof registerBeneficiarySchema
@@ -55,6 +56,7 @@ export type RegisterBeneficiaryFormData = z.infer<
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { setAuth } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -71,8 +73,9 @@ export function RegisterForm() {
       lastName: "",
       email: "",
       phone: "",
-      password: "",
       gender: "Male",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -227,6 +230,44 @@ export function RegisterForm() {
               </Field>
             </div>
 
+            <Field>
+              <FieldLabel
+                htmlFor="gender"
+                className="text-xs font-semibold text-foreground"
+              >
+                Gender *
+              </FieldLabel>
+              <div className="mt-1">
+                <Controller
+                  name="gender"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      value={field.value}
+                      onValueChange={(val) => field.onChange(val)}
+                    >
+                      <SelectTrigger
+                        id="gender"
+                        className="w-full h-10 min-h-10 data-[size=default]:h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm px-3 focus-visible:ring-2 focus-visible:ring-primary shadow-2xs cursor-pointer"
+                      >
+                        <SelectValue placeholder="Select gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Male">Male</SelectItem>
+                        <SelectItem value="Female">Female</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              {errors.gender && (
+                <p className="text-[10px] text-destructive mt-0.5 font-medium">
+                  {errors.gender.message}
+                </p>
+              )}
+            </Field>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <Field>
                 <FieldLabel
@@ -268,43 +309,42 @@ export function RegisterForm() {
 
               <Field>
                 <FieldLabel
-                  htmlFor="gender"
+                  htmlFor="confirmPassword"
                   className="text-xs font-semibold text-foreground"
                 >
-                  Gender *
+                  Confirm Password *
                 </FieldLabel>
-                <div className="mt-1">
-                  <Controller
-                    name="gender"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={(val) => field.onChange(val)}
-                      >
-                        <SelectTrigger
-                          id="gender"
-                          className="w-full h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs cursor-pointer"
-                        >
-                          <SelectValue placeholder="Select gender" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Male">Male</SelectItem>
-                          <SelectItem value="Female">Female</SelectItem>
-                          <SelectItem value="Other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                <div className="relative w-full mt-1">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground pointer-events-none" />
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="pl-9.5 pr-9.5 h-10 bg-background/50 border-input rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-primary shadow-2xs"
+                    {...register("confirmPassword")}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                    aria-label={
+                      showConfirmPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
-                {errors.gender && (
+                {errors.confirmPassword && (
                   <p className="text-[10px] text-destructive mt-0.5 font-medium">
-                    {errors.gender.message}
+                    {errors.confirmPassword.message}
                   </p>
                 )}
               </Field>
             </div>
-
           </FieldGroup>
         </FieldSet>
 
