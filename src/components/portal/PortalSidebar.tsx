@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,6 +32,10 @@ import { Skeleton } from "../ui/skeleton";
 import { ConfirmationModal } from "../common/ConfirmationModal";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLogout } from "@/hooks/useLogout";
+import {
+  useMyTrainingJourneyQuery,
+  useMyCertificatesQuery,
+} from "@/hooks";
 
 export function PortalSidebar() {
   const pathname = usePathname();
@@ -39,6 +43,19 @@ export function PortalSidebar() {
   const { isMobile, setOpenMobile } = useSidebar();
   const { user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
+
+  // Progressive disclosure query data
+  const { data: trainingData } = useMyTrainingJourneyQuery();
+  const { data: certificates } = useMyCertificatesQuery();
+
+  const isEnrolledOrTrained = Boolean(
+    trainingData?.active || (trainingData?.history && trainingData.history.length > 0)
+  );
+
+  const hasCertificates = Boolean(
+    (Array.isArray(certificates) && certificates.length > 0) ||
+    (trainingData?.history && trainingData.history.length > 0)
+  );
 
   const {
     isOpen: isLogoutOpen,
@@ -58,15 +75,29 @@ export function PortalSidebar() {
     }
   };
 
-  const navItems = [
-    { label: "Dashboard", href: "/portal", icon: Compass },
-    { label: "Browse Programs", href: "/portal/programs", icon: Sparkles },
-    { label: "My Applications", href: "/portal/applications", icon: FileText },
-    { label: "Live Training", href: "/portal/training", icon: GraduationCap },
-    { label: "Timetable", href: "/portal/timetable", icon: Clock },
-    { label: "Certificates", href: "/portal/certificates", icon: Award },
-    { label: "My Profile", href: "/portal/profile", icon: User },
-  ];
+  const navItems = useMemo(() => {
+    const items = [
+      { label: "Dashboard", href: "/portal", icon: Compass },
+      { label: "Browse Programs", href: "/portal/programs", icon: Sparkles },
+      { label: "My Applications", href: "/portal/applications", icon: FileText },
+    ];
+
+    // Unlock Live Training & Timetable when enrolled in a cohort
+    if (isEnrolledOrTrained) {
+      items.push({ label: "Live Training", href: "/portal/training", icon: GraduationCap });
+      items.push({ label: "Timetable", href: "/portal/timetable", icon: Clock });
+    }
+
+    // Unlock Certificates once completed/awarded
+    if (hasCertificates) {
+      items.push({ label: "Certificates", href: "/portal/certificates", icon: Award });
+    }
+
+    // Always available
+    items.push({ label: "My Profile", href: "/portal/profile", icon: User });
+
+    return items;
+  }, [isEnrolledOrTrained, hasCertificates]);
 
   return (
     <Sidebar
