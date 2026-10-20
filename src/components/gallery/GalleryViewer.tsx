@@ -161,16 +161,6 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
 ];
 
-const CATEGORIES = [
-  "All",
-  "Cloud Engineering",
-  "Clean Energy",
-  "Fashion Design",
-  "Automotive Tech",
-  "Software Tech",
-  "Creative Arts",
-  "Field Projects",
-] as const;
 
 interface GalleryViewerProps {
   initialPhotos?: GalleryPhotoItem[];
@@ -187,7 +177,6 @@ const fallbackAspects = [
 ];
 
 export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isAdvancingNext, setIsAdvancingNext] = useState<boolean>(false);
 
@@ -202,7 +191,6 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
     isFetchingNextPage,
     isLoading,
   } = useGalleryInfiniteQuery({
-    category: selectedCategory === "All" ? undefined : selectedCategory,
     limit: 12,
   });
 
@@ -244,15 +232,8 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
       }));
     }
 
-    // Static fallback filtered by category if applicable
-    if (selectedCategory === "All") {
-      return galleryPhotos;
-    }
-    const filteredStatic = galleryPhotos.filter(
-      (p) => p.category.toLowerCase() === selectedCategory.toLowerCase(),
-    );
-    return filteredStatic.length > 0 ? filteredStatic : galleryPhotos;
-  }, [queryPhotos, initialPhotos, isLoading, selectedCategory]);
+    return galleryPhotos;
+  }, [queryPhotos, initialPhotos, isLoading]);
 
   const selectedPhoto =
     selectedIndex !== null ? photos[selectedIndex] : null;
@@ -366,7 +347,7 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
       <section className="py-12 md:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Subtle Archival Subheader Strip */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-border/70">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-8 border-b border-border/70">
             <div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
@@ -379,30 +360,6 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
             <span className="text-[11px] font-semibold text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-full border border-border w-fit">
               Click any photo for full-screen view • Use arrow keys (← →)
             </span>
-          </div>
-
-          {/* Interactive Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-6 mb-2">
-            {CATEGORIES.map((cat) => {
-              const isActive = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setSelectedIndex(null);
-                  }}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer border ${
-                    isActive
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                      : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
           </div>
 
           {/* Unsplash Waterfall Masonry Columns */}

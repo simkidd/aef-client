@@ -35,8 +35,7 @@ export default async function ContactPage() {
       {/* 1. Page Hero */}
       <PageHero
         label="Direct NGO Channels"
-        title="We Welcome Your"
-        titleAccent="Inquiries & Partnerships"
+        title="We Welcome Your Inquiries & Partnerships"
         subtitle="Our regional vocational training hubs and admissions offices are open to candidates, community partners, and donors across Nigeria."
         image="/images/auth-hero-social.jpg"
       />

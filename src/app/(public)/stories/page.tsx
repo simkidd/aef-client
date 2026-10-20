@@ -87,8 +87,7 @@ export default function StoriesPage() {
       {/* 1. Page Hero */}
       <PageHero
         label="Graduate Impact"
-        title="Lives Changed,"
-        titleAccent="Communities Uplifted"
+        title="Lives Changed, Communities Uplifted"
         subtitle="Behind every statistic is a human story. Discover how Adele Empowerment Foundation graduates are turning practical vocational skills into flourishing businesses and sustainable family livelihoods."
         image="/images/auth-hero-social.jpg"
       />

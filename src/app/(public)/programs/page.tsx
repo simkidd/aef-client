@@ -37,8 +37,7 @@ export default function ProgramsPage() {
       {/* 1. Page Hero */}
       <PageHero
         label="Accredited Vocations"
-        title="Training Built for"
-        titleAccent="Real Economic Independence"
+        title="Training Built for Real Economic Independence"
         subtitle="Explore our fully funded vocational and technological training programs — designed with industry craftsmen to equip you with marketable skills, starter toolkits, and recognized credentials."
         image="/images/auth-hero-network.jpg"
       />

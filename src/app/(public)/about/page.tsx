@@ -108,8 +108,7 @@ export default function AboutPage() {
       {/* 1. Page Hero */}
       <PageHero
         label="Our Story & Mission"
-        title="Transforming Lives Through"
-        titleAccent="Dignified Skills"
+        title="Transforming Lives Through Dignified Skills"
         subtitle="Adele Empowerment Foundation is an authentic grassroots NGO dedicated to equipping youth and women with real, marketable vocations, enterprise kits, and accredited credentials."
         image="/images/auth-hero-social.jpg"
       />

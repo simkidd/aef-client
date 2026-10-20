@@ -8,7 +8,6 @@ import { ChevronRight } from "lucide-react";
 interface PageHeroProps {
   label: string;
   title: string;
-  titleAccent?: string;
   subtitle: string;
   image?: string;
   imageAlt?: string;
@@ -18,7 +17,6 @@ interface PageHeroProps {
 export default function PageHero({
   label,
   title,
-  titleAccent,
   subtitle,
   image = "/images/auth-hero-social.jpg",
   imageAlt = "Adele Empowerment Foundation vocational training session",
@@ -70,14 +68,9 @@ export default function PageHero({
           <span>{label}</span>
         </div>
 
-        {/* Heading — solid white and solid primary, NO gradient */}
+        {/* Heading */}
         <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-4 max-w-3xl">
-          {title}{" "}
-          {titleAccent && (
-            <span className="text-primary italic font-extrabold">
-              {titleAccent}
-            </span>
-          )}
+          {title}
         </h1>
 
         {/* Subtitle — exact human-readable typography */}

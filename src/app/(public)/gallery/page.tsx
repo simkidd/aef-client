@@ -33,13 +33,12 @@ export default async function GalleryPage() {
       {/* 1. Page Hero */}
       <PageHero
         label="Photo Archive"
-        title="Our Mission Captured in"
-        titleAccent="Authentic Moments"
+        title="Our Mission Captured in Authentic Moments"
         subtitle="A visual record of our training workshops, field installations, and graduate milestones across our network of accredited centers in Nigeria."
         image="/images/auth-hero-social.jpg"
       />
 
-      {/* 2. Gallery Filter & Interactive Grid (Client Component) */}
+      {/* 2. Interactive Gallery Grid (Client Component) */}
       <GalleryViewer initialPhotos={initialPhotos} />
 
       {/* 3. Call to Action */}
