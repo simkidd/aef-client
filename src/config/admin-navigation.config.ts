@@ -15,6 +15,7 @@ import {
   BarChart3,
   ShieldCheck,
   Settings,
+  Camera,
 } from "lucide-react";
 
 export interface NavItem {
@@ -148,6 +149,11 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
         href: "/admin/settings/roles",
         icon: ShieldCheck,
         permission: "users:manage",
+      },
+      {
+        label: "Photo Gallery",
+        href: "/admin/gallery",
+        icon: Camera,
       },
       {
         label: "System Settings",

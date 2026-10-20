@@ -138,12 +138,12 @@ export function AuthCarousel() {
               priority
             />
           </div>
-          <div>
-            <span className="text-sm font-extrabold tracking-tight text-white block drop-shadow-xs">
-              ADELE EMPOWERMENT FOUNDATION
+          <div className="flex flex-col justify-center text-left">
+            <span className="text-sm font-extrabold tracking-tight text-white block drop-shadow-xs leading-tight">
+              ADELE EMPOWERMENT
             </span>
-            <span className="text-[11px] font-medium text-primary tracking-wide block drop-shadow-xs">
-              Skills Training & Community Development
+            <span className="text-[11px] font-bold text-primary tracking-[0.2em] uppercase block drop-shadow-xs leading-tight mt-0.5">
+              FOUNDATION
             </span>
           </div>
         </Link>

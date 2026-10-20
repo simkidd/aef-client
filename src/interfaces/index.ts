@@ -14,3 +14,4 @@ export * from './assessment.interface';
 export * from './certificate.interface';
 export * from './announcement.interface';
 export * from './audit.interface';
+export * from './gallery.interface';

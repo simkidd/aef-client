@@ -11,3 +11,4 @@ export * from './useNotificationMutations';
 export * from './useOrgMutations';
 export * from './useBiometricMutations';
 export * from './useAdminMutations';
+export * from './useGalleryMutations';

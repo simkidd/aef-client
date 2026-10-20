@@ -13,3 +13,4 @@ export * from './useAssessmentQueries';
 export * from './useNotificationQueries';
 export * from './useOrgQueries';
 export * from './useAdminQueries';
+export * from './useGalleryQueries';
