@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Logo from "@/components/shared/Logo";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   MapPin,
   Phone,
@@ -187,12 +188,12 @@ export default function PublicFooter() {
           </div>
         </div>
 
-        {/* Bottom Legal, Transparency & Copyright */}
+        {/* Bottom Legal, Transparency, Theme Toggle & Copyright */}
         <div className="mt-12 pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>
             &copy; {new Date().getFullYear()} Adele Empowerment Foundation. All rights reserved.
           </p>
-          <div className="flex flex-wrap items-center gap-6 text-[11px]">
+          <div className="flex flex-wrap items-center gap-5 sm:gap-6 text-[11px]">
             <Link href="/about" className="hover:text-white transition-colors">
               Safeguarding & Ethics
             </Link>
@@ -205,6 +206,10 @@ export default function PublicFooter() {
             <Link href="/contact" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
+            <div className="flex items-center gap-2 pl-3 border-l border-slate-800">
+              <span className="text-[10px] text-slate-500 font-medium">Theme:</span>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </div>
