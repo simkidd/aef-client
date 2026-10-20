@@ -343,26 +343,21 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
 
   return (
     <>
-      {/* Unsplash-Style Dynamic Waterfall Masonry Grid */}
+      {/* Dynamic Waterfall Masonry Grid */}
       <section className="py-12 md:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Subtle Archival Subheader Strip */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-8 border-b border-border/70">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>Unsplash-Style Visual Archive</span>
-              </div>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                Displaying {photos.length} authentic moments captured across our regional vocational training centres.
-              </p>
+          <div className="pb-6 mb-8 border-b border-border/70">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>Visual Archive</span>
             </div>
-            <span className="text-[11px] font-semibold text-muted-foreground bg-muted/60 px-3 py-1.5 rounded-full border border-border w-fit">
-              Click any photo for full-screen view • Use arrow keys (← →)
-            </span>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+              Moments captured across our regional vocational training centres.
+            </p>
           </div>
 
-          {/* Unsplash Waterfall Masonry Columns */}
+          {/* Waterfall Masonry Columns */}
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {photos.map((photo, index) => (
               <div
@@ -382,7 +377,7 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
 
-                  {/* Unsplash-Style Gradient Vignette Overlay (Visible on Hover) */}
+                  {/* Gradient Vignette Overlay (Visible on Hover) */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   {/* Top Category Badge */}
@@ -433,7 +428,7 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
               </Button>
             ) : photos.length > 0 ? (
               <p className="text-xs text-muted-foreground font-medium bg-muted/30 px-4 py-2 rounded-full border border-border/50">
-                You have reached the end of the visual archives ({photos.length} photographs).
+                You have reached the end of the visual archive.
               </p>
             ) : null}
           </div>

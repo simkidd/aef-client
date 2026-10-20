@@ -55,7 +55,7 @@ export default function PublicFooter() {
           {/* Column 1 & 2: NGO Identity & Mission */}
           <div className="lg:col-span-2 flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-2xl bg-white/10 w-fit border border-white/10 shrink-0">
+              <div className="p-2 rounded-xl bg-white w-fit shadow-xs shrink-0 flex items-center justify-center">
                 <Logo className="h-10 w-auto" />
               </div>
               <div className="flex flex-col justify-center text-left">

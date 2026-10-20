@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Button } from "@/components/ui/button";
@@ -52,26 +53,19 @@ export default function PublicHeader() {
       }`}
     >
       <div className="max-w-7xl mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand Lockup: Logo and Multi-line Aligned Text */}
-        <Link href="/" className="flex items-center gap-3 py-2 group">
+        {/* Brand Lockup: Logo in White Tab (matching adele-foundation) */}
+        <Link
+          href="/"
+          aria-label="Adele Empowerment Foundation"
+          className={cn(
+            "self-start flex items-center justify-center p-3 sm:p-4 rounded-b-2xl sm:rounded-b-3xl transition-all duration-300 w-fit group",
+            isTransparent
+              ? "bg-white/95 backdrop-blur-md shadow-sm"
+              : "dark:bg-white/95 dark:backdrop-blur-md dark:shadow-sm",
+          )}
+        >
           <div className="relative flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
-            <Logo className="h-10 sm:h-11 w-auto" priority />
-          </div>
-          <div className="flex flex-col justify-center text-left">
-            <span
-              className={`font-heading font-black text-sm sm:text-base tracking-tight leading-tight ${
-                isTransparent ? "text-white" : "text-foreground"
-              }`}
-            >
-              Adele Empowerment
-            </span>
-            <span
-              className={`font-heading font-bold text-[10px] sm:text-xs tracking-[0.2em] uppercase leading-tight ${
-                isTransparent ? "text-emerald-300" : "text-primary"
-              }`}
-            >
-              Foundation
-            </span>
+            <Logo className="h-10 sm:h-12 w-auto" priority />
           </div>
         </Link>
 
