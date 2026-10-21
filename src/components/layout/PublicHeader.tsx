@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { useAuthStore } from "@/stores";
 
 interface NavLink {
   label: string;
@@ -22,16 +23,36 @@ const navLinks: NavLink[] = [
 ];
 
 export default function PublicHeader() {
+  const router = useRouter();
   const pathname = usePathname();
+  const { isAuthenticated, user } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handlePortalClick = () => {
+    if (isAuthenticated) {
+      if (user?.isStaff || user?.roles?.includes("SUPER_ADMIN")) {
+        router.push("/admin");
+      } else {
+        router.push("/portal");
+      }
+    } else {
+      router.push("/auth/login");
+    }
+  };
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -57,25 +78,25 @@ export default function PublicHeader() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
         isTransparent
-          ? "bg-transparent border-b border-transparent"
+          ? "bg-transparent border-b border-transparent shadow-none"
           : "bg-background/95 backdrop-blur-md border-b border-border/80 shadow-xs"
       }`}
     >
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-20 px-4 sm:px-6 lg:px-8">
-        {/* Brand Lockup: Logo in White Tab (matching adele-foundation) */}
+        {/* Brand Lockup: Logo in White Tab (synchronized smooth corner morph & fixed height) */}
         <Link
           href="/"
           aria-label="Adele Empowerment Foundation"
           className={cn(
-            "self-start justify-self-start flex items-center justify-center p-3 sm:p-4 rounded-b-2xl sm:rounded-b-3xl transition-all duration-300 w-fit group",
+            "h-full justify-self-start flex items-center justify-center px-4 sm:px-5 bg-white/95 backdrop-blur-md transition-all duration-500 ease-in-out w-fit group select-none",
             isTransparent
-              ? "bg-white/95 backdrop-blur-md shadow-sm"
-              : "dark:bg-white/95 dark:backdrop-blur-md dark:shadow-sm",
+              ? "shadow-sm rounded-b-2xl sm:rounded-b-3xl"
+              : "shadow-none rounded-b-none sm:rounded-b-none",
           )}
         >
-          <div className="relative flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
+          <div className="relative flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
             <Logo className="h-10 sm:h-12 w-auto" priority />
           </div>
         </Link>
@@ -111,17 +132,22 @@ export default function PublicHeader() {
 
         {/* Actions: Trainee Portal, Apply Button, Mobile Hamburger */}
         <div className="flex items-center justify-end gap-2.5 sm:gap-3 justify-self-end">
-          {/* Trainee Portal as a subtle text link */}
-          <Link
-            href="/auth/login"
-            className={`hidden sm:inline-flex items-center text-xs sm:text-sm font-semibold transition-colors px-2.5 py-1.5 rounded-lg ${
+          {/* Trainee Portal conditioned via useRouter */}
+          <button
+            type="button"
+            onClick={handlePortalClick}
+            className={`hidden sm:inline-flex items-center text-xs sm:text-sm font-semibold transition-colors px-2.5 py-1.5 rounded-lg cursor-pointer ${
               isTransparent
                 ? "text-white/85 hover:text-white"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            Trainee Portal
-          </Link>
+            {mounted && isAuthenticated
+              ? user?.isStaff || user?.roles?.includes("SUPER_ADMIN")
+                ? "Admin Portal"
+                : "Trainee Portal"
+              : "Login"}
+          </button>
 
           {/* Apply Now (Registration CTA) */}
           <Link href="/auth/register">
@@ -192,14 +218,21 @@ export default function PublicHeader() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                <Button
-                  variant="outline"
-                  className="w-full text-sm font-semibold rounded-full h-11 border-border text-foreground hover:bg-muted"
-                >
-                  Trainee Portal Login
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handlePortalClick();
+                }}
+                className="w-full text-sm font-semibold rounded-full h-11 border-border text-foreground hover:bg-muted cursor-pointer"
+              >
+                {mounted && isAuthenticated
+                  ? user?.isStaff || user?.roles?.includes("SUPER_ADMIN")
+                    ? "Go to Admin Dashboard"
+                    : "Go to Trainee Portal"
+                  : "Login"}
+              </Button>
             </div>
 
             <div className="pt-2 flex items-center justify-between text-xs text-muted-foreground">
