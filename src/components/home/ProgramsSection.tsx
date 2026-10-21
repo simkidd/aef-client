@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface ProgramTrack {
   title: string;
@@ -99,17 +99,6 @@ function ProgramCard({ program }: { program: ProgramTrack }) {
             className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-          {/* Top badges */}
-          <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-            <span className="rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white border border-white/10">
-              {program.tag}
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/90 text-white backdrop-blur-md px-3 py-1 text-[11px] font-bold shadow-sm">
-              <Clock className="h-3 w-3" />
-              {program.duration}
-            </span>
-          </div>
         </div>
 
         {/* Card Body */}
