@@ -90,10 +90,10 @@ export default function PublicHeader() {
           href="/"
           aria-label="Adele Empowerment Foundation"
           className={cn(
-            "h-full justify-self-start flex items-center justify-center px-4 sm:px-5 transition duration-500 ease-in-out w-fit select-none",
+            "h-full justify-self-start flex items-center justify-center px-4 sm:px-5 transition-all duration-500 ease-in-out w-fit select-none",
             isTransparent
               ? "shadow-sm rounded-b-2xl sm:rounded-b-3xl bg-white/95 backdrop-blur-md "
-              : "shadow-none rounded-b-none sm:rounded-b-none bg-transparent",
+              : "shadow-none rounded-b-none sm:rounded-b-none bg-transparent dark:bg-white/95",
           )}
         >
           <div className="relative flex items-center justify-center shrink-0 transition-transform duration-300">

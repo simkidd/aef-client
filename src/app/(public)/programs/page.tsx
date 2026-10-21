@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/shared/PageHero";
@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, HelpCircle } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Vocational Programs & Digital Tracks | Adele Empowerment Foundation",
+  title: "Vocational Skills & Training Trades | Adele Empowerment Foundation",
   description:
-    "Explore fully funded vocational and technological training programs — designed with industry craftsmen to equip youth with marketable skills, starter toolkits, and recognized credentials.",
+    "Explore fully funded vocational skills, technical trades, and digital masterclasses — designed with industry craftsmen to equip youth with marketable skills, starter toolkits, and recognized credentials.",
 };
 
 const faqs = [
@@ -36,14 +36,16 @@ export default function ProgramsPage() {
     <div className="bg-background text-foreground">
       {/* 1. Page Hero */}
       <PageHero
-        label="Accredited Vocations"
+        label="Accredited Skills & Vocations"
         title="Training Built for Real Economic Independence"
-        subtitle="Explore our fully funded vocational and technological training programs — designed with industry craftsmen to equip you with marketable skills, starter toolkits, and recognized credentials."
+        subtitle="Explore our fully funded vocational skills and technical trades — designed with industry craftsmen to equip you with marketable skills, starter toolkits, and recognized credentials."
         image="/images/auth-hero-network.jpg"
       />
 
       {/* 2. Program Directory Grid (Client Component) */}
-      <ProgramsCatalog />
+      <Suspense fallback={<div className="py-24 text-center text-sm text-muted-foreground">Loading catalog...</div>}>
+        <ProgramsCatalog />
+      </Suspense>
 
       {/* 3. What Every Beneficiary Receives */}
       <section className="py-20 bg-slate-900 text-white border-y border-slate-800">

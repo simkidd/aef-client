@@ -6,13 +6,18 @@ export interface SkillArea {
   description: string;
   defaultDurationWeeks: number;
   certificationType: string;
+  requiredFacilities?: string[];
+  requiredEquipment?: string[];
+  prerequisites?: string[];
   isActive: boolean;
+  programs?: Program[];
 }
 
 export interface Program {
   _id: string;
   title: string;
   code: string;
+  slug?: string;
   description: string;
   organizerType: string;
   organizerName: string;
@@ -20,6 +25,9 @@ export interface Program {
   status: string;
   skillAreaIds: any[];
   eligibilityCriteria?: string[];
+  requirements?: string[];
+  imageUrl?: string;
+  bannerUrl?: string;
   maxSlots?: number;
   applicationStartDate?: string;
   applicationDeadline?: string;
