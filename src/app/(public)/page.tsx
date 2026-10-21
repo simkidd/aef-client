@@ -7,7 +7,6 @@ import AboutSection from "@/components/home/AboutSection";
 import CandidateJourneySection from "@/components/home/CandidateJourneySection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import GallerySection from "@/components/home/GallerySection";
-import CTASection from "@/components/home/CTASection";
 
 import { galleryApi } from "@/lib/api";
 import { GalleryPhotoItem } from "@/interfaces";
@@ -52,9 +51,6 @@ export default async function HomePage() {
 
       {/* 7. Masonry photo gallery with lightbox */}
       <GallerySection featuredPhotos={featuredPhotos} />
-
-      {/* 8. Full-bleed dark CTA banner */}
-      <CTASection />
     </div>
   );
 }

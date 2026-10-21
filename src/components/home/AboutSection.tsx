@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, ArrowRight, ShieldCheck, Award } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const checklist = [
   "Hands-on vocational and tech training focused on practical in-demand skills",
@@ -99,15 +98,21 @@ export default function AboutSection() {
             {/* Action buttons */}
             <div className="flex flex-wrap items-center gap-4">
               <Link href="/auth/register">
-                <Button size="lg" className="rounded-full gap-2 font-bold px-7">
+                <button
+                  type="button"
+                  className="h-12 px-7 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                >
                   <span>Join Our 2026 Cohort</span>
                   <ArrowRight className="h-4 w-4" />
-                </Button>
+                </button>
               </Link>
               <Link href="/programs">
-                <Button variant="outline" size="lg" className="rounded-full font-semibold px-7">
-                  Explore Vocational Programs
-                </Button>
+                <button
+                  type="button"
+                  className="h-12 px-7 rounded-full font-semibold text-sm border border-border/80 hover:border-primary/40 bg-card hover:bg-muted text-foreground transition-all cursor-pointer inline-flex items-center justify-center"
+                >
+                  <span>Explore Vocational Skills</span>
+                </button>
               </Link>
             </div>
           </div>

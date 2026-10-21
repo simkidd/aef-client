@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/shared/PageHero";
-import { Button } from "@/components/ui/button";
 import {
   Heart,
   Globe,
@@ -301,15 +300,21 @@ export default function AboutPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/programs">
-              <Button size="lg" className="rounded-full px-8 font-bold bg-primary text-primary-foreground gap-2">
-                <span>Explore Programs</span>
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <span>Explore Vocational Skills</span>
                 <ArrowRight className="h-4 w-4" />
-              </Button>
+              </button>
             </Link>
             <Link href="/contact">
-              <Button size="lg" variant="outline" className="rounded-full px-8 font-bold">
-                Contact Our Team
-              </Button>
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full font-semibold text-sm border border-border/80 hover:border-primary/40 bg-card hover:bg-muted text-foreground transition-all cursor-pointer inline-flex items-center justify-center"
+              >
+                <span>Contact Our Team</span>
+              </button>
             </Link>
           </div>
         </div>

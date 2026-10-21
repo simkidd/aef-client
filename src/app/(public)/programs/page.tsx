@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/shared/PageHero";
 import ProgramsCatalog from "@/components/programs/ProgramsCatalog";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, HelpCircle } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -137,10 +136,13 @@ export default function ProgramsPage() {
 
           <div className="text-center mt-12">
             <Link href="/auth/register">
-              <Button size="lg" className="rounded-full px-8 font-bold bg-primary text-primary-foreground gap-2">
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
                 <span>Start Your Free Application Now</span>
                 <ArrowRight className="h-4 w-4" />
-              </Button>
+              </button>
             </Link>
           </div>
         </div>

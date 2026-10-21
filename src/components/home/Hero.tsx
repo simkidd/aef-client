@@ -4,17 +4,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
   Users2,
   Building2,
   TrendingUp,
-  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCohortsQuery } from "@/hooks";
 
 const heroImages = [
   {
@@ -48,7 +45,6 @@ const stats = [
 
 export default function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { data: cohorts, isLoading } = useCohortsQuery();
 
   // Rotate hero background images automatically
   useEffect(() => {
@@ -57,23 +53,6 @@ export default function Hero() {
     }, 6000);
     return () => clearInterval(timer);
   }, []);
-
-  // Find enrolling or upcoming cohort
-  const enrollingCohort = cohorts?.find((c) => {
-    const s = c.status?.toLowerCase();
-    return s === "enrolling" || s === "open";
-  });
-
-  const upcomingCohort = cohorts?.find((c) => {
-    const s = c.status?.toLowerCase();
-    return s === "upcoming";
-  });
-
-  // Default to active state during loading or if cohorts haven't loaded yet
-  const hasLoaded = !isLoading && Array.isArray(cohorts);
-  const isOpen = hasLoaded ? Boolean(enrollingCohort) : true;
-  const targetCohort = enrollingCohort || upcomingCohort || cohorts?.[0];
-  const cohortLabel = targetCohort?.name || "Cohort 2026";
 
   return (
     <div>
@@ -106,21 +85,10 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
             {/* Announcement Pill */}
-            {isOpen ? (
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <span>{cohortLabel} Admissions Now Open</span>
-              </div>
-            ) : (
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/15 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-amber-300 mb-6 shadow-xs">
-                <Clock className="h-3.5 w-3.5 text-amber-400" />
-                <span>
-                  {upcomingCohort
-                    ? `${upcomingCohort.name} Opening Soon`
-                    : "Current Cohort in Session • Next Intake Soon"}
-                </span>
-              </div>
-            )}
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <span>Cohort 2026 Admissions Now Open</span>
+            </div>
 
             {/* Headline — initial adele-v2 text, solid white and solid primary, NO gradient */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
@@ -140,60 +108,26 @@ export default function Hero() {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
-              {isOpen ? (
-                <>
-                  <Link
-                    href={
-                      targetCohort?._id
-                        ? `/auth/register?cohortId=${targetCohort._id}`
-                        : "/auth/register"
-                    }
-                    className="w-full sm:w-auto"
-                  >
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto gap-2 text-sm font-bold shadow-lg shadow-primary/30 h-12 px-7 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 transition-all"
-                    >
-                      <span>Apply for {cohortLabel}</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
+              <Link href="/auth/register" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto gap-2 text-sm font-bold shadow-lg shadow-primary/30 h-12 px-8 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  <span>Apply for Cohort 2026</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
 
-                  <Link href="/programs" className="w-full sm:w-auto">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-7 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm hover:scale-105 transition-all"
-                    >
-                      <span>Explore Available Programs</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/programs" className="w-full sm:w-auto">
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto gap-2 text-sm font-bold shadow-lg shadow-primary/30 h-12 px-7 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 transition-all"
-                    >
-                      <span>Explore Available Programs</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-
-                  <Link href="/contact" className="w-full sm:w-auto">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-7 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm hover:scale-105 transition-all"
-                    >
-                      <span>Get Notified for Next Intake</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                </>
-              )}
+              <Link href="/programs" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-8 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  <span>Explore Skills</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
 
             {/* Trust metrics pill */}

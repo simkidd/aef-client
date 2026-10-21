@@ -5,12 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { VOCATIONAL_SKILLS, StaticSkillArea } from "@/data/skills.data";
-import { Button } from "@/components/ui/button";
 
 function SkillCard({ skill }: { skill: StaticSkillArea }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
     const y = ((e.clientX - rect.left) / rect.width - 0.5) * -8;
@@ -20,16 +19,18 @@ function SkillCard({ skill }: { skill: StaticSkillArea }) {
   const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
 
   return (
-    <div style={{ perspective: "1000px" }} className="transition-all duration-200">
-      <Link
-        href={`/programs?selected=${skill.code}`}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ perspective: "1000px" }}
+      className="transition-all duration-200"
+    >
+      <div
         style={{
           transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
           transformStyle: "preserve-3d",
         }}
-        className="group relative flex flex-col rounded-3xl border border-border/80 bg-card overflow-hidden shadow-sm transition-all duration-300 hover:shadow-2xl hover:border-primary/40 h-full cursor-pointer"
+        className="group relative flex flex-col rounded-3xl border border-border/80 bg-card overflow-hidden shadow-sm transition-all duration-300 hover:shadow-2xl hover:border-primary/40 h-full"
       >
         {/* Skill Photo Banner */}
         <div className="relative h-52 w-full overflow-hidden bg-slate-900">
@@ -57,18 +58,11 @@ function SkillCard({ skill }: { skill: StaticSkillArea }) {
             {skill.name}
           </h3>
 
-          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-6">
+          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
             {skill.description}
           </p>
-
-          <div className="mt-auto pt-4 border-t border-border/60 flex items-center justify-between">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:gap-2.5 transition-all">
-              <span>View Details & Curriculum</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-            </span>
-          </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
@@ -99,13 +93,13 @@ export default function ProgramsSection() {
 
         <div className="mt-14 text-center">
           <Link href="/programs">
-            <Button
-              size="lg"
-              className="rounded-2xl font-bold px-8 h-12 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20 cursor-pointer gap-2"
+            <button
+              type="button"
+              className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
             >
-              <span>Explore All {VOCATIONAL_SKILLS.length} Vocational Skills</span>
+              <span>Explore Vocational Skills</span>
               <ArrowRight className="h-4 w-4" />
-            </Button>
+            </button>
           </Link>
         </div>
       </div>
