@@ -5,6 +5,7 @@ import Image from "next/image";
 import { VOCATIONAL_SKILLS, StaticSkillArea } from "@/data/skills.data";
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function CatalogSkillCard({ skill }: { skill: StaticSkillArea }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -91,32 +92,36 @@ export default function ProgramsCatalog() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Category Filter Tabs */}
         {filterTabs.length > 1 && (
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
-            {filterTabs.map((tab) => {
-              const isActive = activeFilter === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveFilter(tab.id)}
-                  className={cn(
-                    "h-10 px-5 rounded-full text-xs font-bold transition-all cursor-pointer border inline-flex items-center justify-center",
-                    isActive
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                      : "bg-card text-muted-foreground border-border/80 hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+          <ScrollReveal distance={16} duration={450}>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+              {filterTabs.map((tab) => {
+                const isActive = activeFilter === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveFilter(tab.id)}
+                    className={cn(
+                      "h-10 px-5 rounded-full text-xs font-bold transition-all cursor-pointer border inline-flex items-center justify-center",
+                      isActive
+                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                        : "bg-card text-muted-foreground border-border/80 hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          </ScrollReveal>
         )}
 
-        {/* Skills Grid - Instant static render */}
+        {/* Skills Grid - Instant static render with light stagger */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredSkills.map((skill) => (
-            <CatalogSkillCard key={skill.code} skill={skill} />
+          {filteredSkills.map((skill, idx) => (
+            <ScrollReveal key={skill.code} delay={(idx % 3) * 75} distance={20} duration={450}>
+              <CatalogSkillCard skill={skill} />
+            </ScrollReveal>
           ))}
         </div>
       </div>

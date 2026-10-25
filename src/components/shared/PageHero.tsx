@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 interface PageHeroProps {
   label: string;
@@ -41,42 +42,44 @@ export default function PageHero({
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        {/* Optional Breadcrumb */}
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-white/60 mb-4">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            {breadcrumbs.map((crumb, idx) => (
-              <React.Fragment key={idx}>
-                <ChevronRight className="h-3 w-3 text-white/40" />
-                {crumb.href ? (
-                  <Link href={crumb.href} className="hover:text-white transition-colors">
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className="text-white/90 font-medium">{crumb.label}</span>
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
-        )}
+        <ScrollReveal distance={14} duration={380} animateOnMount={true}>
+          {/* Optional Breadcrumb */}
+          {breadcrumbs && breadcrumbs.length > 0 && (
+            <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-white/60 mb-4">
+              <Link href="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
+              {breadcrumbs.map((crumb, idx) => (
+                <React.Fragment key={idx}>
+                  <ChevronRight className="h-3 w-3 text-white/40" />
+                  {crumb.href ? (
+                    <Link href={crumb.href} className="hover:text-white transition-colors">
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="text-white/90 font-medium">{crumb.label}</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </nav>
+          )}
 
-        {/* NGO Category Badge — matching homepage hero badge style */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-4 shadow-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span>{label}</span>
-        </div>
+          {/* NGO Category Badge — matching homepage hero badge style */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-4 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <span>{label}</span>
+          </div>
 
-        {/* Heading */}
-        <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-4 max-w-3xl">
-          {title}
-        </h1>
+          {/* Heading */}
+          <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12] mb-4 max-w-3xl">
+            {title}
+          </h1>
 
-        {/* Subtitle — exact human-readable typography */}
-        <p className="text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed font-normal">
-          {subtitle}
-        </p>
+          {/* Subtitle — exact human-readable typography */}
+          <p className="text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed font-normal">
+            {subtitle}
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );

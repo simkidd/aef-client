@@ -15,6 +15,8 @@ export const metadata: Metadata = {
     "A visual archive of practical vocational training workshops, clean energy field installations, and graduate milestones across Nigeria.",
 };
 
+import ScrollReveal from "@/components/ui/ScrollReveal";
+
 export default async function GalleryPage() {
   let initialPhotos: GalleryPhotoItem[] = [];
 
@@ -43,7 +45,7 @@ export default async function GalleryPage() {
 
       {/* 3. Call to Action */}
       <section className="py-20 bg-slate-900 text-white text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <ScrollReveal distance={20} duration={500} className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl font-black text-white mb-3">
             Want to Witness Our Work Firsthand?
           </h2>
@@ -56,7 +58,7 @@ export default async function GalleryPage() {
               <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-        </div>
+        </ScrollReveal>
       </section>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   Sparkles,
   Camera,
 } from "lucide-react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 import { GalleryPhotoItem } from "@/interfaces";
 
@@ -184,83 +185,94 @@ export default function GallerySection({ featuredPhotos }: GallerySectionProps =
     <section id="gallery" className="py-20 md:py-28 bg-background border-t border-border/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-bold text-primary mb-3">
-            <Camera className="h-3.5 w-3.5" />
-            <span>Our Impact in Action</span>
+        <ScrollReveal distance={20} duration={500}>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-bold text-primary mb-3">
+              <Camera className="h-3.5 w-3.5" />
+              <span>Our Impact in Action</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
+              Real Moments From Our Programs
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+              A glimpse into the lives we are transforming through practical skills training, community engagement, and dedicated mentorship.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
-            Real Moments From Our Programs
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
-            A glimpse into the lives we are transforming through practical skills training, community engagement, and dedicated mentorship.
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* Waterfall Masonry Columns (Matching Gallery Page Design) */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">
           {displayPhotos.map((photo, index) => (
-            <div
+            <ScrollReveal
               key={photo.id}
-              onClick={() => setSelectedIndex(index)}
-              className="break-inside-avoid group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-border/80 dark:border-white/10 shadow-sm hover:shadow-2xl hover:border-primary/60 transition-all duration-300 cursor-pointer"
+              delay={(index % 3) * 75}
+              distance={20}
+              duration={450}
+              className="break-inside-avoid mb-6"
             >
-              {/* Image Container with Natural Aspect Ratio */}
-              <div className={`relative w-full ${photo.aspectClass} overflow-hidden bg-slate-900`}>
-                <Image
-                  src={photo.src}
-                  alt={photo.title}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  priority={index < 2}
-                />
+              <div
+                onClick={() => setSelectedIndex(index)}
+                className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-border/80 dark:border-white/10 shadow-sm hover:shadow-2xl hover:border-primary/60 transition-all duration-300 cursor-pointer"
+              >
+                {/* Image Container with Natural Aspect Ratio */}
+                <div className={`relative w-full ${photo.aspectClass} overflow-hidden bg-slate-900`}>
+                  <Image
+                    src={photo.src}
+                    alt={photo.title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={index < 2}
+                  />
 
-                {/* Gradient Vignette Overlay (Visible on Hover) */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* Gradient Vignette Overlay (Visible on Hover) */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Top Category Badge (Reveals on Hover) */}
-                <div className="absolute top-3.5 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
-                    {photo.category}
-                  </span>
-                </div>
-
-                {/* Bottom Photo Caption (Slides up smoothly on hover) */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 z-10 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <div className="flex items-center gap-2 text-[10px] text-emerald-300 font-semibold mb-1">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-2.5 w-2.5" />
-                      <span>{photo.location}</span>
-                    </span>
-                    <span>&bull;</span>
-                    <span className="flex items-center gap-1 text-white/80">
-                      <Calendar className="h-2.5 w-2.5" />
-                      <span>{photo.date}</span>
+                  {/* Top Category Badge (Reveals on Hover) */}
+                  <div className="absolute top-3.5 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
+                      {photo.category}
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-bold text-sm sm:text-base text-white leading-snug line-clamp-2 drop-shadow-md">
-                    {photo.title}
-                  </h3>
+                  {/* Bottom Photo Caption (Slides up smoothly on hover) */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 z-10 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="flex items-center gap-2 text-[10px] text-emerald-300 font-semibold mb-1">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="h-2.5 w-2.5" />
+                        <span>{photo.location}</span>
+                      </span>
+                      <span>&bull;</span>
+                      <span className="flex items-center gap-1 text-white/80">
+                        <Calendar className="h-2.5 w-2.5" />
+                        <span>{photo.date}</span>
+                      </span>
+                    </div>
+
+                    <h3 className="font-heading font-bold text-sm sm:text-base text-white leading-snug line-clamp-2 drop-shadow-md">
+                      {photo.title}
+                    </h3>
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Action Button: Explore Full Gallery */}
-        <div className="mt-14 text-center">
-          <Link href="/gallery">
-            <button
-              type="button"
-              className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
-            >
-              <span>Explore Full Photo Gallery</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </Link>
-        </div>
+        <ScrollReveal delay={150} distance={16}>
+          <div className="mt-14 text-center">
+            <Link href="/gallery">
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <span>Explore Full Photo Gallery</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
 
       {/* FULL-SCREEN Exhibition Lightbox Modal (Matching Gallery Page Design) */}

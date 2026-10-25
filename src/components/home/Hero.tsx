@@ -12,6 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const heroImages = [
   {
@@ -83,69 +84,71 @@ export default function Hero() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
-            {/* Announcement Pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span>Cohort 2026 Admissions Now Open</span>
+          <ScrollReveal distance={16} duration={400} animateOnMount={true}>
+            <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
+              {/* Announcement Pill */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/20 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-primary mb-6 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span>Cohort 2026 Admissions Now Open</span>
+              </div>
+
+              {/* Headline — initial adele-v2 text, solid white and solid primary, NO gradient */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
+                Empowering Communities Through{" "}
+                <span className="text-primary font-extrabold">
+                  Practical Skills
+                </span>{" "}
+                &amp; Innovation
+              </h1>
+
+              {/* Subtitle — exact initial text */}
+              <p className="text-base sm:text-lg text-white/80 leading-relaxed mb-8 max-w-2xl font-normal">
+                Adele Empowerment Foundation delivers fully-funded vocational
+                education, digital technology bootcamps, and enterprise starter
+                support to drive economic independence across Africa.
+              </p>
+
+              {/* Actions */}
+              <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
+                <Link href="/auth/register" className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto gap-2 text-sm font-bold shadow-lg shadow-primary/30 h-12 px-8 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
+                  >
+                    <span>Apply for Cohort 2026</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+
+                <Link href="/programs" className="w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-8 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
+                  >
+                    <span>Explore Skills</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Trust metrics pill */}
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-white/80">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  No Tuition Fees Required
+                </span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  Certified by Adele Foundation
+                </span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  12 Accredited Regional Centres
+                </span>
+              </div>
             </div>
-
-            {/* Headline — initial adele-v2 text, solid white and solid primary, NO gradient */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
-              Empowering Communities Through{" "}
-              <span className="text-primary font-extrabold">
-                Practical Skills
-              </span>{" "}
-              &amp; Innovation
-            </h1>
-
-            {/* Subtitle — exact initial text */}
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed mb-8 max-w-2xl font-normal">
-              Adele Empowerment Foundation delivers fully-funded vocational
-              education, digital technology bootcamps, and enterprise starter
-              support to drive economic independence across Africa.
-            </p>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
-              <Link href="/auth/register" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  className="w-full sm:w-auto gap-2 text-sm font-bold shadow-lg shadow-primary/30 h-12 px-8 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
-                >
-                  <span>Apply for Cohort 2026</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-
-              <Link href="/programs" className="w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto gap-2 text-sm font-semibold h-12 px-8 rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20 backdrop-blur-sm hover:scale-105 active:scale-[0.98] transition-all cursor-pointer"
-                >
-                  <span>Explore Skills</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Trust metrics pill */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-white/80">
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                No Tuition Fees Required
-              </span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                Certified by Adele Foundation
-              </span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                12 Accredited Regional Centres
-              </span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -156,17 +159,19 @@ export default function Hero() {
             {stats.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div key={i} className="flex flex-col items-center gap-1.5">
-                  <div className="p-2.5 rounded-xl bg-primary/10 text-primary mb-1">
-                    <Icon className="h-5 w-5" />
+                <ScrollReveal key={i} delay={i * 60} distance={14} duration={350} animateOnMount={true}>
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className="p-2.5 rounded-xl bg-primary/10 text-primary mb-1">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+                      {stat.value}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-medium">
+                      {stat.label}
+                    </span>
                   </div>
-                  <span className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-                    {stat.value}
-                  </span>
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {stat.label}
-                  </span>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>

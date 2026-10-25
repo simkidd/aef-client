@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { VOCATIONAL_SKILLS, StaticSkillArea } from "@/data/skills.data";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function SkillCard({ skill }: { skill: StaticSkillArea }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -72,36 +73,42 @@ export default function ProgramsSection() {
     <section id="programs" className="py-20 md:py-28 bg-slate-50/60 dark:bg-slate-900/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
-            What You Can Learn
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
-            Vocational Skills That Transform Careers
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
-            Choose from industry-accredited technical, digital, and vocational trades — combining hands-on workshop mastery, practical projects, and starter toolkits.
-          </p>
-        </div>
+        <ScrollReveal distance={20} duration={500}>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
+              What You Can Learn
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
+              Vocational Skills That Transform Careers
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-relaxed">
+              Choose from industry-accredited technical, digital, and vocational trades — combining hands-on workshop mastery, practical projects, and starter toolkits.
+            </p>
+          </div>
+        </ScrollReveal>
 
-        {/* Skills Cards Grid - Instant static render */}
+        {/* Skills Cards Grid - Instant static render with light stagger */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {VOCATIONAL_SKILLS.slice(0, 6).map((skill) => (
-            <SkillCard key={skill.code} skill={skill} />
+          {VOCATIONAL_SKILLS.slice(0, 6).map((skill, idx) => (
+            <ScrollReveal key={skill.code} delay={(idx % 3) * 75} distance={20} duration={450}>
+              <SkillCard skill={skill} />
+            </ScrollReveal>
           ))}
         </div>
 
-        <div className="mt-14 text-center">
-          <Link href="/programs">
-            <button
-              type="button"
-              className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
-            >
-              <span>Explore Vocational Skills</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </Link>
-        </div>
+        <ScrollReveal delay={150} distance={16}>
+          <div className="mt-14 text-center">
+            <Link href="/programs">
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <span>Explore Vocational Skills</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

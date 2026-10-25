@@ -51,7 +51,9 @@ export default function AuthLayout({
 
         {/* Form Viewport Stage */}
         <div className="flex-1 flex items-center justify-center my-auto w-full py-2">
-          <div className="w-full flex justify-center">{children}</div>
+          <div className="w-full flex justify-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+            {children}
+          </div>
         </div>
 
         {/* Subtle Bottom Spacer */}

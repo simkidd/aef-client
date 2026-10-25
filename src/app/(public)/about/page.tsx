@@ -16,6 +16,7 @@ import {
   Building2,
   FileCheck,
 } from "lucide-react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "About Us | Adele Empowerment Foundation",
@@ -117,64 +118,68 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Real Photography Banner */}
-            <div className="relative">
-              <div className="relative h-[420px] sm:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl border border-border">
-                <Image
-                  src="/images/auth-hero-network.jpg"
-                  alt="Adele Foundation students during technical training"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/80 backdrop-blur-md border border-white/10 text-white">
-                  <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider mb-1">
-                    <Award className="h-4 w-4" />
-                    <span>Real Classroom Experience</span>
+            <ScrollReveal direction="right" distance={20} duration={550}>
+              <div className="relative">
+                <div className="relative h-[420px] sm:h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl border border-border">
+                  <Image
+                    src="/images/auth-hero-network.jpg"
+                    alt="Adele Foundation students during technical training"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/80 backdrop-blur-md border border-white/10 text-white">
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider mb-1">
+                      <Award className="h-4 w-4" />
+                      <span>Real Classroom Experience</span>
+                    </div>
+                    <p className="text-xs text-slate-200">
+                      Students engaging directly with real hardware, tools, and industrial sewing equipment under master instructor supervision.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-200">
-                    Students engaging directly with real hardware, tools, and industrial sewing equipment under master instructor supervision.
-                  </p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Right: Narrative */}
-            <div className="flex flex-col justify-center">
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
-                Why We Exist
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground mt-2 mb-6 tracking-tight">
-                Closing the Opportunity Gap for Nigerian Youths
-              </h2>
+            <ScrollReveal direction="left" distance={20} duration={550} delay={100}>
+              <div className="flex flex-col justify-center">
+                <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
+                  Why We Exist
+                </span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground mt-2 mb-6 tracking-tight">
+                  Closing the Opportunity Gap for Nigerian Youths
+                </h2>
 
-              <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-                <p>
-                  In communities across Nigeria, millions of bright, energetic young people face systemic roadblocks: prohibitive tertiary education costs, lack of practical workplace apprenticeships, and limited access to professional mentorship.
-                </p>
-                <p>
-                  <strong>Adele Empowerment Foundation</strong> was founded to provide a definitive answer: tuition-free, high-caliber vocational and technological training that directly transforms unemployment into sustainable livelihoods.
-                </p>
-                <p>
-                  We don’t stop at training. Every graduate receives enterprise starter kits, access to alumni cooperative financing, and an authentic, QR-verifiable certificate recognized by employers nationwide.
-                </p>
-              </div>
+                <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  <p>
+                    In communities across Nigeria, millions of bright, energetic young people face systemic roadblocks: prohibitive tertiary education costs, lack of practical workplace apprenticeships, and limited access to professional mentorship.
+                  </p>
+                  <p>
+                    <strong>Adele Empowerment Foundation</strong> was founded to provide a definitive answer: tuition-free, high-caliber vocational and technological training that directly transforms unemployment into sustainable livelihoods.
+                  </p>
+                  <p>
+                    We don’t stop at training. Every graduate receives enterprise starter kits, access to alumni cooperative financing, and an authentic, QR-verifiable certificate recognized by employers nationwide.
+                  </p>
+                </div>
 
-              {/* Fast Impact Pills */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-8 mt-6 border-t border-border/80">
-                <div className="p-4 rounded-2xl bg-card border border-border">
-                  <p className="text-2xl sm:text-3xl font-black text-primary">50,000+</p>
-                  <p className="text-xs text-muted-foreground mt-1 font-medium">Youths Trained</p>
-                </div>
-                <div className="p-4 rounded-2xl bg-card border border-border">
-                  <p className="text-2xl sm:text-3xl font-black text-foreground">100%</p>
-                  <p className="text-xs text-muted-foreground mt-1 font-medium">Free Tuition</p>
-                </div>
-                <div className="p-4 rounded-2xl bg-card border border-border col-span-2 sm:col-span-1">
-                  <p className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">94%</p>
-                  <p className="text-xs text-muted-foreground mt-1 font-medium">Self-Reliance Rate</p>
+                {/* Fast Impact Pills */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-8 mt-6 border-t border-border/80">
+                  <div className="p-4 rounded-2xl bg-card border border-border">
+                    <p className="text-2xl sm:text-3xl font-black text-primary">50,000+</p>
+                    <p className="text-xs text-muted-foreground mt-1 font-medium">Youths Trained</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-card border border-border">
+                    <p className="text-2xl sm:text-3xl font-black text-foreground">100%</p>
+                    <p className="text-xs text-muted-foreground mt-1 font-medium">Free Tuition</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-card border border-border col-span-2 sm:col-span-1">
+                    <p className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">94%</p>
+                    <p className="text-xs text-muted-foreground mt-1 font-medium">Self-Reliance Rate</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -182,38 +187,39 @@ export default function AboutPage() {
       {/* 3. Core NGO Values */}
       <section className="py-20 md:py-28 bg-slate-50/70 dark:bg-slate-900/30 border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
-              Our Principles
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
-              Values That Guide Our Mission
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-3">
-              We operate with strict ethical standards, human empathy, and deep accountability to our beneficiaries and donors.
-            </p>
-          </div>
+          <ScrollReveal distance={20} duration={500}>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
+                Our Principles
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
+                Values That Guide Our Mission
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground mt-3">
+                We operate with strict ethical standards, human empathy, and deep accountability to our beneficiaries and donors.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((v, i) => {
               const Icon = v.icon;
               return (
-                <div
-                  key={i}
-                  className="rounded-3xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-xl hover:border-primary/40 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${v.accent} mb-6`}>
-                      <Icon className="h-6 w-6" />
+                <ScrollReveal key={i} delay={(i % 3) * 75} distance={20} duration={450}>
+                  <div className="rounded-3xl border border-border bg-card p-8 shadow-sm transition-all hover:shadow-xl hover:border-primary/40 flex flex-col justify-between h-full">
+                    <div>
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${v.accent} mb-6`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-lg font-bold text-foreground mb-2">
+                        {v.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {v.desc}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-bold text-foreground mb-2">
-                      {v.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {v.desc}
-                    </p>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -223,33 +229,34 @@ export default function AboutPage() {
       {/* 4. Leadership & Grassroots Faculty */}
       <section className="py-20 md:py-28 border-b border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
-              The People Behind Adele
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
-              Leadership Committed to Service
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-3">
-              Our leadership brings decades of collective field experience in non-profit education, skills development, and community mobilization.
-            </p>
-          </div>
+          <ScrollReveal distance={20} duration={500}>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-primary">
+                The People Behind Adele
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black text-foreground mt-2 tracking-tight">
+                Leadership Committed to Service
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground mt-3">
+                Our leadership brings decades of collective field experience in non-profit education, skills development, and community mobilization.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((m, i) => (
-              <div
-                key={i}
-                className="rounded-3xl border border-border bg-card p-6 shadow-sm flex flex-col items-center text-center transition-all hover:border-primary/30"
-              >
-                <div
-                  className={`w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl text-white bg-gradient-to-br ${m.color} shadow-lg mb-4`}
-                >
-                  {m.initials}
+              <ScrollReveal key={i} delay={i * 75} distance={18} duration={450}>
+                <div className="rounded-3xl border border-border bg-card p-6 shadow-sm flex flex-col items-center text-center transition-all hover:border-primary/30 h-full">
+                  <div
+                    className={`w-20 h-20 rounded-full flex items-center justify-center font-bold text-xl text-white bg-gradient-to-br ${m.color} shadow-lg mb-4`}
+                  >
+                    {m.initials}
+                  </div>
+                  <h3 className="text-base font-bold text-foreground">{m.name}</h3>
+                  <p className="text-xs font-semibold text-primary mb-3">{m.role}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{m.bio}</p>
                 </div>
-                <h3 className="text-base font-bold text-foreground">{m.name}</h3>
-                <p className="text-xs font-semibold text-primary mb-3">{m.role}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{m.bio}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -260,28 +267,29 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
-                <FileCheck className="h-4 w-4" />
-                <span>Strict Non-Profit Governance</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
-                Transparency and Trust You Can Rely On
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Adele Empowerment Foundation is governed by an independent Board of Trustees. We adhere to rigorous reporting standards, ensuring all resources directly benefit our youth participants.
-              </p>
+              <ScrollReveal distance={20} duration={500}>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
+                  <FileCheck className="h-4 w-4" />
+                  <span>Strict Non-Profit Governance</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight mt-3">
+                  Transparency and Trust You Can Rely On
+                </h2>
+                <p className="text-sm text-slate-300 leading-relaxed mt-2">
+                  Adele Empowerment Foundation is governed by an independent Board of Trustees. We adhere to rigorous reporting standards, ensuring all resources directly benefit our youth participants.
+                </p>
+              </ScrollReveal>
             </div>
 
             <div className="lg:col-span-7">
               <div className="space-y-3">
                 {governancePoints.map((point, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm"
-                  >
-                    <CheckCircle2 className="h-5 w-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm font-medium text-slate-200">{point}</span>
-                  </div>
+                  <ScrollReveal key={i} delay={i * 60} distance={14} duration={400}>
+                    <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                      <CheckCircle2 className="h-5 w-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm font-medium text-slate-200">{point}</span>
+                    </div>
+                  </ScrollReveal>
                 ))}
               </div>
             </div>
@@ -291,33 +299,35 @@ export default function AboutPage() {
 
       {/* 6. Call to Action */}
       <section className="py-20 bg-background text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl font-black text-foreground mb-4">
-            Ready to Begin Your Journey with Adele?
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Admissions for Cohort 2026 are completely free. Select your preferred vocational track and register today.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/programs">
-              <button
-                type="button"
-                className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center justify-center gap-2"
-              >
-                <span>Explore Vocational Skills</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </Link>
-            <Link href="/contact">
-              <button
-                type="button"
-                className="h-12 px-8 rounded-full font-semibold text-sm border border-border/80 hover:border-primary/40 bg-card hover:bg-muted text-foreground transition-all cursor-pointer inline-flex items-center justify-center"
-              >
-                <span>Contact Our Team</span>
-              </button>
-            </Link>
+        <ScrollReveal distance={20} duration={500}>
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground mb-4">
+              Ready to Begin Your Journey with Adele?
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              Admissions for Cohort 2026 are completely free. Select your preferred vocational track and register today.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link href="/programs">
+                <button
+                  type="button"
+                  className="h-12 px-8 rounded-full font-bold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/25 hover:scale-105 active:scale-[0.98] transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <span>Explore Vocational Skills</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </Link>
+              <Link href="/contact">
+                <button
+                  type="button"
+                  className="h-12 px-8 rounded-full font-semibold text-sm border border-border/80 hover:border-primary/40 bg-card hover:bg-muted text-foreground transition-all cursor-pointer inline-flex items-center"
+                >
+                  <span>Contact Our Team</span>
+                </button>
+              </Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
     </div>
   );

@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { GalleryPhotoItem } from "@/interfaces";
 import { useGalleryInfiniteQuery } from "@/hooks";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export interface GalleryPhoto {
   id: number | string;
@@ -347,66 +348,75 @@ export default function GalleryViewer({ initialPhotos }: GalleryViewerProps = {}
       <section className="py-12 md:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Subtle Archival Subheader Strip */}
-          <div className="pb-6 mb-8 border-b border-border/70">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>Visual Archive</span>
+          <ScrollReveal distance={16} duration={450}>
+            <div className="pb-6 mb-8 border-b border-border/70">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Visual Archive</span>
+              </div>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+                Moments captured across our regional vocational training centres.
+              </p>
             </div>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-              Moments captured across our regional vocational training centres.
-            </p>
-          </div>
+          </ScrollReveal>
 
           {/* Waterfall Masonry Columns */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">
             {photos.map((photo, index) => (
-              <div
+              <ScrollReveal
                 key={photo.id}
-                onClick={() => setSelectedIndex(index)}
-                className="break-inside-avoid group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-border/80 dark:border-white/10 shadow-sm hover:shadow-2xl hover:border-primary/60 transition-all duration-300 cursor-pointer"
+                delay={(index % 3) * 75}
+                distance={20}
+                duration={450}
+                className="break-inside-avoid mb-6"
               >
-                {/* Image Container with Natural Aspect Ratio */}
                 <div
-                  className={`relative w-full ${photo.aspectClass} overflow-hidden bg-slate-900`}
+                  onClick={() => setSelectedIndex(index)}
+                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-border/80 dark:border-white/10 shadow-sm hover:shadow-2xl hover:border-primary/60 transition-all duration-300 cursor-pointer"
                 >
-                  <Image
-                    src={photo.src}
-                    alt={photo.title}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
+                  {/* Image Container with Natural Aspect Ratio */}
+                  <div
+                    className={`relative w-full ${photo.aspectClass} overflow-hidden bg-slate-900`}
+                  >
+                    <Image
+                      src={photo.src}
+                      alt={photo.title}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
 
-                  {/* Gradient Vignette Overlay (Visible on Hover) */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {/* Gradient Vignette Overlay (Visible on Hover) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                  {/* Top Category Badge */}
-                  <div className="absolute top-3.5 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
-                      {photo.category}
-                    </span>
-                  </div>
-
-                  {/* Bottom Photo Caption (Slides up smoothly on hover) */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 z-10 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="flex items-center gap-2 text-[10px] text-emerald-300 font-semibold mb-1">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-2.5 w-2.5" />
-                        <span>{photo.location}</span>
-                      </span>
-                      <span>&bull;</span>
-                      <span className="flex items-center gap-1 text-white/80">
-                        <Calendar className="h-2.5 w-2.5" />
-                        <span>{photo.date}</span>
+                    {/* Top Category Badge */}
+                    <div className="absolute top-3.5 right-3.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-[10px] font-bold text-white bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15">
+                        {photo.category}
                       </span>
                     </div>
 
-                    <h3 className="font-heading font-bold text-sm sm:text-base text-white leading-snug line-clamp-2 drop-shadow-md">
-                      {photo.title}
-                    </h3>
+                    {/* Bottom Photo Caption (Slides up smoothly on hover) */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 z-10 text-white translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="flex items-center gap-2 text-[10px] text-emerald-300 font-semibold mb-1">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-2.5 w-2.5" />
+                          <span>{photo.location}</span>
+                        </span>
+                        <span>&bull;</span>
+                        <span className="flex items-center gap-1 text-white/80">
+                          <Calendar className="h-2.5 w-2.5" />
+                          <span>{photo.date}</span>
+                        </span>
+                      </div>
+
+                      <h3 className="font-heading font-bold text-sm sm:text-base text-white leading-snug line-clamp-2 drop-shadow-md">
+                        {photo.title}
+                      </h3>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
 

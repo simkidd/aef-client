@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, Search, ArrowRight, QrCode, Lock, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function CertificateVerificationSpotlight() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function CertificateVerificationSpotlight() {
 
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
             {/* Left copy */}
-            <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
+            <ScrollReveal direction="right" distance={20} duration={500} className="lg:col-span-7 space-y-5 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/15 text-primary text-xs font-bold border border-primary/25">
                 <ShieldCheck className="h-4 w-4" />
                 <span>Instant Employer & Global Verification</span>
@@ -59,10 +60,10 @@ export default function CertificateVerificationSpotlight() {
                   <span>Free public employer validation</span>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Right Interactive Verification Card */}
-            <div className="lg:col-span-5 w-full">
+            <ScrollReveal direction="left" distance={20} duration={500} delay={100} className="lg:col-span-5 w-full">
               <div className="rounded-2xl border border-border bg-card/95 backdrop-blur-md p-6 sm:p-8 shadow-2xl space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-border">
                   <div className="flex items-center gap-2.5">
@@ -111,7 +112,7 @@ export default function CertificateVerificationSpotlight() {
                   Have a printed certificate? Scan the embedded QR code using your smartphone camera for direct access.
                 </p>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

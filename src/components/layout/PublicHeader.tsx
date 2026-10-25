@@ -183,14 +183,15 @@ export default function PublicHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-x-0 top-20 bottom-0 h-[calc(100dvh-5rem)] z-40 bg-background/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto border-t border-border/80 animate-in fade-in duration-200">
           <nav className="flex flex-col gap-2 pt-2">
-            {navLinks.map((link) => {
+            {navLinks.map((link, idx) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center justify-between px-4 py-3.5 rounded-2xl text-lg font-heading font-bold transition-all ${
+                  style={{ animationDelay: `${idx * 45}ms` }}
+                  className={`animate-in fade-in slide-in-from-top-2 duration-300 fill-mode-both flex items-center justify-between px-4 py-3.5 rounded-2xl text-lg font-heading font-bold transition-all ${
                     isActive
                       ? "bg-primary/10 text-primary border border-primary/25 shadow-xs"
                       : "text-foreground/90 hover:bg-muted/60"
@@ -207,7 +208,10 @@ export default function PublicHeader() {
             })}
           </nav>
 
-          <div className="pt-6 border-t border-border/70 flex flex-col gap-4 mt-auto">
+          <div
+            style={{ animationDelay: `${navLinks.length * 45}ms` }}
+            className="animate-in fade-in slide-in-from-top-2 duration-300 fill-mode-both pt-6 border-t border-border/70 flex flex-col gap-4 mt-auto"
+          >
             <div className="flex flex-col gap-2.5">
               <Link
                 href="/auth/register"

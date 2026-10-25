@@ -20,6 +20,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 
+import ScrollReveal from "@/components/ui/ScrollReveal";
+
 interface CertificateVerifyViewProps {
   code: string;
 }
@@ -70,27 +72,30 @@ export default function CertificateVerifyView({ code }: CertificateVerifyViewPro
             </div>
           </Card>
         ) : error ? (
-          <Card className="border-rose-200 shadow-md">
-            <CardHeader className="text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-100 text-rose-700">
-                <XCircle className="h-8 w-8" />
-              </div>
-              <CardTitle className="text-xl text-rose-800 mt-3">
-                Certificate Not Verified
-              </CardTitle>
-              <CardDescription>{error}</CardDescription>
-            </CardHeader>
-            <CardFooter className="justify-center">
-              <Button
-                onClick={() => window.location.reload()}
-                variant="outline"
-              >
-                Try Again
-              </Button>
-            </CardFooter>
-          </Card>
+          <ScrollReveal distance={16} duration={400}>
+            <Card className="border-rose-200 shadow-md">
+              <CardHeader className="text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-100 text-rose-700">
+                  <XCircle className="h-8 w-8" />
+                </div>
+                <CardTitle className="text-xl text-rose-800 mt-3">
+                  Certificate Not Verified
+                </CardTitle>
+                <CardDescription>{error}</CardDescription>
+              </CardHeader>
+              <CardFooter className="justify-center">
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="outline"
+                >
+                  Try Again
+                </Button>
+              </CardFooter>
+            </Card>
+          </ScrollReveal>
         ) : (
-          <Card className="border-primary/20 shadow-xl overflow-hidden">
+          <ScrollReveal distance={24} duration={500}>
+            <Card className="border-primary/20 shadow-xl overflow-hidden">
             {/* Header Banner */}
             <div className="bg-gradient-to-r from-emerald-900 to-slate-900 text-white p-6 sm:p-8">
               <div className="flex items-center justify-between">
@@ -187,8 +192,9 @@ export default function CertificateVerifyView({ code }: CertificateVerifyViewPro
               </div>
             </CardContent>
           </Card>
-        )}
-      </div>
+        </ScrollReveal>
+      )}
     </div>
-  );
+  </div>
+);
 }
