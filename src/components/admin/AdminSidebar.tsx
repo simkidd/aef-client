@@ -25,7 +25,12 @@ import { ConfirmationModal } from "../common/ConfirmationModal";
 import { useAuthStore } from "@/stores/auth.store";
 import { useLogout } from "@/hooks/useLogout";
 
-import { ADMIN_NAV_GROUPS, NavItem, NavGroup } from "@/config/admin-navigation.config";
+import {
+  ADMIN_NAV_GROUPS,
+  NavItem,
+  NavGroup,
+} from "@/config/admin-navigation.config";
+import { cn } from "@/lib/utils";
 
 const NAV_GROUPS = ADMIN_NAV_GROUPS;
 const ALL_HREFS = NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href));
@@ -58,6 +63,23 @@ export function AdminSidebar() {
   const isItemActive = (href: string) => {
     if (pathname === href) return true;
     if (href === "/admin") return false;
+
+    // Map legacy subpaths to consolidated hub items
+    if (
+      href === "/admin/training/attendance" &&
+      pathname.startsWith("/admin/training/biometrics")
+    ) {
+      return true;
+    }
+    if (
+      href === "/admin/beneficiaries" &&
+      pathname.startsWith("/admin/beneficiaries/")
+    ) {
+      return true;
+    }
+    if (href === "/admin/programs" && pathname.startsWith("/admin/programs/")) {
+      return true;
+    }
 
     if (pathname.startsWith(href + "/")) {
       const hasMoreSpecificMatch = ALL_HREFS.some(
@@ -132,9 +154,13 @@ export function AdminSidebar() {
               </SidebarGroup>
             ))
           : NAV_GROUPS.map((group) => {
-              const visibleItems = group.items.filter(
-                (item) => !item.permission || hasPermission(item.permission),
-              );
+              const visibleItems = group.items.filter((item) => {
+                if (!item.permission) return true;
+                if (Array.isArray(item.permission)) {
+                  return item.permission.some((p) => hasPermission(p));
+                }
+                return hasPermission(item.permission);
+              });
               if (visibleItems.length === 0) return null;
 
               return (
@@ -160,11 +186,12 @@ export function AdminSidebar() {
                               isActive={isActive}
                               tooltip={item.label}
                               onClick={closeMobileSidebar}
-                              className={
+                              className={cn(
+                                "text-xs",
                                 isActive
                                   ? "bg-primary/10 text-primary! font-semibold border border-primary/20 shadow-2xs dark:bg-primary/15 dark:text-primary dark:border-primary/30"
-                                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent"
-                              }
+                                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 border border-transparent",
+                              )}
                             >
                               <Icon
                                 className={`h-4 w-4 shrink-0 transition-colors ${

@@ -20,7 +20,13 @@ import { Button } from "@/components/ui/button";
 
 const ITEMS_PER_PAGE = 10;
 
-export function DailyAttendanceSheetView() {
+export interface DailyAttendanceSheetViewProps {
+  hideHeader?: boolean;
+}
+
+export function DailyAttendanceSheetView({
+  hideHeader = false,
+}: DailyAttendanceSheetViewProps = {}) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
@@ -112,42 +118,44 @@ export function DailyAttendanceSheetView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Daily Attendance Sheet & Corrections
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Biometric attendance records calculated against scheduled timetable
-            sessions. Manual corrections require an explicit justification and
-            are permanently recorded in the audit trail.
-          </p>
-        </div>
-        <div className="inline-flex items-center gap-2 shrink-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => refetch()}
-            disabled={isFetching}
-            className="text-xs h-8 gap-1.5 whitespace-nowrap"
-          >
-            <RefreshCw
-              className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
-            />
-            Refresh
-          </Button>
-
-          <Link href="/terminal" className="inline-flex">
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Daily Attendance Sheet & Corrections
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Biometric attendance records calculated against scheduled timetable
+              sessions. Manual corrections require an explicit justification and
+              are permanently recorded in the audit trail.
+            </p>
+          </div>
+          <div className="inline-flex items-center gap-2 shrink-0">
             <Button
+              variant="outline"
               size="sm"
-              className="text-xs h-8 gap-1.5 font-semibold bg-primary text-primary-foreground shadow-xs whitespace-nowrap"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="text-xs h-8 gap-1.5 whitespace-nowrap"
             >
-              <Fingerprint className="h-3.5 w-3.5" />
-              Launch Attendance Terminal
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+              />
+              Refresh
             </Button>
-          </Link>
+
+            <Link href="/terminal" className="inline-flex">
+              <Button
+                size="sm"
+                className="text-xs h-8 gap-1.5 font-semibold bg-primary text-primary-foreground shadow-xs whitespace-nowrap"
+              >
+                <Fingerprint className="h-3.5 w-3.5" />
+                Launch Attendance Terminal
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Filters Toolbar */}
       <AttendanceFilters

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { BiometricsManagementView } from "@/components/admin/training";
+import { AttendanceHubView } from "@/components/admin/training";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "Biometric Infrastructure & Raw Scans | Adele Foundation Admin",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function AdminBiometricsPage() {
-  return <BiometricsManagementView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <AttendanceHubView defaultTab="biometrics" />
+    </Suspense>
+  );
 }
+

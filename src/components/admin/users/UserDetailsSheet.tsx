@@ -281,7 +281,7 @@ export function UserDetailsSheet({
                         </p>
                       </div>
                     </div>
-                    <Link href="/admin/beneficiaries/trainees">
+                    <Link href="/admin/beneficiaries?tab=trainees">
                       <Button size="sm" variant="outline" className="text-xs h-8 gap-1.5">
                         <ExternalLink className="h-3.5 w-3.5" />
                         <span>Open Trainee File</span>

@@ -17,7 +17,13 @@ import { AddCohortModal } from "./AddCohortModal";
 import { EditCohortModal } from "./EditCohortModal";
 import { CohortDetailsSheet } from "./CohortDetailsSheet";
 
-export function CohortsManagementView() {
+export interface CohortsManagementViewProps {
+  hideHeader?: boolean;
+}
+
+export function CohortsManagementView({
+  hideHeader = false,
+}: CohortsManagementViewProps = {}) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [centreFilter, setCentreFilter] = useState("");
@@ -75,25 +81,46 @@ export function CohortsManagementView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-heading">
-            Cohorts & Capacity Slot Management
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Configure multi-skill training cohorts per centre. A single cohort
-            can host different skill tracks with distinct timetable rules,
-            trainers, and practical lab assignments.
-          </p>
+      {!hideHeader ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Cohorts & Capacity Slot Management
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Configure multi-skill training cohorts per centre. A single cohort
+              can host different skill tracks with distinct timetable rules,
+              trainers, and practical lab assignments.
+            </p>
+          </div>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            className="text-xs font-semibold gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Create Cohort
+          </Button>
         </div>
-        <Button
-          onClick={() => setIsAddModalOpen(true)}
-          className="text-xs font-semibold gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Create Cohort
-        </Button>
-      </div>
+      ) : (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              Centre Training Cohorts & Batches
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Scheduled training batches, room assignments, and student seat capacity allocations.
+            </p>
+          </div>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            size="sm"
+            className="text-xs font-semibold gap-1.5 h-8 self-start sm:self-auto shrink-0"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Create Cohort
+          </Button>
+        </div>
+      )}
 
       {/* Filters */}
       <CohortsFilters

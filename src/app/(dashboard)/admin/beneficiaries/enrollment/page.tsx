@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { BiometricRegistrationDeskView } from "@/components/admin/beneficiaries/enrollment";
+import { BeneficiariesHubView } from "@/components/admin/beneficiaries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "Physical Verification & Biometric Desk | Adele Foundation Admin",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function BiometricRegistrationDeskPage() {
-  return <BiometricRegistrationDeskView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <BeneficiariesHubView defaultTab="enrollment" />
+    </Suspense>
+  );
 }
+

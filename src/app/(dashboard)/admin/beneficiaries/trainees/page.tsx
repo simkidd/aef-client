@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { ActiveTraineesView } from "@/components/admin/beneficiaries/trainees";
+import { BeneficiariesHubView } from "@/components/admin/beneficiaries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "Active Enrolled Trainees | Adele Foundation Admin",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function ActiveTraineesPage() {
-  return <ActiveTraineesView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <BeneficiariesHubView defaultTab="trainees" />
+    </Suspense>
+  );
 }
+

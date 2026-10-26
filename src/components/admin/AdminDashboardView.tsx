@@ -70,7 +70,7 @@ export function AdminDashboardView() {
               Daily Attendance Sheet
             </Button>
           </Link>
-          <Link href="/admin/beneficiaries/enrollment">
+          <Link href="/admin/beneficiaries?tab=enrollment">
             <Button
               size="sm"
               className="text-xs font-semibold"
@@ -219,7 +219,7 @@ export function AdminDashboardView() {
                 Cohort Capacity & Vacancies
               </CardTitle>
               <Link
-                href="/admin/programs/cohorts"
+                href="/admin/programs?tab=cohorts"
                 className="text-xs font-semibold text-primary hover:underline"
               >
                 Manage Cohorts
@@ -286,7 +286,7 @@ export function AdminDashboardView() {
                 New Applications Awaiting Review
               </CardTitle>
               <Link
-                href="/admin/beneficiaries/applications"
+                href="/admin/beneficiaries?tab=applications"
                 className="text-xs font-semibold text-primary hover:underline"
               >
                 Review All ({applicationsData?.pagination?.total ?? applicationsList.length})
@@ -313,7 +313,7 @@ export function AdminDashboardView() {
                       {app.applicationNumber}
                     </span>
                   </div>
-                  <Link href={`/admin/beneficiaries/applications`}>
+                  <Link href="/admin/beneficiaries?tab=applications">
                     <Button size="sm" variant="outline" className="text-xs h-7">
                       Review
                     </Button>

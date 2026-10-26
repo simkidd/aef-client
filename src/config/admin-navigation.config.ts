@@ -16,13 +16,14 @@ import {
   ShieldCheck,
   Settings,
   Camera,
+  ClipboardCheck,
 } from "lucide-react";
 
 export interface NavItem {
   label: string;
   href: string;
   icon: React.ElementType;
-  permission?: string;
+  permission?: string | string[];
   description?: string;
 }
 
@@ -63,19 +64,11 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
     group: "Programs",
     items: [
       {
-        label: "Training Programs",
+        label: "Programs & Curriculum",
         href: "/admin/programs",
         icon: Briefcase,
-      },
-      {
-        label: "Skills & Trades",
-        href: "/admin/programs/skills",
-        icon: Sparkles,
-      },
-      {
-        label: "Training Cohorts",
-        href: "/admin/programs/cohorts",
-        icon: GraduationCap,
+        permission: ["programs:view", "skills:manage", "cohorts:view"],
+        description: "Programs, Skills & Training Cohorts",
       },
     ],
   },
@@ -83,22 +76,11 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
     group: "Beneficiaries",
     items: [
       {
-        label: "Applications",
-        href: "/admin/beneficiaries/applications",
-        icon: FileText,
-        permission: "applicants:view",
-      },
-      {
-        label: "Enrollment",
-        href: "/admin/beneficiaries/enrollment",
-        icon: UserCheck,
-        permission: "enrollment:manage",
-      },
-      {
-        label: "Trainees",
-        href: "/admin/beneficiaries/trainees",
+        label: "Beneficiary Pipeline",
+        href: "/admin/beneficiaries",
         icon: Users,
-        permission: "beneficiaries:view",
+        permission: ["applicants:view", "enrollment:manage", "beneficiaries:view"],
+        description: "Applications, Enrollment Desk & Active Trainees",
       },
     ],
   },
@@ -111,16 +93,16 @@ export const ADMIN_NAV_GROUPS: NavGroup[] = [
         icon: Clock,
       },
       {
-        label: "Attendance",
+        label: "Attendance & Biometrics",
         href: "/admin/training/attendance",
         icon: UserCheck,
-        permission: "attendance:view",
+        permission: ["attendance:view", "biometrics:view"],
       },
       {
-        label: "Biometrics",
-        href: "/admin/training/biometrics",
-        icon: Fingerprint,
-        permission: "biometrics:view",
+        label: "Assessments & Grading",
+        href: "/admin/training/assessments",
+        icon: ClipboardCheck,
+        permission: ["assessments:manage", "results:enter"],
       },
       {
         label: "Certificates",
@@ -170,10 +152,40 @@ export const ALL_ADMIN_NAV_ITEMS = ADMIN_NAV_GROUPS.flatMap((g) => g.items);
 /** Route path to required permission lookup map */
 export const ROUTE_PERMISSION_MAP: Record<
   string,
-  { permission: string; label: string }
+  { permission: string | string[]; label: string }
 > = ALL_ADMIN_NAV_ITEMS.reduce((acc, item) => {
   if (item.permission) {
     acc[item.href] = { permission: item.permission, label: item.label };
   }
   return acc;
-}, {} as Record<string, { permission: string; label: string }>);
+}, {} as Record<string, { permission: string | string[]; label: string }>);
+
+// Ensure legacy subroutes maintain permission guards
+ROUTE_PERMISSION_MAP["/admin/beneficiaries/applications"] = {
+  permission: "applicants:view",
+  label: "Applications",
+};
+ROUTE_PERMISSION_MAP["/admin/beneficiaries/enrollment"] = {
+  permission: "enrollment:manage",
+  label: "Enrollment",
+};
+ROUTE_PERMISSION_MAP["/admin/beneficiaries/trainees"] = {
+  permission: "beneficiaries:view",
+  label: "Trainees",
+};
+ROUTE_PERMISSION_MAP["/admin/training/biometrics"] = {
+  permission: "biometrics:view",
+  label: "Biometrics",
+};
+ROUTE_PERMISSION_MAP["/admin/training/assessments"] = {
+  permission: ["assessments:manage", "results:enter"],
+  label: "Assessments & Grading",
+};
+ROUTE_PERMISSION_MAP["/admin/programs/skills"] = {
+  permission: "skills:manage",
+  label: "Skills & Trades",
+};
+ROUTE_PERMISSION_MAP["/admin/programs/cohorts"] = {
+  permission: "cohorts:view",
+  label: "Training Cohorts",
+};

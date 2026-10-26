@@ -1,13 +1,19 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { DailyAttendanceSheetView } from "@/components/admin/training";
+import { AttendanceHubView } from "@/components/admin/training";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
-  title: "Daily Attendance Sheet & Corrections | Adele Foundation Admin",
+  title: "Attendance & Biometrics Hub | Adele Foundation Admin",
   description:
-    "Review biometric attendance records, late arrivals, grace period policies, and auditable manual corrections.",
+    "Review biometric attendance records, late arrivals, grace period policies, turnstile hardware telemetry, and auditable manual corrections.",
 };
 
 export default function AdminAttendancePage() {
-  return <DailyAttendanceSheetView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <AttendanceHubView />
+    </Suspense>
+  );
 }
+

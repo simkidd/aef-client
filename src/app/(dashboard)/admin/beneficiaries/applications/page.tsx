@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { ApplicationsPipelineView } from "@/components/admin/beneficiaries/applications";
+import { BeneficiariesHubView } from "@/components/admin/beneficiaries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "Applications Review Pipeline | Adele Foundation Admin",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function ApplicationsPipelinePage() {
-  return <ApplicationsPipelineView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <BeneficiariesHubView defaultTab="applications" />
+    </Suspense>
+  );
 }
+

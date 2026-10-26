@@ -4,3 +4,4 @@ export * from "./AttendanceDetailsSheet";
 export * from "./AttendanceCorrectionModal";
 export * from "./DailyAttendanceSheetView";
 export * from "./BiometricKioskTerminalView";
+export * from "./AttendanceHubView";

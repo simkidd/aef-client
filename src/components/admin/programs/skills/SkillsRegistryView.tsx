@@ -15,7 +15,13 @@ import { SkillDetailsSheet } from "./SkillDetailsSheet";
 
 const ITEMS_PER_PAGE = 10;
 
-export function SkillsRegistryView() {
+export interface SkillsRegistryViewProps {
+  hideHeader?: boolean;
+}
+
+export function SkillsRegistryView({
+  hideHeader = false,
+}: SkillsRegistryViewProps = {}) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
@@ -76,39 +82,74 @@ export function SkillsRegistryView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-heading">
-            Skill Areas Registry
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Reusable technical curriculum disciplines. A single skill area can
-            be integrated across multiple programs and training centres without
-            duplication.
-          </p>
+      {!hideHeader ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Skill Areas Registry
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Reusable technical curriculum disciplines. A single skill area can
+              be integrated across multiple programs and training centres without
+              duplication.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="border-border text-foreground hover:bg-muted text-xs h-8 gap-1.5"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+              />
+              Refresh
+            </Button>
+            <Button
+              onClick={() => setIsAddModalOpen(true)}
+              className="text-xs font-semibold gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Add Skill Area
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => refetch()}
-            disabled={isFetching}
-            className="border-border text-foreground hover:bg-muted text-xs"
-          >
-            <RefreshCw
-              className={`h-4 w-4 mr-2 ${isFetching ? "animate-spin" : ""}`}
-            />
-            Refresh
-          </Button>
-          <Button
-            onClick={() => setIsAddModalOpen(true)}
-            className="text-xs font-semibold gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Add Skill Area
-          </Button>
+      ) : (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              Technical Skill Disciplines
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Accredited trade tracks and national competency standards across centres.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="border-border text-foreground hover:bg-muted text-xs h-8 gap-1.5"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+              />
+              Refresh
+            </Button>
+            <Button
+              onClick={() => setIsAddModalOpen(true)}
+              size="sm"
+              className="text-xs font-semibold gap-1.5 h-8"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Add Skill Area
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Filters */}
       <SkillsFilters

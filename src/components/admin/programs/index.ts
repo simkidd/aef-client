@@ -4,3 +4,4 @@ export * from "./ProgramsFilters";
 export * from "./AddProgramModal";
 export * from "./EditProgramModal";
 export * from "./ProgramDetailsSheet";
+export * from "./ProgramsHubView";

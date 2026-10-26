@@ -12,7 +12,13 @@ import { AddProgramModal } from "./AddProgramModal";
 import { EditProgramModal } from "./EditProgramModal";
 import { ProgramDetailsSheet } from "./ProgramDetailsSheet";
 
-export function ProgramsManagementView() {
+export interface ProgramsManagementViewProps {
+  hideHeader?: boolean;
+}
+
+export function ProgramsManagementView({
+  hideHeader = false,
+}: ProgramsManagementViewProps = {}) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [organizerTypeFilter, setOrganizerTypeFilter] = useState("");
@@ -56,25 +62,46 @@ export function ProgramsManagementView() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-heading">
-            Programs & Initiatives
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Manage foundation-owned vocational tracks and partner-sponsored
-            empowerment initiatives. Adele acts as program designer, accredited
-            facilitator, and delivery host.
-          </p>
+      {!hideHeader ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Programs & Initiatives
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Manage foundation-owned vocational tracks and partner-sponsored
+              empowerment initiatives. Adele acts as program designer, accredited
+              facilitator, and delivery host.
+            </p>
+          </div>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            className="text-xs font-semibold gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Create Program
+          </Button>
         </div>
-        <Button
-          onClick={() => setIsAddModalOpen(true)}
-          className="text-xs font-semibold gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Create Program
-        </Button>
-      </div>
+      ) : (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              All Programs & Vocational Initiatives
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Active vocational tracks, partner-sponsored programs, and curriculum delivery models.
+            </p>
+          </div>
+          <Button
+            onClick={() => setIsAddModalOpen(true)}
+            size="sm"
+            className="text-xs font-semibold gap-1.5 h-8 self-start sm:self-auto shrink-0"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Create Program
+          </Button>
+        </div>
+      )}
 
       {/* Filters */}
       <ProgramsFilters

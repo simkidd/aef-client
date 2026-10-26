@@ -14,7 +14,13 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export function ActiveTraineesView() {
+export interface ActiveTraineesViewProps {
+  hideHeader?: boolean;
+}
+
+export function ActiveTraineesView({
+  hideHeader = false,
+}: ActiveTraineesViewProps = {}) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 400);
@@ -53,31 +59,33 @@ export function ActiveTraineesView() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Active Enrolled Trainees
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Active trainees currently undergoing practical training across
-            cohorts. Trainees removed from cohorts are transitioned cleanly with
-            permanent audit preservation, freeing up capacity for replacement
-            candidates.
-          </p>
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Active Enrolled Trainees
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Active trainees currently undergoing practical training across
+              cohorts. Trainees removed from cohorts are transitioned cleanly with
+              permanent audit preservation, freeing up capacity for replacement
+              candidates.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="text-xs h-8 gap-1.5 self-start sm:self-auto"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh Trainees
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="text-xs h-8 gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw
-            className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
-          />
-          Refresh Trainees
-        </Button>
-      </div>
+      )}
 
       {/* Filters Toolbar */}
       <TraineesFilters

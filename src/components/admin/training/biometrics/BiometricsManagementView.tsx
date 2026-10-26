@@ -17,7 +17,13 @@ import {
 import { useCentresQuery } from "@/hooks/queries/useCentreQueries";
 import { BiometricDevice, BiometricEvent } from "@/interfaces";
 
-export const BiometricsManagementView: React.FC = () => {
+export interface BiometricsManagementViewProps {
+  hideHeader?: boolean;
+}
+
+export const BiometricsManagementView: React.FC<BiometricsManagementViewProps> = ({
+  hideHeader = false,
+}) => {
   const [selectedCentre, setSelectedCentre] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -113,31 +119,33 @@ export const BiometricsManagementView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Biometrics & Hardware
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Monitor turnstile terminals, verify network telemetry, and inspect
-            live scan event stream.
-          </p>
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Biometrics & Hardware
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Monitor turnstile terminals, verify network telemetry, and inspect
+              live scan event stream.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="border-border text-foreground hover:bg-muted"
+            >
+              <RefreshCw
+                className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+              />
+              Sync Hardware
+            </Button>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-            className="border-border text-foreground hover:bg-muted"
-          >
-            <RefreshCw
-              className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
-            />
-            Sync Hardware
-          </Button>
-        </div>
-      </div>
+      )}
 
       {/* Filters Toolbar */}
       <BiometricsFilters

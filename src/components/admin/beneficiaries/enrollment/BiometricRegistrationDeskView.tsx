@@ -15,7 +15,13 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export function BiometricRegistrationDeskView() {
+export interface BiometricRegistrationDeskViewProps {
+  hideHeader?: boolean;
+}
+
+export function BiometricRegistrationDeskView({
+  hideHeader = false,
+}: BiometricRegistrationDeskViewProps = {}) {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -58,30 +64,32 @@ export function BiometricRegistrationDeskView() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Physical Verification & Biometric Desk
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Onboard selected candidates into active cohorts. Physical identity
-            verification and hardware biometric fingerprint enrollment are
-            strictly required.
-          </p>
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Physical Verification & Biometric Desk
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Onboard selected candidates into active cohorts. Physical identity
+              verification and hardware biometric fingerprint enrollment are
+              strictly required.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="text-xs h-8 gap-1.5 self-start sm:self-auto"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh Queue
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="text-xs h-8 gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw
-            className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
-          />
-          Refresh Queue
-        </Button>
-      </div>
+      )}
 
       {/* Filter Toolbar */}
       <EnrollmentFilters

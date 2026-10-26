@@ -29,6 +29,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     // Super admin has unrestricted access to all routes
     if (user.roles?.includes('SUPER_ADMIN')) return false;
     // Check required permission
+    if (Array.isArray(matchingRule.permission)) {
+      return !matchingRule.permission.some((p: string) => hasPermission(p));
+    }
     return !hasPermission(matchingRule.permission);
   }, [initialized, matchingRule, user, hasPermission]);
 
@@ -42,7 +45,11 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             {isAccessDenied ? (
               <AccessDeniedView
                 pageTitle={matchingRule?.label}
-                requiredPermission={matchingRule?.permission}
+                requiredPermission={
+                  Array.isArray(matchingRule?.permission)
+                    ? matchingRule.permission.join(' or ')
+                    : matchingRule?.permission
+                }
               />
             ) : (
               children

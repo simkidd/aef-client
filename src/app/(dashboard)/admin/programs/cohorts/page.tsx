@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { CohortsManagementView } from "@/components/admin/programs/cohorts";
+import { ProgramsHubView } from "@/components/admin/programs";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
   title: "Cohorts & Capacity Slot Management | Adele Foundation Admin",
@@ -9,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function AdminCohortsPage() {
-  return <CohortsManagementView />;
+  return (
+    <Suspense fallback={<Skeleton className="h-96 w-full rounded-xl" />}>
+      <ProgramsHubView defaultTab="cohorts" />
+    </Suspense>
+  );
 }
+

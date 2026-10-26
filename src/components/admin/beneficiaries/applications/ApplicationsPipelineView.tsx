@@ -14,7 +14,13 @@ import {
 
 const ITEMS_PER_PAGE = 10;
 
-export function ApplicationsPipelineView() {
+export interface ApplicationsPipelineViewProps {
+  hideHeader?: boolean;
+}
+
+export function ApplicationsPipelineView({
+  hideHeader = false,
+}: ApplicationsPipelineViewProps = {}) {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -50,30 +56,32 @@ export function ApplicationsPipelineView() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
-            Applications Review Pipeline
-          </h1>
-          <p className="text-xs text-muted-foreground mt-1">
-            Review incoming candidate applications. Selecting a candidate
-            automatically routes them to the Physical Verification & Biometric
-            Registration Queue.
-          </p>
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground font-heading">
+              Applications Review Pipeline
+            </h1>
+            <p className="text-xs text-muted-foreground mt-1">
+              Review incoming candidate applications. Selecting a candidate
+              automatically routes them to the Physical Verification & Biometric
+              Registration Queue.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="text-xs h-8 gap-1.5 self-start sm:self-auto"
+          >
+            <RefreshCw
+              className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
+            />
+            Refresh Pipeline
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isFetching}
-          className="text-xs h-8 gap-1.5 self-start sm:self-auto"
-        >
-          <RefreshCw
-            className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`}
-          />
-          Refresh Pipeline
-        </Button>
-      </div>
+      )}
 
       {/* Filter Toolbar */}
       <ApplicationsFilters
